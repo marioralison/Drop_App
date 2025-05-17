@@ -41,7 +41,17 @@ export default function SelectAccount(){
                         </Text>
                     </Pressable>
 
-                    <Pressable onPress={() => router.push('/buyerForm')} className="flex justify-center items-center bg-vert px-6 py-5 rounded-xl">
+                    <Pressable 
+                        onPress={() => {
+                            if (selectAccount == null) return;
+                            if (selectAccount == "seller"){
+                                // return router.push('/sellerForm);
+                            } else {
+                                return router.push('/buyerForm')
+                            }
+                        }}
+                        className="flex justify-center items-center bg-vert px-6 py-5 rounded-xl"
+                    >
                         <Text className="font-lato-bold text-lg">Confirmer</Text>
                     </Pressable>
 

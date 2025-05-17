@@ -1,7 +1,40 @@
 import { View, Image, Text, TextInput, ScrollView, Pressable } from "react-native";
 import { useRouter } from 'expo-router';
+import { useState } from "react";
+
+interface IUser{
+    firstname: string;
+    lastname: string;
+    region: string;
+    country: string;
+    phone: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+}
 
 export default function BuyerForm() {
+
+    const [users,setUser] = useState<IUser>({
+        firstname: "",
+        lastname: "",
+        region: "",
+        country: "",
+        phone: "",
+        email: "",
+        password: "",
+        confirmPassword: ""
+    })
+
+    const checkRequiredPropriety = (user: IUser): boolean => {
+        if (!user.firstname && !user.lastname && !user.region && !user.country && !user.phone && !user.email && !user.password) return false;
+        if (user.password != user.confirmPassword) return false;
+        return true;
+    }
+
+    const handleChange = (field: keyof IUser, value: string) => {
+        setUser({ ...users, [field]: value });
+    };
 
     const router = useRouter();
 
@@ -25,38 +58,68 @@ export default function BuyerForm() {
                     <TextInput
                         className="w-full h-[60] pl-5 border border-blackPrimary rounded-xl text-xl font-lato-regular"
                         placeholder="Nom"
+                        value={users.firstname}
+                        onChangeText={(value: string) => handleChange("firstname",value)}
                     />
                     <TextInput
                         className="w-full h-[60] pl-5 border border-blackPrimary rounded-xl text-xl font-lato-regular"
                         placeholder="Prénom"
+                        value={users.lastname}
+                        onChangeText={(value: string) => handleChange("lastname",value)}
                     />
                     <TextInput
                         className="w-full h-[60] pl-5 border border-blackPrimary rounded-xl text-xl font-lato-regular"
                         placeholder="Région"
+                        value={users.region}
+                        onChangeText={(value: string) => handleChange("region",value)}
                     />
                     <TextInput
                         className="w-full h-[60] pl-5 border border-blackPrimary rounded-xl text-xl font-lato-regular"
                         placeholder="Pays"
+                        value={users.country}
+                        onChangeText={(value: string) => handleChange("country",value)}
                     />
                     <TextInput
                         className="w-full h-[60] pl-5 border border-blackPrimary rounded-xl text-xl font-lato-regular"
                         placeholder="Numéro téléphone"
+                        value={users.phone}
+                        onChangeText={(value: string) => handleChange("phone",value)}
                     />
                     <TextInput
                         className="w-full h-[60] pl-5 border border-blackPrimary rounded-xl text-xl font-lato-regular"
                         placeholder="Adresse e-mail"
+                        value={users.email}
+                        onChangeText={(value: string) => handleChange("email",value)}
                     />
                     <TextInput
                         className="w-full h-[60] pl-5 border border-blackPrimary rounded-xl text-xl font-lato-regular"
                         placeholder="Mot de passe"
+                        value={users.password}
+                        onChangeText={(value: string) => handleChange("password",value)}
                     />
                     <TextInput
                         className="w-full h-[60] pl-5 border border-blackPrimary rounded-xl text-xl font-lato-regular"
                         placeholder="Confirmer le mot de passe"
+                        value={users.confirmPassword}
+                        onChangeText={(value: string) => {
+                            if (value != users.password){
+                                // password not matched
+                            } 
+                            handleChange("confirmPassword",value);
+                        }}
                     />
 
-                    <Pressable onPress={() => router.push('/onboardBuyer')} className="w-full h-[60] flex justify-center items-center bg-vert px-6 py-5 rounded-xl">
+                    <Pressable 
+                        onPress={() => {
+                            if(checkRequiredPropriety(users)) {
+                                return router.push('/onboardBuyer')
+                            }
+                            return;
+                        }}
+                        className="w-full h-[60] flex justify-center items-center bg-vert px-6 py-5 rounded-xl"
+                    >
                         <Text className="font-lato-bold text-lg">Confirmer</Text>
+                        
                     </Pressable>
 
                     <Pressable className="w-full h-[60] flex flex-row justify-center items-center bg-blackPrimary gap-[10] px-6 py-5 rounded-xl">
