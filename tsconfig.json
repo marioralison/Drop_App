@@ -3,6 +3,9 @@
   "compilerOptions": {
     "strict": true,
     "jsx": "react-native",
+    "target": "ES2015",
+    "lib": ["ES2015","DOM"],
+    "module": "ESNext",
     "paths": {
       "@/*": [
         "./*"

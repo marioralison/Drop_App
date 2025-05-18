@@ -1,21 +1,15 @@
 import { View, Image, Text, TextInput, ScrollView, Pressable } from "react-native";
-import { useRouter } from 'expo-router';
+import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useState } from "react";
 
-interface IUser{
-    firstname: string;
-    lastname: string;
-    region: string;
-    country: string;
-    phone: string;
-    email: string;
-    password: string;
-    confirmPassword: string;
-}
+import { IUser, UserRole } from "@/helpers/users.type";
+import { checkRequiredPropriety } from "@/helpers/librairy";
+
 
 export default function BuyerForm() {
 
-    const [users,setUser] = useState<IUser>({
+    const params = useLocalSearchParams();
+    const userDefaultData: Omit<IUser,"id"> = (params.user)? JSON.parse(params.user as string) : {
         firstname: "",
         lastname: "",
         region: "",
@@ -23,14 +17,12 @@ export default function BuyerForm() {
         phone: "",
         email: "",
         password: "",
-        confirmPassword: ""
-    })
-
-    const checkRequiredPropriety = (user: IUser): boolean => {
-        if (!user.firstname && !user.lastname && !user.region && !user.country && !user.phone && !user.email && !user.password) return false;
-        if (user.password != user.confirmPassword) return false;
-        return true;
+        confirmPassword: "",
+        preference_product: "",
+        role: UserRole.BUYER
     }
+    
+    const [users,setUser] = useState<Omit<IUser,"id">>(userDefaultData)
 
     const handleChange = (field: keyof IUser, value: string) => {
         setUser({ ...users, [field]: value });
@@ -112,7 +104,12 @@ export default function BuyerForm() {
                     <Pressable 
                         onPress={() => {
                             if(checkRequiredPropriety(users)) {
-                                return router.push('/onboardBuyer')
+                                return router.push({
+                                    pathname: '/onboardBuyer',
+                                    params: {
+                                        user: JSON.stringify(users)
+                                    }
+                                })
                             }
                             return;
                         }}
