@@ -1,12 +1,7 @@
-import { bestArticle } from "./init";
+
+import { getValueFor } from "./store.access";
 import { IUser } from "./users.type";
 
-
-const bestArticles = bestArticle.map((name, index) => ({
-        id: index,      
-        name: name,
-        selected: false
-}))
 
 const checkRequiredPropriety = (user: Omit<IUser,"id">): boolean => {
     if (!user.firstname && !user.lastname && !user.region && !user.country && !user.phone && !user.email && !user.password) return false;
@@ -20,9 +15,18 @@ const addPreferedArticle = (articles: {id: number,name: string,selected: boolean
     return newUser;
 }
 
+const getLocalValue = async (key: string): Promise<string | null> => {
+    try {
+        const token = await getValueFor(key);
+        return (token) ? token: null;
+    } catch (error) {
+        console.error("Error on getToken",error);
+        return null
+    }
+}
 
 export {
-    bestArticles,
     checkRequiredPropriety,
-    addPreferedArticle
+    addPreferedArticle,
+    getLocalValue
 }

@@ -1,9 +1,14 @@
-// fetch the best article here
-const fetchBestArticle = (): string[] => ['Italian',"a","b","c","d","e","f","g","k","y"]
+import { fetchBestArticle } from "./api"
+
+
 const bestArticle: string[] =  fetchBestArticle()
 
-
+const bestArticles = bestArticle.map((name, index) => ({
+    id: index,      
+    name: name,
+    selected: false
+}))
 
 export {
-    bestArticle
+    bestArticles
 }

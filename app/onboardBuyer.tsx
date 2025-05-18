@@ -4,7 +4,8 @@ import { useRouter, useLocalSearchParams } from 'expo-router';
 
 import { IUser } from "@/helpers/users.type";
 import Checkbox from "@/app/components/checkbox/checkbox";
-import { bestArticles, addPreferedArticle } from "@/helpers/librairy";
+import { addPreferedArticle } from "@/helpers/librairy";
+import { bestArticles } from "@/helpers/init";
 import ToastClientOnly from "./components/toastClient";
 import { signupUser } from "@/helpers/api";
 

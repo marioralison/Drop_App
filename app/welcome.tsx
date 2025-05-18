@@ -1,8 +1,8 @@
 import { View, Image, Text, TouchableOpacity } from "react-native";
-import { useRouter } from 'expo-router';
-import ToastClientOnly from "./components/toastClient";
-import Toast from "react-native-toast-message";
-import { getValueFor } from "@/helpers/store.access";
+import { useRouter, Redirect } from 'expo-router';
+import { useEffect } from "react";
+import { getLocalValue } from "@/helpers/librairy";
+
 
 export default function Welcome() {
 

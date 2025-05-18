@@ -9,8 +9,7 @@ async function save(key: string, value: string) {
             await SecureStore.setItemAsync(key, value);
         }
     } catch (error) {
-        console.error("Storage error");
-        throw error
+        console.error("Storage error",error);
     }
 }
 
@@ -23,8 +22,8 @@ async function getValueFor(key: string): Promise<string | null> {
             return result
         }
     } catch (error) {
-        console.error("Storage error");
-        throw error
+        console.error("Storage error",error);
+        return null;
     }
 }
 

@@ -1,14 +1,11 @@
 import "./global.css";
 import { ActivityIndicator, View } from "react-native";
 import { useFonts } from 'expo-font';
-import { Stack, Tabs, Link } from 'expo-router';
 
 import Welcome from "./welcome";
-import SelectAccount from "./selectAccount";
-import BuyerForm from "./buyerForm";
-import OnboardBuyer from "./onboardBuyer";
-import Seller from "./views/Seller/Seller";
-import Accueil from "./accueil";
+import { useEffect, useState } from "react";
+import { getLocalValue } from "@/helpers/librairy";
+import { useRouter } from "expo-router";
 
 export default function Index() {
   // Chargement de la police avant d'afficher l'ui
@@ -24,9 +21,25 @@ export default function Index() {
     return <ActivityIndicator size="large" color="#0000ff" />;
   }
 
-  return (
-    <View>
-      <Welcome></Welcome>
-    </View>
-  );
+  const [token,setToken] = useState<string | null>("wait");
+
+  const router = useRouter();
+  
+  useEffect(() => {
+    const checkToken = async () => {
+        const tokenUser: string | null = await getLocalValue("token");
+        setToken(tokenUser);
+    }
+    checkToken();
+  },[])
+
+  if (!token){
+    return (
+      <View>
+        <Welcome></Welcome>
+      </View>
+    );
+  } else if (token != "wait"){
+    router.replace("/accueil");
+  }
 }

@@ -41,6 +41,9 @@ const signupUser = async (user: IUser): Promise<boolean> => {
     }
 }
 
+const fetchBestArticle = (): string[] => ['Italian',"a","b","c","d","e","f","g","k","y"]
+
 export {
-    signupUser
+    signupUser,
+    fetchBestArticle
 }
