@@ -1,7 +1,7 @@
 // components/SectionPublicationsAccueil.tsx
 import { View } from "react-native";
 import PublicationAccueil from "../../publicationCard";
-import { ImageSourcePropType } from "react-native"; // Import pour le type d'image
+import { ImageSourcePropType } from "react-native";
 
 interface PublicationData {
     nomUtilisateur: string;
@@ -37,26 +37,28 @@ const publication2Data: PublicationData = {
     datePublication: "15 Mai",
     heurePublication: "09:00 am",
     textePublication: "Superbe tasse à café en céramique",
-    imagePublicationSource: require("../../../../assets/images/agraffeuse.png"), // Remplace par l'image de la tasse
+    imagePublicationSource: require("../../../../assets/images/agraffeuse.png"),
     note: 4.9,
     nombreReactions: 35,
     prix: "$12.99",
     nombreCommentaires: 8,
-    imageUtilisateurSource: require("../../../../assets/icons/user.png"), // Remplace par l'image de John
+    imageUtilisateurSource: require("../../../../assets/icons/user.png"),
 };
 
-const SectionPublicationsAccueil = () => {
+const SectionPublicationsAccueil = ({ onCommentPress }: { onCommentPress: () => void }) => {
     return (
         <View className="w-full flex flex-col gap-[22]">
             <PublicationAccueil
                 {...publication1Data}
                 iconStarSource={require("../../../../assets/icons/Star.png")}
                 iconCommentSource={require("../../../../assets/icons/Comments.png")}
+                onCommentPress={onCommentPress}
             />
             <PublicationAccueil
                 {...publication2Data}
                 iconStarSource={require("../../../../assets/icons/Star.png")}
                 iconCommentSource={require("../../../../assets/icons/Comments.png")}
+                onCommentPress={onCommentPress}
             />
         </View>
     );
