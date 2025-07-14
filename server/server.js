@@ -1,22 +1,34 @@
-// server.js
-const WebSocket = require('ws');
-const wss = new WebSocket.Server({ port: 8080 });
+const express = require('express');
+const http = require('http');
+const { Server } = require('socket.io');
+const cors = require('cors');
 
-wss.on('connection', ws => {
-    console.log("✅ Client connecté");
+const app = express();
+app.use(cors());
 
-    ws.on('message', message => {
-        console.log("📩 Message reçu :", message);
+const server = http.createServer(app);
 
-        // Broadcast à tous les clients
-        wss.clients.forEach(client => {
-            if (client.readyState === WebSocket.OPEN) {
-                client.send(message);
-            }
-        });
-    });
-
-    ws.on('close', () => console.log("❌ Client déconnecté"));
+const io = new Server(server, {
+  cors: {
+    origin: "*", // pour autoriser tous les clients
+    methods: ["GET", "POST"]
+  }
 });
 
-console.log("🚀 Serveur WebSocket sur ws://localhost:8080");
+io.on('connection', (socket) => {
+  console.log('Un utilisateur est connecté :', socket.id);
+
+  socket.on('send_message', (data) => {
+    console.log('Message reçu:', data);
+    // renvoyer à tous les clients (y compris l'envoyeur)
+    io.emit('receive_message', data);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('Utilisateur déconnecté :', socket.id);
+  });
+});
+
+server.listen(3000, () => {
+  console.log('Serveur Socket.IO en écoute sur le port 3000');
+});

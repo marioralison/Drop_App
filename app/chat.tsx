@@ -1,0 +1,76 @@
+import { View, Image, Text, TouchableOpacity, Pressable } from "react-native";
+import { FlatList } from "react-native";
+import { useRouter } from 'expo-router';
+
+interface UserList {
+    id: string;
+    nom: string;
+    imagePdp: any;
+}
+
+const dataUserList: UserList[] = [
+    {
+        id: 'ul1',
+        nom: 'Fano',
+        imagePdp: require('../././assets/images/react-logo.png'),
+    },
+    {
+        id: 'ul2',
+        nom: 'Mario Ralison',
+        imagePdp: require('../././assets/images/react-logo.png'),
+    },
+    {
+        id: 'ul3',
+        nom: 'Mario Ralison',
+        imagePdp: require('../././assets/images/react-logo.png'),
+    },
+    {
+        id: 'ul4',
+        nom: 'Mario Ralison',
+        imagePdp: require('../././assets/images/react-logo.png'),
+    },
+    {
+        id: 'ul5',
+        nom: 'Mario Ralison',
+        imagePdp: require('../././assets/images/react-logo.png'),
+    },
+];
+
+export default function Chat() {
+
+    const router = useRouter();
+
+    return(
+        <View className="bg-white w-full h-full flex justify-between">
+            <View className="w-full h-[10%] flex justify-center items-center">
+                <TouchableOpacity onPress={() => router.back()} className="absolute left-5">
+                    <Image source={require("./assets/icons/Back.png")} className="w-[30] h-[30]"/>
+                </TouchableOpacity>
+                <Text className="text-2xl font-syne-bold">Messages</Text>
+            </View>
+            <View className="w-full h-[90%]">
+                <FlatList
+                    data={dataUserList}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item }) => (
+                        <Pressable onPress={() => router.push({
+                                                            pathname: '/message',
+                                                            params: { nom: item.nom }
+                                                            })
+                                                            } 
+                            className="w-full h-[70] flex flex-row items-center px-5">
+                            <Image source={require("./assets/images/vendeur1.png")} className="w-[50] h-[50] rounded-full mr-3" />
+                            <View className="flex flex-row items-center w-[70%]">
+                                <View className="w-full flex flex-col">
+                                    <Text className="text-lg font-syne-regular">{item.nom}</Text>
+                                    <Text className="text-gray-500 font-bold">Bonjour, comment ça va ?</Text>
+                                </View>
+                                <Text>12:00</Text>
+                            </View>
+                        </Pressable>
+                    )}
+                />
+            </View>
+        </View>
+    );
+}
