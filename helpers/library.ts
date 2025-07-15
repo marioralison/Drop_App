@@ -1,6 +1,6 @@
 
 import { getValueFor } from "./store.access";
-import { IUser } from "./user.type";
+import { IUser } from "./data.type";
 
 
 const checkRequiredPropriety = (user: Omit<IUser,"id">): boolean => {

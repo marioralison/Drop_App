@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import Toast from "react-native-toast-message";
 
 import { authentificationUser } from "@/helpers/api";
-import { IUser } from "@/helpers/user.type";
+import { IUser } from "@/helpers/data.type";
 
 export default function Welcome() {
 

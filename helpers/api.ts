@@ -1,6 +1,6 @@
 import Toast from "react-native-toast-message";
 import { save } from "./store.access";
-import { IUser } from "./user.type";
+import { IUser } from "./data.type";
 
 const DROP_API_URL: string = "http://192.168.243.199:8080";
 

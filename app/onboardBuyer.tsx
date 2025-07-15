@@ -3,7 +3,7 @@ import { View, Text, Image, Pressable } from "react-native";
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import Toast from "react-native-toast-message";
 
-import { IUser } from "@/helpers/user.type";
+import { IUser } from "@/helpers/data.type";
 import Checkbox from "@/app/components/checkbox/checkbox";
 import { addPreferedArticle } from "@/helpers/library";
 import { bestArticles } from "@/helpers/init";

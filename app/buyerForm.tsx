@@ -2,7 +2,7 @@ import { View, Image, Text, TextInput, ScrollView, Pressable } from "react-nativ
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useState } from "react";
 
-import { IUser, UserRole } from "@/helpers/user.type";
+import { IUser, UserRole } from "@/helpers/data.type";
 import { checkRequiredPropriety } from "@/helpers/library";
 
 export default function BuyerForm() {

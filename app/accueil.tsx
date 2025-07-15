@@ -10,7 +10,7 @@ import SectionCategories from "./views/components/layouts/accueil/Categorie";
 import SectionAnnonce from "./views/components/layouts/accueil/AnnonceInput";
 import SectionPublicationsAccueil from "./views/components/layouts/accueil/SectionPublication";
 import SectionVendeursRecommandes from "./views/components/layouts/accueil/VendeurRecommandation";
-import { IUser } from "@/helpers/user.type";
+import { IUser } from "@/helpers/data.type";
 import { getValueFor } from "@/helpers/store.access";
 import Toast from "react-native-toast-message";
 import { getInfoById } from "@/helpers/api";
@@ -42,10 +42,6 @@ export default function Accueil() {
                 const info: Omit<IUser, "password" | "confirmPassword"> | null = await getInfoById(token,id);
                 if (!info) return;
                 setCurrentUser(info);
-                Toast.show({
-                    type: "success",
-                    text1: `${info.firstname} ${currentUser?.lastname} ${currentUser?.id}`
-                })
             } catch (error) {
                 Toast.show({
                     type: "error",
