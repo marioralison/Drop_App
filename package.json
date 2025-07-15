@@ -24,7 +24,7 @@
     "@rneui/themed": "^4.0.0-rc.8",
     "color": "^5.0.0",
     "dropapp": "file:",
-    "expo": "^52.0.0",
+    "expo": "^52.0.47",
     "expo-asset": "^11.0.5",
     "expo-blur": "~14.0.3",
     "expo-constants": "~17.0.8",

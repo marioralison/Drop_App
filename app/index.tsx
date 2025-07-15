@@ -4,11 +4,13 @@ import { useFonts } from 'expo-font';
 import { Stack, Tabs, Link } from 'expo-router';
 
 import Welcome from "./welcome";
+import Chat from "./chat";
 import SelectAccount from "./selectAccount";
 import BuyerForm from "./buyerForm";
 import OnboardBuyer from "./onboardBuyer";
 import Seller from "./views/Seller/Seller";
 import Accueil from "./accueil";
+import Delivery from "./delivery";
 
 export default function Index() {
   // Chargement de la police avant d'afficher l'ui
@@ -26,7 +28,7 @@ export default function Index() {
 
   return (
     <View>
-      <Welcome></Welcome>
+        <Delivery></Delivery>
     </View>
   );
 }
