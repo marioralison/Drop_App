@@ -14,6 +14,8 @@ import { IUser } from "@/helpers/data.type";
 import { getValueFor } from "@/helpers/store.access";
 import Toast from "react-native-toast-message";
 import { getInfoById } from "@/helpers/api";
+import { publications } from "@/helpers/init";
+
 
 export default function Accueil() {
     const [currentUser, setCurrentUser] = useState<Omit<IUser, "password" | "confirmPassword"> | null>(null);
@@ -79,7 +81,7 @@ export default function Accueil() {
                             selectedCategoryId={null}
                         />
                         <View className="w-full h-[1] bg-black"></View>
-                        <SectionPublicationsAccueil onCommentPress={openCommentSection} />
+                        <SectionPublicationsAccueil pubs={publications} onCommentPress={openCommentSection} />
                         <View className="w-full h-[1] bg-black"></View>
                         
                         <SectionVendeursRecommandes />
