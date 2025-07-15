@@ -9,8 +9,8 @@ const WalletForm = () => {
     const [nomTitulaire,setNomTitulaire] = useState("")
 
     return(
-        <View className="flex-col gap-3 p-3 w-full justify-between  h-full "> 
-            <View className="fle-col gap-10">
+        <View className="flex-col gap-3 py-4 w-full justify-between  h-full "> 
+            <View className="flex-col gap-10">
                 <View className=" flex-row  items-center  justify-between w-3/4">
                     <TouchableOpacity>
                         <Image source={require("./assets/icons/Back.png")}/>

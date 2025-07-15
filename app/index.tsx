@@ -11,10 +11,8 @@ import OnboardBuyer from "./onboardBuyer";
 import Seller from "./views/Seller/Seller";
 import Accueil from "./accueil";
 import Delivery from "./delivery";
-<<<<<<< HEAD
 import AddWallet from "./addWallet";
-=======
->>>>>>> 968d5aeb38afa5ba2e925944f9b4bc94058e5819
+
 import OrderTracking from "./orderTracking";
 import WalletForm from "./walletForm";
 import Notifications from "./notification";
