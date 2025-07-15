@@ -36,12 +36,11 @@ export default function Index() {
 
   return (
     <View>
-
         {/* <OrderTracking></OrderTracking> */}
-        <AddWallet></AddWallet>
+        {/* <AddWallet></AddWallet> */}
         {/* <WalletForm></WalletForm> */}
         {/* <Panier></Panier> */}
-        {/* <Notifications></Notifications> */}
+        <Notifications></Notifications>
 
     </View>
   );
