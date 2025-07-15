@@ -37,12 +37,8 @@ export default function Welcome() {
                     <Text className="text-white text-2xl ml-[25%] font-syne-regular">Découvrir</Text>
                     <TouchableOpacity 
                         onPress={() => {
-                            if (valueAuth){
-                                save("id",valueAuth.id+"");
-                                router.push('/accueil');
-                            } else {
-                                router.push("/selectAccount")
-                            }
+                            if (valueAuth) router.push('/accueil');
+                            else router.push("/selectAccount")
                         }} 
                     className="w-[46] h-[46] mr-2 flex items-center justify-center bg-white rounded-full">
                         <View className="w-[46] h-[46] mr-2 flex items-center justify-center bg-white rounded-full">

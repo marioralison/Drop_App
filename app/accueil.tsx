@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useCallback, useState } from "react";
+import React, { useRef, useMemo, useCallback, useState, useEffect } from "react";
 import { View, ScrollView, TextInput, Text, Image, StyleSheet, Pressable } from "react-native";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -10,10 +10,52 @@ import SectionCategories from "./views/components/layouts/accueil/Categorie";
 import SectionAnnonce from "./views/components/layouts/accueil/AnnonceInput";
 import SectionPublicationsAccueil from "./views/components/layouts/accueil/SectionPublication";
 import SectionVendeursRecommandes from "./views/components/layouts/accueil/VendeurRecommandation";
+import { IUser } from "@/helpers/user.type";
+import { getValueFor } from "@/helpers/store.access";
+import Toast from "react-native-toast-message";
+import { getInfoById } from "@/helpers/api";
 
 export default function Accueil() {
+    const [currentUser, setCurrentUser] = useState<Omit<IUser, "password" | "confirmPassword"> | null>(null);
     const bottomSheetRef = useRef<BottomSheet>(null);
     const snapPoints = useMemo(() => ['50%', '90%'], []);
+
+    useEffect(() => {
+        const setUserPropriety = async () => {
+            try {
+                const token: string | null = await getValueFor("token");
+                const id: string | null = await getValueFor("id");
+                if (!token) {
+                    Toast.show({
+                        type: "error",
+                        text1: "token not defined"
+                    });
+                    return;
+                }
+                if (!id) {
+                    Toast.show({
+                        type: "error",
+                        text1: "id not defined"
+                    });
+                    return;
+                }
+                const info: Omit<IUser, "password" | "confirmPassword"> | null = await getInfoById(token,id);
+                if (!info) return;
+                setCurrentUser(info);
+                Toast.show({
+                    type: "success",
+                    text1: `${info.firstname} ${currentUser?.lastname} ${currentUser?.id}`
+                })
+            } catch (error) {
+                Toast.show({
+                    type: "error",
+                    text1: `${error}`
+                });
+                throw error;
+            }
+        }
+        setUserPropriety()
+    },[]);
 
     const [isCommentSheetOpen, setIsCommentSheetOpen] = useState(false);
 
@@ -43,6 +85,7 @@ export default function Accueil() {
                         <View className="w-full h-[1] bg-black"></View>
                         <SectionPublicationsAccueil onCommentPress={openCommentSection} />
                         <View className="w-full h-[1] bg-black"></View>
+                        
                         <SectionVendeursRecommandes />
                     </View>
                 </ScrollView>
@@ -50,6 +93,7 @@ export default function Accueil() {
                 <View className="w-full h-[9%] flex justify-center items-center">
                     <NavigationBottom />
                 </View>
+                <Toast/>
             </View>
 
             {isCommentSheetOpen && (

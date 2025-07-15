@@ -2,14 +2,17 @@ interface IUser{
     id: number;
     firstname: string;
     lastname: string;
-    region: string;
-    country: string;
-    phone: string;
     email: string;
     password: string;
-    confirmPassword: string;
-    preference_product: string;
+    tel: string;
+    region: string;
+    pays: string;
     role: UserRole
+    preference_product: string | null;
+    adress: string | null;
+    profile_url: string | null;
+    code_postal: string | null;
+    confirmPassword: string;
 }
 
 

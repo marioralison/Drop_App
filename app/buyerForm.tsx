@@ -1,4 +1,4 @@
-import { View, Image, Text, TextInput, ScrollView, Pressable, Button } from "react-native";
+import { View, Image, Text, TextInput, ScrollView, Pressable } from "react-native";
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useState } from "react";
 
@@ -67,14 +67,14 @@ export default function BuyerForm() {
                     <TextInput
                         className="w-full h-[60] pl-5 border border-blackPrimary rounded-xl text-xl font-lato-regular"
                         placeholder="Pays"
-                        value={users.country}
-                        onChangeText={(value: string) => handleChange("country",value)}
+                        value={users.pays}
+                        onChangeText={(value: string) => handleChange("pays",value)}
                     />
                     <TextInput
                         className="w-full h-[60] pl-5 border border-blackPrimary rounded-xl text-xl font-lato-regular"
                         placeholder="Numéro téléphone"
-                        value={users.phone}
-                        onChangeText={(value: string) => handleChange("phone",value)}
+                        value={users.tel}
+                        onChangeText={(value: string) => handleChange("tel",value)}
                     />
                     <TextInput
                         className="w-full h-[60] pl-5 border border-blackPrimary rounded-xl text-xl font-lato-regular"
