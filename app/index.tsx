@@ -11,8 +11,10 @@ import OnboardBuyer from "./onboardBuyer";
 import Seller from "./views/Seller/Seller";
 import Accueil from "./accueil";
 import Delivery from "./delivery";
-
+import AddWallet from "./addWallet";
 import OrderTracking from "./orderTracking";
+import WalletForm from "./walletForm";
+import Notifications from "./notification";
 
 //import Panier from "./panier";
 
@@ -33,10 +35,11 @@ export default function Index() {
 
   return (
     <View>
-
-        <OrderTracking></OrderTracking>
-
+        {/* <OrderTracking></OrderTracking> */}
+        <AddWallet></AddWallet>
+        {/* <WalletForm></WalletForm> */}
         {/* <Panier></Panier> */}
+        {/* <Notifications></Notifications> */}
 
     </View>
   );
