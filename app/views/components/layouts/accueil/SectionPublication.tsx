@@ -10,23 +10,13 @@ interface Props {
   pubs: Omit<IPublication,"iconStarSource" | "iconCommentSource" | "onCommentPress">[];
 }
 
-interface IComplement {
-    iconStarSource: ImageSourcePropType,
-    iconCommentSource: ImageSourcePropType,
-}
-
 const SectionPublicationsAccueil = ({ onCommentPress, pubs }: Props ) => {
-
     
     return (
         <View className="w-full flex flex-col gap-[22]">
             {
                 pubs.map((publication, index) => {
-                    const complement: IComplement = {
-                        iconStarSource: require("../../../../assets/icons/Star.png"),
-                        iconCommentSource: require("../../../../assets/icons/Comments.png"),
-                    }
-                    const pub: IPublication = {...publication, ...complement, onCommentPress: onCommentPress}; 
+                    const pub: IPublication = {...publication, onCommentPress: onCommentPress}; 
                     return (
                         <PublicationAccueil
                             pub={pub}

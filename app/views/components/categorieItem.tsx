@@ -6,7 +6,7 @@ interface CategorieItemProps {
     onPress: (id: string) => void;
 }
 
-export const CategorieItem = ({ item, isSelected, onPress }: CategorieItemProps) => {
+const CategorieItem = ({ item, isSelected, onPress }: CategorieItemProps) => {
     const buttonStyle = isSelected ? 'bg-blackPrimary rounded-xl' : 'border border-black rounded-xl';
     const textStyle = isSelected ? 'text-white' : 'text-blackPrimary';
 
@@ -21,3 +21,5 @@ export const CategorieItem = ({ item, isSelected, onPress }: CategorieItemProps)
         </Pressable>
     );
 };
+
+export default CategorieItem;

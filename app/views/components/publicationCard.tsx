@@ -25,7 +25,14 @@ const PublicationAccueil = ({ pub }: Props) => {
         <View className="w-full h-[420]">
             <View className="w-full h-[70] flex flex-row justify-between items-center">
                 <View className="w-fit h-full flex flex-row justify-center items-center">
-                    <Image source={pub.imageUtilisateurSource} className="w-[50] h-[50]" />
+                    <Image source={
+                        pub.imageUtilisateurSource ? (
+                            { uri: pub.imageUtilisateurSource }
+                        ) : (
+                            require("../../assets/icons/user.png")
+                        )
+                    } 
+                    className="w-[50] h-[50]" />
                     <View className="w-fit h-full justify-center items-start">
                         <Text className="text-2xl px-[16] text-blackPrimary font-lato-bold">{pub.nomUtilisateur}</Text>
                         <Text className="text-xl px-[16] text-blackPrimary font-lato-light">{pub.villeUtilisateur}</Text>
@@ -39,13 +46,19 @@ const PublicationAccueil = ({ pub }: Props) => {
             <View className="w-full h-[270] flex justify-center items-start gap-[10]">
                 <Text className="text-2xl text-blackPrimary font-lato-regular">{pub.textePublication}</Text>
                 <View className="w-full h-[230] flex justify-center items-center bg-lime-50 rounded-xl">
-                    <Image source={pub.imagePublicationSource} className="w-[180] h-[180]" />
+                    <Image source={
+                        pub.imagePublicationSource ? (
+                            { uri: pub.imagePublicationSource }
+                        ) : (
+                            require("../../assets/icons/user.png")
+                        )
+                    } className="w-[180] h-[180]" />
                 </View>
             </View>
             <View className="w-full h-[80] flex flex-row justify-between items-center">
                 <View className="w-fit h-full flex justify-center items-start gap-[8]">
                     <View className="w-fit h-fit flex flex-row justify-center items-center gap-[8]">
-                        <Image source={pub.iconStarSource} className="w-[20] h-[20]" />
+                        <Image source={require("../../assets/icons/Star.png")} className="w-[20] h-[20]" />
                         <Text className="text-2xl text-blackPrimary font-lato-bold">{pub.note}</Text>
                     </View>
                     <View className="w-fit h-fit flex flex-row justify-center items-center gap-[8]">
@@ -58,7 +71,7 @@ const PublicationAccueil = ({ pub }: Props) => {
                 <View className="w-fit h-full justify-center items-end gap-[8]">
                     <Text className="text-2xl text-blackPrimary font-lato-bold">{pub.prix}</Text>
                     <TouchableOpacity className="w-fit h-fit flex flex-row justify-center items-center gap-[8]" onPress={pub.onCommentPress}>
-                        <Image source={pub.iconCommentSource} className="w-[30] h-[30]" />
+                        <Image source={require("../../assets/icons/Comments.png")} className="w-[30] h-[30]" />
                         <Text className="text-xl text-blackPrimary font-lato-bold">{pub.nombreCommentaires} commantaires</Text>
                     </TouchableOpacity>
                 </View>

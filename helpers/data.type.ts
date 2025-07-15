@@ -24,14 +24,12 @@ interface IPublication {
     datePublication: string;
     heurePublication: string;
     textePublication: string;
-    imagePublicationSource: ImageSourcePropType;
+    imagePublicationSource: string | null;
     note: number;
     nombreReactions: number;
     prix: string;
     nombreCommentaires: number;
-    imageUtilisateurSource: ImageSourcePropType;
-    iconStarSource: ImageSourcePropType;
-    iconCommentSource: ImageSourcePropType;
+    imageUtilisateurSource: string | null;
     onCommentPress: () => void;
 }
 

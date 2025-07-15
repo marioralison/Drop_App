@@ -4,7 +4,7 @@ import { IUser } from "./data.type";
 
 
 const checkRequiredPropriety = (user: Omit<IUser,"id">): boolean => {
-    if (!user.firstname && !user.lastname && !user.region && !user.country && !user.phone && !user.email && !user.password) return false;
+    if (!user.firstname && !user.lastname && !user.region && !user.pays && !user.region && !user.email && !user.password) return false;
     if (user.password != user.confirmPassword) return false;
     return true;
 }
@@ -25,8 +25,30 @@ const getLocalValue = async (key: string): Promise<string | null> => {
     }
 }
 
+function formatDateTime(isoString: string) {
+  const date = new Date(isoString);
+
+  // Format de la date : "15 mai 2000"
+  const formattedDate = date.toLocaleDateString('fr-FR', {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric'
+  });
+
+  // Format de l'heure : "09:00 am"
+  const formattedTime = date.toLocaleTimeString('en-US', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true
+  });
+
+  return { date: formattedDate, time: formattedTime };
+}
+
+
 export {
     checkRequiredPropriety,
     addPreferedArticle,
-    getLocalValue
+    getLocalValue,
+    formatDateTime
 }

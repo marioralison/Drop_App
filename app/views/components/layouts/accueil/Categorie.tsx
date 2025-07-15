@@ -1,6 +1,7 @@
 import { View, Text, FlatList } from "react-native";
 import { useState } from 'react';
-import { CategorieItem } from "../../categorieItem"; // Assure-toi que le chemin est correct
+import CategorieItem  from "../../categorieItem"; // Assure-toi que le chemin est correct
+
 
 interface Categorie {
     id: string;
