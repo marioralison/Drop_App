@@ -9,6 +9,15 @@ import BuyerForm from "./buyerForm";
 import OnboardBuyer from "./onboardBuyer";
 import Seller from "./views/Seller/Seller";
 import Accueil from "./accueil";
+import Paiement from "./paiement";
+// <<<<<<< Updated upstream
+// =======
+// import Delivery from "./delivery";
+// // import OrderTracking from "./orderTracking";
+
+// //import Panier from "./panier";
+
+// >>>>>>> Stashed changes
 
 export default function Index() {
   // Chargement de la police avant d'afficher l'ui
@@ -26,7 +35,10 @@ export default function Index() {
 
   return (
     <View>
-      <Welcome></Welcome>
+        <Paiement></Paiement>
+        {/* <Delivery></Delivery> */}
+        {/* <OrderTracking></OrderTracking> */}
+        {/* <Panier></Panier> */}
     </View>
   );
 }
