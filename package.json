@@ -26,7 +26,7 @@
     "color": "^5.0.0",
     "cors": "^2.8.5",
     "dropapp": "file:",
-    "expo": "^52.0.0",
+    "expo": "^52.0.47",
     "expo-asset": "^11.0.5",
     "expo-blur": "~14.0.3",
     "expo-constants": "~17.0.8",
