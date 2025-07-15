@@ -28,7 +28,7 @@ export default function Index() {
 
   return (
     <View>
-        <Chat></Chat>
+        <Delivery></Delivery>
     </View>
   );
 }
