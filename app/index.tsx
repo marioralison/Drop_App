@@ -10,6 +10,8 @@ import OnboardBuyer from "./onboardBuyer";
 import Seller from "./views/Seller/Seller";
 import Accueil from "./accueil";
 import Paiement from "./paiement";
+import ProduiLoceaux from "./produitLoceaux";
+import TopVendeur from "./TopVendeur";
 // <<<<<<< Updated upstream
 // =======
 // import Delivery from "./delivery";
@@ -35,7 +37,8 @@ export default function Index() {
 
   return (
     <View>
-        <Paiement></Paiement>
+        {/* <ProduiLoceaux></ProduiLoceaux> */}
+        <TopVendeur></TopVendeur>
         {/* <Delivery></Delivery> */}
         {/* <OrderTracking></OrderTracking> */}
         {/* <Panier></Panier> */}
