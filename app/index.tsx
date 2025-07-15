@@ -12,7 +12,7 @@ import Seller from "./views/Seller/Seller";
 import Accueil from "./accueil";
 import Delivery from "./delivery";
 import AddWallet from "./addWallet";
-
+import Details from "./details";
 import OrderTracking from "./orderTracking";
 import WalletForm from "./walletForm";
 import Notifications from "./notification";
@@ -40,8 +40,8 @@ export default function Index() {
         {/* <AddWallet></AddWallet> */}
         {/* <WalletForm></WalletForm> */}
         {/* <Panier></Panier> */}
-        <Notifications></Notifications>
-
+        {/* <Notifications></Notifications> */}
+        <Details></Details>
     </View>
   );
 }
