@@ -1,31 +1,28 @@
 import { useCallback, useState } from "react";
 import { View, Text, Image, Pressable } from "react-native";
-import { useRouter } from 'expo-router';
+import { useRouter, useLocalSearchParams } from 'expo-router';
+import Toast from "react-native-toast-message";
 
+import { IUser } from "@/helpers/user.type";
 import Checkbox from "@/app/components/checkbox/checkbox";
+import { addPreferedArticle } from "@/helpers/library";
+import { bestArticles } from "@/helpers/init";
+import { signupUser } from "@/helpers/api";
 
 export default function OnboardBuyer(){
 
-    const BestCuisine = 'Italian'
+    const [articles, setCuisines] = useState<{id: number,name: string,selected: boolean}[]>(bestArticles)
 
-    const Cuisines = new Array(10).fill(BestCuisine).map((cuisine, i) => ({
-        id: i,
-        name: cuisine,
-        selected: false
-    }))
-
-    const [cuisines, setCuisines] = useState(Cuisines)
-
-    const toggleCuisine = useCallback((id : number) => {
-        setCuisines((prevCuisines) => {
-            return prevCuisines.map((cuisine) => {
-                if (cuisine.id === id) {
+    const toggleArticle = useCallback((id : number) => {
+        setCuisines((prevArticles) => {
+            return prevArticles.map((article) => {
+                if (article.id === id) {
                     return {
-                        ...cuisine,
-                        selected : !cuisine.selected
+                        ...article,
+                        selected : !article.selected
                     }
                 }
-                return cuisine
+                return article
             })
         })
     }, [])
@@ -33,13 +30,20 @@ export default function OnboardBuyer(){
     const router = useRouter();
 
     const handleGoBack = () => {
-        router.back();
+        router.push({
+            pathname: "/buyerForm",
+            params: {
+                user: JSON.stringify(user)
+            }
+        })
     };
+
+    const user: IUser = JSON.parse(useLocalSearchParams().user as string);
 
     return(
         <View className="w-full h-full bg-white p-[25] flex gap-10">
             <Pressable onPress={handleGoBack} className="w-full h-[10%] flex justify-center">
-                <Image source={require("./assets/icons/Back.png")} className="w-[30] h-[30]"/>
+                <Image style={{zIndex: -10}} source={require("./assets/icons/Back.png")} className="w-[30] h-[30]"/>
             </Pressable>
             <View className="w-full h-[70%] flex items-start gap-20">
                 <View className="w-[70%]">
@@ -48,14 +52,14 @@ export default function OnboardBuyer(){
                 </View>
                 <View className="w-full flex">
                     <View className="h-fit w-full flex flex-row flex-wrap gap-[14]">
-                        {cuisines.map((cuisine) => {
+                        {articles.map((article) => {
                             return (
                                 <Checkbox 
-                                    key={cuisine.id} 
-                                    label={cuisine.name} 
-                                    checked={cuisine.selected}
+                                    key={article.id} 
+                                    label={article.name} 
+                                    checked={article.selected}
                                     onPress={() => {
-                                        toggleCuisine(cuisine.id)
+                                        toggleArticle(article.id)
                                     }}
                                 />
                             )
@@ -64,10 +68,17 @@ export default function OnboardBuyer(){
                 </View>
             </View>
             <View className="w-full h-[10%] flex justify-center items-center">
-                <Pressable onPress={() => router.push('/accueil')} className="w-full h-[60] flex justify-center items-center bg-vert px-6 py-5 rounded-xl">
+                <Pressable 
+                    onPress={async () => {
+                        const isSigned = await signupUser(addPreferedArticle(articles,user));
+                        if (isSigned) router.push('/accueil')
+                    }} 
+                    className="w-full h-[60] flex justify-center items-center bg-vert px-6 py-5 rounded-xl"
+                >
                     <Text className="font-lato-bold text-lg">Confirmer</Text>
                 </Pressable>
             </View>
+            <Toast />   
         </View>
     )
 }

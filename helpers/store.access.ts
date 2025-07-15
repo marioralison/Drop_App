@@ -9,8 +9,7 @@ async function save(key: string, value: string) {
             await SecureStore.setItemAsync(key, value);
         }
     } catch (error) {
-        console.error("Storage error");
-        throw error
+        console.error("Storage error",error);
     }
 }
 
@@ -23,12 +22,12 @@ async function getValueFor(key: string): Promise<string | null> {
             return result
         }
     } catch (error) {
-        console.error("Storage error");
-        throw error
+        console.error("Storage error",error);
+        return null;
     }
 }
 
-const DROP_API_URL: string = "http://localhost:8080"
+const DROP_API_URL: string = "http://192.168.108.37:8080"
 
 export {
     DROP_API_URL,
