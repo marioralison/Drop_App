@@ -4,14 +4,9 @@ import { useFonts } from 'expo-font';
 import { Stack, Tabs, Link } from 'expo-router';
 
 import Welcome from "./welcome";
-import SelectAccount from "./selectAccount";
-import BuyerForm from "./buyerForm";
-import OnboardBuyer from "./onboardBuyer";
-import Seller from "./views/Seller/Seller";
-import Accueil from "./accueil";
 
 export default function Index() {
-  // Chargement de la police avant d'afficher l'ui
+
   const [fontsLoaded] = useFonts({
     "Syne-Regular": require('./assets/fonts/Syne-Regular.ttf'),
     "Syne-Bold": require('./assets/fonts/Syne-Bold.ttf'),
@@ -26,7 +21,7 @@ export default function Index() {
 
   return (
     <View>
-      <Welcome></Welcome>
+        <Welcome></Welcome>
     </View>
   );
 }

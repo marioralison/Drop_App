@@ -1,5 +1,8 @@
 import { View, Image, Text, TouchableOpacity } from "react-native";
 import { useRouter } from 'expo-router';
+import ToastClientOnly from "./components/toastClient";
+import Toast from "react-native-toast-message";
+import { getValueFor } from "@/helpers/store.access";
 
 export default function Welcome() {
 
@@ -7,7 +10,6 @@ export default function Welcome() {
 
     return(
         <View className="bg-vert w-full h-full flex justify-between">
-
             <View className="w-full h-[80%] flex-1 justify-center items-center">
                 <Image source={require("./assets/images/welcomeImage.png")} style={{width: 300, height: 500}}/>
                 <Text className="text-6xl text-blackPrimary font-syne-bold">
