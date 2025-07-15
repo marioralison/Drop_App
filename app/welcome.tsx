@@ -18,13 +18,18 @@ export default function Welcome() {
                 </Text>
             </View>
 
-            <View className="w-full h-[20%] flex justify-center items-center">
+            <View className="w-full h-[20%] flex justify-center items-center gap-4">
                 <View className="w-[200] h-[60] flex flex-row justify-between items-center gap-4 bg-blackPrimary rounded-full">
                     <Text className="text-white text-2xl ml-[25%] font-syne-regular">Découvrir</Text>
                     <TouchableOpacity onPress={() => router.push('/selectAccount')} className="w-[46] h-[46] mr-2 flex items-center justify-center bg-white rounded-full">
                         <View className="w-[46] h-[46] mr-2 flex items-center justify-center bg-white rounded-full">
                             <Image source={require("./assets/icons/Right.png")} className="w-[30] h-[30]"/>
                         </View>
+                    </TouchableOpacity>
+                </View>
+                <View className="w-[200] h-[60] flex flex-row justify-between items-center gap-4">
+                    <TouchableOpacity onPress={() => router.push('/login')} className="mr-2 flex items-center justify-center">
+                        <Text className="text-black text-2xl ml-[25%] font-syne-regular">Se connecter</Text>
                     </TouchableOpacity>
                 </View>
             </View>
