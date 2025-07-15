@@ -1,7 +1,10 @@
 // import React, { useEffect, useState } from "react";
 // import { Text, View, TextInput, TouchableOpacity, ScrollView, Image } from "react-native";
 // import { useRouter, useLocalSearchParams } from 'expo-router';
-// import { io } from "socket.io-client"
+
+// import { io } from "socket.io-client";
+// import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 // // ⚠️ À adapter avec ton IP locale
 // const socket = io("http://192.168.1.232:3000");
@@ -10,26 +13,58 @@
 //   id: string;
 //   content: string;
 //   sender: string;
+//   nom: string; // Nom de l'autre utilisateur
 //   timestamp: string;
 // }
 
-// const currentUser = 'User1';
+//  // Remplacez par l'identifiant de l'utilisateur actuel
 
 // export default function Message() {
 //   const [message, setMessage] = useState('');
 //   const [messages, setMessages] = useState<MessageProps[]>([]);
 //   const router = useRouter();
-//   const { nom } = useLocalSearchParams();
+//   const { nom, sender } = useLocalSearchParams();
+//   const currentUser = sender as string;
+//   const otherCurrentUser = nom as string;
+
+//   // Pour sauvegarder les messages
+// const saveMessagesToStorage = async (newMessages: MessageProps[]) => {
+//   try {
+//     await AsyncStorage.setItem('messages', JSON.stringify(newMessages));
+//   } catch (error) {
+//     console.error('Erreur lors de la sauvegarde des messages', error);
+//   }
+// };
+
+// // Pour charger les messages au démarrage
+// const loadMessagesFromStorage = async () => {
+//   try {
+//     const stored = await AsyncStorage.getItem('messages');
+//     if (stored) {
+//       setMessages(JSON.parse(stored));
+//     }
+//   } catch (error) {
+//     console.error('Erreur lors du chargement des messages', error);
+//   }
+// };
+
 
 //   useEffect(() => {
-//     socket.on('receive_message', (data: MessageProps) => {
-//       setMessages(prev => [...prev, data]);
-//     });
+//   loadMessagesFromStorage();
 
-//     return () => {
-//       socket.off('receive_message');
-//     };
-//   }, []);
+//   socket.on('receive_message', (data: MessageProps) => {
+//     setMessages(prev => {
+//       const updated = [...prev, data];
+//       saveMessagesToStorage(updated);
+//       return updated;
+//     });
+//   });
+
+//   return () => {
+//     socket.off('receive_message');
+//   };
+// }, []);
+
 
 //   const sendMessage = () => {
 //     if (message.trim() !== '') {
@@ -37,6 +72,7 @@
 //         id: Date.now().toString(),
 //         content: message,
 //         sender: currentUser,
+//         nom: otherCurrentUser,
 //         timestamp: new Date().toLocaleTimeString(),
 //       };
 //       socket.emit('send_message', newMessage);
@@ -63,15 +99,16 @@
 //       <ScrollView className="flex-1 px-4 pt-5" showsVerticalScrollIndicator={false}>
 //         {messages.map((msg) => {
 //           const isCurrentUser = msg.sender === currentUser;
+//           const isotherCurrentUser = msg.nom === otherCurrentUser;
 
 //           return (
 //             <View
 //               key={msg.id}
-//               className={`mb-5 flex-col gap-2 ${isCurrentUser ? 'items-end' : 'items-start'}`}
+//               className={`mb-5 flex-col gap-2 ${isotherCurrentUser ? 'items-end' : 'items-start'}`}
 //             >
 //               <View
 //                 className={`max-w-[85%] p-4 rounded-2xl ${
-//                   isCurrentUser
+//                   isotherCurrentUser
 //                     ? 'bg-[#C9D856] rounded-t-xl rounded-br-none'
 //                     : 'bg-[#f0f0f0] rounded-t-xl rounded-bl-none'
 //                 }`}
@@ -91,6 +128,7 @@
 //           );
 //         })}
 //       </ScrollView>
+
 
 //       {/* Input */}
 //       <View className="flex-row items-center px-4 py-3">

@@ -11,7 +11,11 @@ import OnboardBuyer from "./onboardBuyer";
 import Seller from "./views/Seller/Seller";
 import Accueil from "./accueil";
 import Delivery from "./delivery";
+
 import OrderTracking from "./orderTracking";
+
+//import Panier from "./panier";
+
 
 export default function Index() {
   // Chargement de la police avant d'afficher l'ui
@@ -29,7 +33,11 @@ export default function Index() {
 
   return (
     <View>
+
         <OrderTracking></OrderTracking>
+
+        {/* <Panier></Panier> */}
+
     </View>
   );
 }
