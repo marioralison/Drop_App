@@ -1,6 +1,7 @@
 // import React, { useEffect, useState } from "react";
 // import { Text, View, TextInput, TouchableOpacity, ScrollView, Image } from "react-native";
 // import { useRouter, useLocalSearchParams } from 'expo-router';
+
 // import { io } from "socket.io-client";
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -127,6 +128,7 @@
 //           );
 //         })}
 //       </ScrollView>
+
 
 //       {/* Input */}
 //       <View className="flex-row items-center px-4 py-3">
