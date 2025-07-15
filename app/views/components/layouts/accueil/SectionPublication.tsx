@@ -2,11 +2,17 @@
 import { View } from "react-native";
 import PublicationAccueil from "../../publicationCard";
 import { IPublication } from "@/helpers/data.type";
+import { ImageSourcePropType } from "react-native";
 
 
 interface Props {
   onCommentPress: () => void;
-  pubs: IPublication[];
+  pubs: Omit<IPublication,"iconStarSource" | "iconCommentSource" | "onCommentPress">[];
+}
+
+interface IComplement {
+    iconStarSource: ImageSourcePropType,
+    iconCommentSource: ImageSourcePropType,
 }
 
 const SectionPublicationsAccueil = ({ onCommentPress, pubs }: Props ) => {
@@ -16,12 +22,14 @@ const SectionPublicationsAccueil = ({ onCommentPress, pubs }: Props ) => {
         <View className="w-full flex flex-col gap-[22]">
             {
                 pubs.map((publication, index) => {
+                    const complement: IComplement = {
+                        iconStarSource: require("../../../../assets/icons/Star.png"),
+                        iconCommentSource: require("../../../../assets/icons/Comments.png"),
+                    }
+                    const pub: IPublication = {...publication, ...complement, onCommentPress: onCommentPress}; 
                     return (
                         <PublicationAccueil
-                            {...publication}
-                            iconStarSource={require("../../../../assets/icons/Star.png")}
-                            iconCommentSource={require("../../../../assets/icons/Comments.png")}
-                            onCommentPress={onCommentPress}
+                            pub={pub}
                             key={publication.id}
                         />
                     )

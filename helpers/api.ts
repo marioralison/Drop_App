@@ -1,6 +1,6 @@
 import Toast from "react-native-toast-message";
 import { save } from "./store.access";
-import { IUser } from "./data.type";
+import { IPublication, IUser } from "./data.type";
 
 const DROP_API_URL: string = "http://192.168.243.199:8080";
 
@@ -89,6 +89,28 @@ const getInfoById = async (token: string,id: string): Promise<Omit<IUser, "passw
         throw error;
     }
 }
+
+// const getPubs = async (count: number): Promise<IPublication[] | null> => {
+//     try {
+//         const res = await fetch(DROP_API_URL+`/posts/${count}`,{
+//             method: "GET",
+//         });
+//         const data = await res.json();
+
+//         if (!res.ok) {
+//             Toast.show({
+//                 type: "error",
+//                 text1: data.message+""
+//             });
+//             return null;
+//         }
+
+
+
+//     } catch (error) {
+        
+//     }
+// }
 
 const fetchBestArticle = (): string[] => ['Italian',"a","b","c","d","e","f","g","k","y"]
 

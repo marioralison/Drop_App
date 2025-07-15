@@ -1,45 +1,18 @@
-import { View, Text, ImageSourcePropType, Image, StyleSheet, TouchableOpacity  } from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity  } from "react-native";
 import { useState } from "react";
+import { IPublication } from "@/helpers/data.type";
 
 const HeartIcon = require("../../assets/icons/Heart.png")
 const HeartFilledIcon = require("../../assets/icons/HeartGreen.png");
 
-interface PublicationAccueilProps {
-    nomUtilisateur: string;
-    villeUtilisateur: string;
-    datePublication: string;
-    heurePublication: string;
-    textePublication: string;
-    imagePublicationSource: ImageSourcePropType;
-    note: number;
-    nombreReactions: number;
-    prix: string;
-    nombreCommentaires: number;
-    imageUtilisateurSource: ImageSourcePropType;
-    iconStarSource: ImageSourcePropType;
-    iconCommentSource: ImageSourcePropType;
-    onCommentPress: () => void;
+interface Props {
+    pub: IPublication
 }
 
-const PublicationAccueil = ({
-    nomUtilisateur,
-    villeUtilisateur,
-    datePublication,
-    heurePublication,
-    textePublication,
-    imagePublicationSource,
-    note,
-    nombreReactions,
-    prix,
-    nombreCommentaires,
-    imageUtilisateurSource,
-    iconStarSource,
-    iconCommentSource,
-    onCommentPress,
-}: PublicationAccueilProps) => {
+const PublicationAccueil = ({ pub }: Props) => {
 
     const [isLiked, setIsLiked] = useState(false);
-    const [reactions, setReactions] = useState(nombreReactions);
+    const [reactions, setReactions] = useState(pub.nombreReactions);
 
     const handleLikePress = () => {
         setIsLiked(!isLiked);
@@ -52,28 +25,28 @@ const PublicationAccueil = ({
         <View className="w-full h-[420]">
             <View className="w-full h-[70] flex flex-row justify-between items-center">
                 <View className="w-fit h-full flex flex-row justify-center items-center">
-                    <Image source={imageUtilisateurSource} className="w-[50] h-[50]" />
+                    <Image source={pub.imageUtilisateurSource} className="w-[50] h-[50]" />
                     <View className="w-fit h-full justify-center items-start">
-                        <Text className="text-2xl px-[16] text-blackPrimary font-lato-bold">{nomUtilisateur}</Text>
-                        <Text className="text-xl px-[16] text-blackPrimary font-lato-light">{villeUtilisateur}</Text>
+                        <Text className="text-2xl px-[16] text-blackPrimary font-lato-bold">{pub.nomUtilisateur}</Text>
+                        <Text className="text-xl px-[16] text-blackPrimary font-lato-light">{pub.villeUtilisateur}</Text>
                     </View>
                 </View>
                 <View className="w-fit h-full justify-center items-end">
-                    <Text className="text-2xl text-blackPrimary font-lato-bold">{datePublication}</Text>
-                    <Text className="text-xl text-blackPrimary font-lato-light">{heurePublication}</Text>
+                    <Text className="text-2xl text-blackPrimary font-lato-bold">{pub.datePublication}</Text>
+                    <Text className="text-xl text-blackPrimary font-lato-light">{pub.heurePublication}</Text>
                 </View>
             </View>
             <View className="w-full h-[270] flex justify-center items-start gap-[10]">
-                <Text className="text-2xl text-blackPrimary font-lato-regular">{textePublication}</Text>
+                <Text className="text-2xl text-blackPrimary font-lato-regular">{pub.textePublication}</Text>
                 <View className="w-full h-[230] flex justify-center items-center bg-lime-50 rounded-xl">
-                    <Image source={imagePublicationSource} className="w-[180] h-[180]" />
+                    <Image source={pub.imagePublicationSource} className="w-[180] h-[180]" />
                 </View>
             </View>
             <View className="w-full h-[80] flex flex-row justify-between items-center">
                 <View className="w-fit h-full flex justify-center items-start gap-[8]">
                     <View className="w-fit h-fit flex flex-row justify-center items-center gap-[8]">
-                        <Image source={iconStarSource} className="w-[20] h-[20]" />
-                        <Text className="text-2xl text-blackPrimary font-lato-bold">{note}</Text>
+                        <Image source={pub.iconStarSource} className="w-[20] h-[20]" />
+                        <Text className="text-2xl text-blackPrimary font-lato-bold">{pub.note}</Text>
                     </View>
                     <View className="w-fit h-fit flex flex-row justify-center items-center gap-[8]">
                         <TouchableOpacity onPress={handleLikePress}>
@@ -83,10 +56,10 @@ const PublicationAccueil = ({
                     </View>
                 </View>
                 <View className="w-fit h-full justify-center items-end gap-[8]">
-                    <Text className="text-2xl text-blackPrimary font-lato-bold">{prix}</Text>
-                    <TouchableOpacity className="w-fit h-fit flex flex-row justify-center items-center gap-[8]" onPress={onCommentPress}>
-                        <Image source={iconCommentSource} className="w-[30] h-[30]" />
-                        <Text className="text-xl text-blackPrimary font-lato-bold">{nombreCommentaires} commantaires</Text>
+                    <Text className="text-2xl text-blackPrimary font-lato-bold">{pub.prix}</Text>
+                    <TouchableOpacity className="w-fit h-fit flex flex-row justify-center items-center gap-[8]" onPress={pub.onCommentPress}>
+                        <Image source={pub.iconCommentSource} className="w-[30] h-[30]" />
+                        <Text className="text-xl text-blackPrimary font-lato-bold">{pub.nombreCommentaires} commantaires</Text>
                     </TouchableOpacity>
                 </View>
             </View>

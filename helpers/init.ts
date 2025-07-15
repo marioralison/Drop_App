@@ -9,7 +9,7 @@ const bestArticles = bestArticle.map((name, index) => ({
     selected: false
 }))
 
-const publications: IPublication[] = [
+const publications: Omit<IPublication,"iconStarSource" | "iconCommentSource" | "onCommentPress">[] = [
     {
         id: 1,
         nomUtilisateur: "Lisa Moore",

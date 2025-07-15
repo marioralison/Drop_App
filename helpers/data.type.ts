@@ -30,6 +30,9 @@ interface IPublication {
     prix: string;
     nombreCommentaires: number;
     imageUtilisateurSource: ImageSourcePropType;
+    iconStarSource: ImageSourcePropType;
+    iconCommentSource: ImageSourcePropType;
+    onCommentPress: () => void;
 }
 
 
