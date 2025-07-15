@@ -1,117 +1,154 @@
-import React from "react";
-import { Text, View, TextInput, TouchableOpacity, ScrollView, Image } from "react-native";
+// import React, { useEffect, useState } from "react";
+// import { Text, View, TextInput, TouchableOpacity, ScrollView, Image } from "react-native";
+// import { useRouter, useLocalSearchParams } from 'expo-router';
+
+// import { io } from "socket.io-client";
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
+// // ⚠️ À adapter avec ton IP locale
+// const socket = io("http://192.168.1.232:3000");
+
+// interface MessageProps {
+//   id: string;
+//   content: string;
+//   sender: string;
+//   nom: string; // Nom de l'autre utilisateur
+//   timestamp: string;
+// }
+
+//  // Remplacez par l'identifiant de l'utilisateur actuel
+
+// export default function Message() {
+//   const [message, setMessage] = useState('');
+//   const [messages, setMessages] = useState<MessageProps[]>([]);
+//   const router = useRouter();
+//   const { nom, sender } = useLocalSearchParams();
+//   const currentUser = sender as string;
+//   const otherCurrentUser = nom as string;
+
+//   // Pour sauvegarder les messages
+// const saveMessagesToStorage = async (newMessages: MessageProps[]) => {
+//   try {
+//     await AsyncStorage.setItem('messages', JSON.stringify(newMessages));
+//   } catch (error) {
+//     console.error('Erreur lors de la sauvegarde des messages', error);
+//   }
+// };
+
+// // Pour charger les messages au démarrage
+// const loadMessagesFromStorage = async () => {
+//   try {
+//     const stored = await AsyncStorage.getItem('messages');
+//     if (stored) {
+//       setMessages(JSON.parse(stored));
+//     }
+//   } catch (error) {
+//     console.error('Erreur lors du chargement des messages', error);
+//   }
+// };
 
 
-interface MessageProps {
-  id: string;
-  content: string;
-  sender: string;
-  timestamp: string;
-}
+//   useEffect(() => {
+//   loadMessagesFromStorage();
 
-const currentUser = 'User1';
+//   socket.on('receive_message', (data: MessageProps) => {
+//     setMessages(prev => {
+//       const updated = [...prev, data];
+//       saveMessagesToStorage(updated);
+//       return updated;
+//     });
+//   });
 
-const messages: MessageProps[] = [
-  {
-    id: 'msg1',
-    content: 'Hello, how are you?',
-    sender: 'User1',
-    timestamp: '2023-10-01 10:00',
-  },
-  {
-    id: 'msg2',
-    content: 'I am fine, thank you! And you?',
-    sender: 'User2',
-    timestamp: '2023-10-01 10:01',
-  },
-  {
-    id: 'msg3',
-    content: 'Doing well, excited for our meeting later.',
-    sender: 'User1',
-    timestamp: '2023-10-01 10:02',
-  },
-  {
-    id: 'msg4',
-    content: 'That sounds great! See you there 😊',
-    sender: 'User2',
-    timestamp: '2023-10-01 10:03',
-  }
-];
+//   return () => {
+//     socket.off('receive_message');
+//   };
+// }, []);
 
-export default function Message() {
-  return (
-    <View className="flex-1">
-      {/* En-tête avec gradient */}
-      <View className="pt-12 pb-6 px-5 bg-gradient-to-r  rounded-b-3xl">
-        <View className="flex-row gap-4 items-center">
-         <TouchableOpacity>
-            <Image source={require("./assets/icons/Back.png")} className="size-7"/>
-         </TouchableOpacity>
-         <View className="flex flex-row items-center">
-             <Image source={require("./assets/images/vendeur1.png")} className="size-14"/>
-            <Text className="text-2xl font-syne-bold text-gray-800">Fano</Text>
-         </View>
-        </View>
-      </View>
 
-      {/* Liste des messages */}
-      <ScrollView className="flex-1 px-4 pt-5" showsVerticalScrollIndicator={false}>
-        {messages.map((message) => {
-          const isCurrentUser = message.sender === currentUser;
-          
-          return (
-            <View
-              key={message.id}
-              className={`mb-5 flex-col gap-2 ${isCurrentUser ? 'items-end' : 'items-start'}`}
-            >
-              
-              <View
-                className={`max-w-[85%] p-4 rounded-2xl  ${
-                  isCurrentUser 
-                    ? 'bg-[#C9D856] rounded-t-xl rounded-br-none' 
-                    : 'bg-[#f0f0f0] rounded-t-xl rounded-bl-none'
-                }`}
-              >
-                {/* <Text
-                  className={`text-xs font-semibold mb-1 ${
-                    isCurrentUser ? 'text-white text-opacity-90 ' : 'text-slate-500 font-bold'
-                  }`}
-                >
-                  {message.sender}
-                </Text> */}
-                <Text
-                  className={`text-base leading-6 ${
-                    isCurrentUser ? 'text-black font-bold' : 'text-slate-800 font-bold'
-                  }`}
-                >
-                  {message.content}
-                </Text>
-              </View>
-              <Text className={`text-xs text-slate-400 mb-2 font-medium ${isCurrentUser ? 'text-right mr-2' : 'text-left ml-3'}`}>
-                {message.timestamp}
-              </Text>
-            </View>
-          );
-        })}
-      </ScrollView>
+//   const sendMessage = () => {
+//     if (message.trim() !== '') {
+//       const newMessage: MessageProps = {
+//         id: Date.now().toString(),
+//         content: message,
+//         sender: currentUser,
+//         nom: otherCurrentUser,
+//         timestamp: new Date().toLocaleTimeString(),
+//       };
+//       socket.emit('send_message', newMessage);
+//       setMessage('');
+//     }
+//   };
 
-      {/* Champ de saisie amélioré */}
-      <View className="flex-row items-center px-4 py-3 ">
-        <View className="flex-1 relative">
-          <TextInput
-            placeholder="Tapez votre message..."
-            placeholderTextColor="#94a3b8"
-            className="text-base text-slate-800 border border-black rounded-lg px-5"
-            multiline
-            
-          />
-          <TouchableOpacity className="w-12 h-12 rounded-full absolute right-0 justify-center items-center shadow-lg shadow-indigo-500/30">
-            <Image source={require("./assets/icons/Sent.png")} className="size-5 "/>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </View>
-  );
-}
+//   return (
+//     <View className="flex-1">
+//       {/* Header */}
+//       <View className="pt-12 pb-6 px-5 bg-white rounded-b-3xl">
+//         <View className="flex-row gap-4 items-center">
+//           <TouchableOpacity onPress={() => router.back()} className="absolute left-5">
+//             <Image source={require("./assets/icons/Back.png")} className="w-[30] h-[30]" />
+//           </TouchableOpacity>
+//           <View className="flex flex-row items-center gap-5 ml-10">
+//             <Image source={require("./assets/images/vendeur1.png")} className="w-[50] h-[50] rounded-full mr-3" />
+//             <Text className="text-2xl font-syne-bold text-gray-800">{nom as string}</Text>
+//           </View>
+//         </View>
+//       </View>
+
+//       {/* Messages */}
+//       <ScrollView className="flex-1 px-4 pt-5" showsVerticalScrollIndicator={false}>
+//         {messages.map((msg) => {
+//           const isCurrentUser = msg.sender === currentUser;
+//           const isotherCurrentUser = msg.nom === otherCurrentUser;
+
+//           return (
+//             <View
+//               key={msg.id}
+//               className={`mb-5 flex-col gap-2 ${isotherCurrentUser ? 'items-end' : 'items-start'}`}
+//             >
+//               <View
+//                 className={`max-w-[85%] p-4 rounded-2xl ${
+//                   isotherCurrentUser
+//                     ? 'bg-[#C9D856] rounded-t-xl rounded-br-none'
+//                     : 'bg-[#f0f0f0] rounded-t-xl rounded-bl-none'
+//                 }`}
+//               >
+//                 <Text
+//                   className={`text-base leading-6 ${
+//                     isCurrentUser ? 'text-black font-bold' : 'text-slate-800 font-bold'
+//                   }`}
+//                 >
+//                   {msg.content}
+//                 </Text>
+//               </View>
+//               <Text className={`text-xs text-slate-400 mb-2 font-medium ${isCurrentUser ? 'text-right mr-2' : 'text-left ml-3'}`}>
+//                 {msg.timestamp}
+//               </Text>
+//             </View>
+//           );
+//         })}
+//       </ScrollView>
+
+
+//       {/* Input */}
+//       <View className="flex-row items-center px-4 py-3">
+//         <View className="flex-1 relative">
+//           <TextInput
+//             placeholder="Tapez votre message..."
+//             placeholderTextColor="#94a3b8"
+//             value={message}
+//             onChangeText={setMessage}
+//             className="text-base text-slate-800 border border-black rounded-lg px-5 pr-14"
+//             multiline
+//           />
+//           <TouchableOpacity
+//             onPress={sendMessage}
+//             className="w-12 h-12 rounded-full absolute right-1 top-1 justify-center items-center"
+//           >
+//             <Image source={require("./assets/icons/Sent.png")} className="size-5" />
+//           </TouchableOpacity>
+//         </View>
+//       </View>
+//     </View>
+//   );
+// }
