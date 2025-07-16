@@ -2,6 +2,7 @@ import React, { useRef, useMemo, useCallback, useState, useEffect } from "react"
 import { View, ScrollView, TextInput, Text, Image, StyleSheet, Pressable } from "react-native";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { Keyboard } from 'react-native';
 
 import NavigationBottom from "./views/components/navigation";
 import HeaderAccueil from "./views/components/layouts/accueil/Header";
@@ -13,7 +14,7 @@ import SectionVendeursRecommandes from "./views/components/layouts/accueil/Vende
 import { Dictionnaire, IBestUser, IComment, IProduct, IPublication, IUser, UserRole } from "@/helpers/data.type";
 import { getValueFor } from "@/helpers/store.access";
 import Toast from "react-native-toast-message";
-import { getAllComment, getInfoById, getLocalProduct, getPostReactedByUser, getPubs, getSomeUser } from "@/helpers/api";
+import { commentAPost, getAllComment, getInfoById, getLocalProduct, getPostReactedByUser, getPubs, getSomeUser } from "@/helpers/api";
 
 
 export default function Accueil() {
@@ -24,6 +25,8 @@ export default function Accueil() {
     const [bestSeller, setBestSeller] = useState<IBestUser[] | [] | null>([]);
     const [idPostReacted, setIdPostReact] = useState<Dictionnaire<number, boolean>>(new Dictionnaire<number, boolean>);
     const [product, setProduct] = useState<IProduct[]>([]);
+    const [content, setContent] = useState<string>("");
+    const [idPostSelected, setIdPostSelected] = useState<number>(0);
 
     const bottomSheetRef = useRef<BottomSheet>(null);
     const snapPoints = useMemo(() => ['50%', '90%'], []);
@@ -102,7 +105,8 @@ export default function Accueil() {
         }
     }
 
-    const openCommentSection = () => {
+    const openCommentSection = (id_post: number) => {
+        setIdPostSelected(id_post);
         setIsCommentSheetOpen(true);
         bottomSheetRef.current?.snapToIndex(0);
     };
@@ -178,8 +182,32 @@ export default function Accueil() {
                             style={styles.input}
                             placeholder="Écrivez un commentaire..."
                             placeholderTextColor="#999"
+                            value={content}
+                            onChangeText={(value: string) => setContent(value)}
                         />
-                        <Image source={require("./assets/icons/Sent.png")} className="w-[30] h-[30]" />
+                        <Pressable 
+                            onPress={async () => {
+                                try {
+                                    const status: boolean = await commentAPost(tokenUser,idPostSelected,{ content })
+                                    if (status) {
+                                        bottomSheetRef.current?.close();
+                                        Keyboard.dismiss();
+                                        Toast.show({
+                                            type: "success",
+                                            text1: "Votre commentaire",
+                                            text2: `${content}`
+                                        })
+                                        const comments: IComment[] = await getAllComment(idPostSelected,true);
+                                        setComment(comments);
+                                        setContent("");
+                                    }
+                                } catch (error) {
+                                    throw error
+                                }
+                            }} 
+                        >
+                            <Image source={require("./assets/icons/Sent.png")} className="w-[30] h-[30]" />
+                        </Pressable>
                     </View>
                 </BottomSheetView>
             </BottomSheet>

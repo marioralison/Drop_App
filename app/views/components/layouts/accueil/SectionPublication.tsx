@@ -5,7 +5,7 @@ import { Dictionnaire, IPublication } from "@/helpers/data.type";
 
 
 interface Props {
-  onCommentPress: () => void;
+  onCommentPress: (id_post: number) => void;
   checkComment: (id_post: number, is_desc: boolean) => Promise<void>;
   pubs: Omit<IPublication,"iconStarSource" | "iconCommentSource" | "onCommentPress" | "checkComment">[];
   token: string;

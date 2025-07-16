@@ -33,7 +33,7 @@ interface IPublication {
     prix: string;
     nombreCommentaires: number;
     imageUtilisateurSource: string | null;
-    onCommentPress: () => void;
+    onCommentPress: (id_post: number) => void;
     checkComment: (id_post: number, is_desc: boolean) => Promise<void>;
 }
 

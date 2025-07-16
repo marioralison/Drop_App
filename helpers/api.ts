@@ -179,7 +179,6 @@ export interface IUserProfileTmp {
   profile_url: string;
 }
 
-
 const getSomeUser = async (role: UserRole, start: number, end: number): Promise<IBestUser[] | [] | null> => {
     try {
         if (start > end) throw new Error(" the start must belower than end");
@@ -294,6 +293,34 @@ const getAllComment = async (id_post: number, is_desc: boolean | undefined ): Pr
     }
 }
 
+const commentAPost = async (token: string, id_post: number, comment: { content: string }): Promise<boolean> => {
+    try {
+        const res = await fetch(DROP_API_URL+`/post/comment/?id_post=${id_post}`,{
+            method: "POST",
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(comment)
+        });
+        const data = await res.json();
+        if (!res.ok) {
+            Toast.show({
+                type: "error",
+                text1: data.message
+            })
+            return false;
+        }
+        return true;
+    } catch (error) {
+        Toast.show({
+            type: "error",
+            text1: "internal client error"
+        })
+        throw error
+    }
+}
+
 const getLocalProduct = async (country: string): Promise<IProduct[]> => {
     try {
         const res = await fetch(DROP_API_URL+`/posts/product/local/${country}`,{
@@ -328,6 +355,7 @@ export {
     likeOrInlikePost,
     getPostReactedByUser,
     getAllComment,
-    getLocalProduct
+    getLocalProduct,
+    commentAPost
 }
 

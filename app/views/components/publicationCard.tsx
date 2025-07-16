@@ -90,7 +90,7 @@ const PublicationAccueil = ({ pub,token, reactionStatus }: Props) => {
                     onPress={async () => {
                         try {
                             await pub.checkComment(pub.id,true);
-                            pub.onCommentPress();
+                            pub.onCommentPress(pub.id);
                         } catch (error) {
                             throw error
                         }
