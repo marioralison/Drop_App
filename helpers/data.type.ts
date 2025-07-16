@@ -22,6 +22,7 @@ interface IUser extends IUserLogin {
 
 interface IPublication {
     id: number;
+    type: string;
     nomUtilisateur: string;
     villeUtilisateur: string;
     datePublication: string;

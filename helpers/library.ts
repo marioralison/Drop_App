@@ -51,6 +51,7 @@ function formatPubs(pubs: IArticleTmp[] | []): Omit<IPublication, "onCommentPres
   pubs.forEach((e,i) => {
     const tmp: Omit<IPublication, "onCommentPress" | "checkComment"> = {
         id: e.id,
+        type: e.type,
         nomUtilisateur: e.user.firstname+" "+e.user.lastname,
         villeUtilisateur: e.user.region+", "+e.user.pays,
         datePublication: formatDateTime(e.create_at).date+"",

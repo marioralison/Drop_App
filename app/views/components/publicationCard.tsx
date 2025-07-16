@@ -54,19 +54,27 @@ const PublicationAccueil = ({ pub,token, reactionStatus }: Props) => {
                 </View>
             </View>
             <View className="w-full h-[270] flex justify-center items-start gap-[10]">
-                <Text className="text-2xl text-blackPrimary font-lato-regular">{pub.textePublication}</Text>
+                {
+                    (pub.type != 'SIMPLE_POST') && <Text className="text-2xl text-blackPrimary font-lato-regular">{pub.textePublication}</Text>
+                }
                 <Pressable 
                     onPress={() => {
                         // router.push('/det')
                     }}
                     className="w-full h-[230] flex justify-center items-center bg-lime-50 rounded-xl">
-                    <Image source={
-                        pub.imagePublicationSource ? (
-                            { uri: pub.imagePublicationSource }
+                    {
+                        (pub.type == 'SIMPLE_POST') ? (
+                            <Text className="text-3xl font-lato-bold"> {pub.textePublication} </Text>
                         ) : (
-                            require("../../assets/icons/user.png")
+                            <Image source={
+                                pub.imagePublicationSource ? (
+                                    { uri: pub.imagePublicationSource }
+                                ) : (
+                                    require("../../assets/icons/user.png")
+                                )
+                            } className="w-[180] h-[180]" />
                         )
-                    } className="w-[180] h-[180]" />
+                    }
                 </Pressable>
             </View>
             <View className="w-full h-[80] flex flex-row justify-between items-center">

@@ -117,7 +117,7 @@ export default function Accueil() {
                 <HeaderAccueil />
                 <ScrollView className="w-full h-[82%]" showsVerticalScrollIndicator={false}>
                     <View className="w-full h-full flex justify-start items-center gap-[22]">
-                        <SectionAnnonce url={null}/>
+                        <SectionAnnonce token={tokenUser} url={null}/>
                         <ProduitLocal productLocal={product} />
                         <SectionCategories
                             onCategoryPress={() => {}}

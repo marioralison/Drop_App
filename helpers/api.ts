@@ -344,6 +344,38 @@ const getLocalProduct = async (country: string): Promise<IProduct[]> => {
     }
 }
 
+const postAnnoce = async (annonce: string, token: string): Promise<boolean> => {
+    const newAnnonce = {
+        type: "SIMPLE_POST",
+        description: annonce
+    }
+    try {
+        const res = await fetch(DROP_API_URL+"/post/new",{
+            method: "POST",
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(newAnnonce)
+        })
+        const data = await res.json();
+        if (res.status != 202) {
+            Toast.show({
+                type: "error",
+                text1: data.message
+            })
+            return false;
+        }
+        return true;
+    } catch (error) {
+        Toast.show({
+            type: "error",
+            text1: "internal client error"
+        })
+        throw error
+    }
+}
+
 export {
     signupUser,
     loginUser,
@@ -356,6 +388,7 @@ export {
     getPostReactedByUser,
     getAllComment,
     getLocalProduct,
-    commentAPost
+    commentAPost,
+    postAnnoce
 }
 
