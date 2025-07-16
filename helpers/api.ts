@@ -1,6 +1,6 @@
 import Toast from "react-native-toast-message";
 import { save } from "./store.access";
-import { Dictionnaire, IBestUser, IComment, IPublication, IUser, UserRole } from "./data.type";
+import { Dictionnaire, IBestUser, IComment, IPublication, IUser, IUserLogin, UserRole } from "./data.type";
 import { formatBestUser, formatComment, formatPostReactedByUser, formatPubs } from "./library";
 
 const DROP_API_URL: string = "http://192.168.243.199:8080";
@@ -44,6 +44,36 @@ const signupUser = async (user: IUser): Promise<boolean> => {
         return true;
     } catch (error: any) {
         throw new error;
+    }
+}
+
+const loginUser = async (user: IUserLogin): Promise<boolean> => {
+    try {
+        const res = await fetch(DROP_API_URL+"/login",{
+            method: "POST",
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        })
+        const data = await res.json();
+
+        if (!res.ok){
+            Toast.show({
+                type: "error",
+                text2: data.message
+            })
+            return false;
+        }
+        save("id",`${data.id}`);
+        save("token",`${data.token}`);
+        return true;
+    } catch (error) {
+        Toast.show({
+            type: "error",
+            text1: "internal client error"
+        })
+        throw error;
     }
 }
 
@@ -238,8 +268,6 @@ export interface ICommentTmp {
   user: Pick<IUser,"firstname" | "lastname" | "profile_url">;
 }
 
-
-
 const getAllComment = async (id_post: number, is_desc: boolean | undefined ): Promise<IComment[]> => {
     try {
 
@@ -268,6 +296,7 @@ const getAllComment = async (id_post: number, is_desc: boolean | undefined ): Pr
 
 export {
     signupUser,
+    loginUser,
     fetchBestArticle,
     authentificationUser,
     getInfoById,
@@ -275,5 +304,6 @@ export {
     getSomeUser,
     likeOrInlikePost,
     getPostReactedByUser,
-    getAllComment
+    getAllComment,
 }
+

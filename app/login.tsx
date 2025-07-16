@@ -1,9 +1,19 @@
 import { View, Image, Text, TextInput, ScrollView, Pressable } from "react-native";
 import { useRouter } from 'expo-router';
+import Toast from "react-native-toast-message";
+import { loginUser } from "@/helpers/api";
+import { useState } from "react";
+import { IUserLogin, UserRole } from "@/helpers/data.type";
 
 export default function Login() {
 
+    const [user, setUser] = useState<IUserLogin>({email: "",password: "",role: UserRole.BUYER})
+
     const router = useRouter();
+
+    const handleChange = (field: keyof IUserLogin, value: string) => {
+        setUser({ ...user, [field]: value });
+    };
 
     const handleGoBack = () => {
         router.back();
@@ -25,13 +35,22 @@ export default function Login() {
                     <TextInput
                         className="w-full h-[60] pl-5 border border-blackPrimary rounded-xl text-xl font-lato-regular"
                         placeholder="Email"
+                        value={user.email}
+                        onChangeText={(value: string) => handleChange('email',value)}
                     />
                     <TextInput
                         className="w-full h-[60] pl-5 border border-blackPrimary rounded-xl text-xl font-lato-regular"
                         placeholder="Mot de passe"
+                        value={user.password}
+                        onChangeText={(value: string) => handleChange('password',value)}
                     />
 
-                    <Pressable onPress={() => router.push('/accueil')} className="w-full h-[60] flex justify-center items-center bg-vert px-6 py-5 rounded-xl">
+                    <Pressable 
+                        onPress={async () => {
+                            const isLoged = await loginUser(user);
+                            if (isLoged) router.push('/accueil');
+                        }} 
+                        className="w-full h-[60] flex justify-center items-center bg-vert px-6 py-5 rounded-xl">
                         <Text className="font-lato-bold text-lg">Confirmer</Text>
                     </Pressable>
 
@@ -41,6 +60,7 @@ export default function Login() {
                     </Pressable>
                 </View>
             </ScrollView>
+            <Toast/>
         </View>
     )
 }

@@ -1,15 +1,18 @@
 
 
-interface IUser{
+interface IUserLogin {
+    email: string;
+    password: string;
+    role: UserRole
+}
+
+interface IUser extends IUserLogin {
     id: number;
     firstname: string;
     lastname: string;
-    email: string;
-    password: string;
     tel: string;
     region: string;
     pays: string;
-    role: UserRole
     preference_product: string | null;
     adress: string | null;
     profile_url: string | null;
@@ -83,5 +86,6 @@ export {
     IPublication,
     IBestUser,
     Dictionnaire,
-    IComment
+    IComment,
+    IUserLogin
 }
