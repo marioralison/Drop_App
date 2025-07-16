@@ -41,6 +41,27 @@ interface IBestUser {
     note: number;
 }
 
+class Dictionnaire<K,V> {
+    private map = new Map();
+    private set = new Set();
+
+    public addValue (key: K,value: V): void {
+        this.map.set(key,value);
+        this.set.add(value);
+    }
+
+    public getValue(key: K): V {
+        return this.map.get(key)
+    }
+
+    public hasValue(value: V): boolean {
+        return (this.set.has(value))? true : false;
+    }
+
+    public hasKey(key: K): boolean {
+        return (this.map.has(key))? true : false;
+    }
+}
 
 enum UserRole {
     SELLER="SELLER",
@@ -51,5 +72,6 @@ export {
     IUser,
     UserRole,
     IPublication,
-    IBestUser
+    IBestUser,
+    Dictionnaire
 }

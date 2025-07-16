@@ -1,9 +1,11 @@
 import Toast from "react-native-toast-message";
 import { save } from "./store.access";
-import { IBestUser, IPublication, IUser, UserRole } from "./data.type";
-import { formatBestUser, formatDateTime, formatPubs } from "./library";
+import { Dictionnaire, IBestUser, IPublication, IUser, UserRole } from "./data.type";
+import { formatBestUser, formatDateTime, formatPostReactedByUser, formatPubs } from "./library";
 
 const DROP_API_URL: string = "http://192.168.243.199:8080";
+
+const fetchBestArticle = (): string[] => ['Italian',"a","b","c","d","e","f","g","k","y"]
 
 const signupUser = async (user: IUser): Promise<boolean> => {
     try {
@@ -173,7 +175,61 @@ const getSomeUser = async (role: UserRole, start: number, end: number): Promise<
     }
 }
 
-const fetchBestArticle = (): string[] => ['Italian',"a","b","c","d","e","f","g","k","y"]
+const likeOrInlikePost = async (token: string, id_post: number): Promise<boolean> => {
+    try {
+        const res = await fetch(DROP_API_URL+`/post/reaction?id_post=${id_post}`,{
+            method: "POST",
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+            credentials: 'include'
+        })
+        const data = await res.json();
+        if (!res.ok) {
+            Toast.show({
+                type: "error",
+                text1: data.message
+            })
+            return false;
+        }
+        return true;
+    } catch (error) {
+        Toast.show({
+            type: "error",
+            text1: "internal client error"
+        })
+        throw error
+    }
+}
+
+export interface IPostReactedByUser {
+    id_post: number
+}
+
+const getPostReactedByUser = async (id_user: number): Promise<Dictionnaire<number, boolean> | null> => {
+    try {
+        const res = await fetch(DROP_API_URL+`/post/?id_user=${id_user}`,{
+            method: "GET"
+        })
+        const data = await res.json();
+
+        if (!res.ok) {
+            Toast.show({
+                type: "error",
+                text1: data.message
+            })
+            return null;
+        }
+        const notFormated: IPostReactedByUser[] = data as IPostReactedByUser[];
+        return formatPostReactedByUser(notFormated)
+    } catch (error) {
+        Toast.show({
+            type: "error",
+            text1: "internal client error"
+        })
+        throw error
+    }
+}
 
 export {
     signupUser,
@@ -181,5 +237,7 @@ export {
     authentificationUser,
     getInfoById,
     getPubs,
-    getSomeUser
+    getSomeUser,
+    likeOrInlikePost,
+    getPostReactedByUser
 }

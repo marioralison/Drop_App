@@ -1,22 +1,31 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity  } from "react-native";
-import { useState } from "react";
+import {  useState } from "react";
 import { IPublication } from "@/helpers/data.type";
+import { likeOrInlikePost } from "@/helpers/api";
+import Toast from "react-native-toast-message";
 
 const HeartIcon = require("../../assets/icons/Heart.png")
 const HeartFilledIcon = require("../../assets/icons/HeartGreen.png");
 
 interface Props {
-    pub: IPublication
+    pub: IPublication,
+    token: string,
+    reactionStatus: boolean
 }
 
-const PublicationAccueil = ({ pub }: Props) => {
+const PublicationAccueil = ({ pub,token, reactionStatus }: Props) => {
 
-    const [isLiked, setIsLiked] = useState(false);
+    const [isLiked, setIsLiked] = useState(reactionStatus);
     const [reactions, setReactions] = useState(pub.nombreReactions);
 
-    const handleLikePress = () => {
-        setIsLiked(!isLiked);
-        setReactions(isLiked ? reactions - 1 : reactions + 1);
+    const handleLikePress = async  () => {
+        try {
+            setIsLiked(!isLiked);
+            setReactions(isLiked ? reactions - 1 : reactions + 1);
+            await likeOrInlikePost(token,pub.id);
+        } catch (error) {
+            throw error;
+        }
     };
 
     const heartIconSource = isLiked ? HeartFilledIcon : HeartIcon;
@@ -62,7 +71,9 @@ const PublicationAccueil = ({ pub }: Props) => {
                         <Text className="text-2xl text-blackPrimary font-lato-bold">{pub.note}</Text>
                     </View>
                     <View className="w-fit h-fit flex flex-row justify-center items-center gap-[8]">
-                        <TouchableOpacity onPress={handleLikePress}>
+                        <TouchableOpacity onPress={
+                            handleLikePress
+                        }>
                             <Image source={heartIconSource} className="w-[30] h-[30]" />
                         </TouchableOpacity>
                         <Text className="text-xl text-blackPrimary font-lato-bold">{reactions} réactions</Text>
@@ -76,6 +87,7 @@ const PublicationAccueil = ({ pub }: Props) => {
                     </TouchableOpacity>
                 </View>
             </View>
+            <Toast/>
         </View>
     );
 };

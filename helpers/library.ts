@@ -1,7 +1,7 @@
 
 import { getValueFor } from "./store.access";
-import { IBestUser, IPublication, IUser } from "./data.type";
-import { IArticleTmp, IUserProfileTmp } from "./api";
+import { Dictionnaire, IBestUser, IPublication, IUser } from "./data.type";
+import { IArticleTmp, IPostReactedByUser, IUserProfileTmp } from "./api";
 
 
 const checkRequiredPropriety = (user: Omit<IUser,"id">): boolean => {
@@ -83,11 +83,20 @@ function formatBestUser(someUser: IUserProfileTmp[] | []): IBestUser[] | [] {
   return usersFormated;
 }
 
+function formatPostReactedByUser(postReactedByUser: IPostReactedByUser[]): Dictionnaire<number, boolean> {
+  const formated: Dictionnaire<number, boolean> = new Dictionnaire<number, boolean>();
+  postReactedByUser.forEach((e,i) => {
+    formated.addValue(e.id_post,true);
+  })
+  return formated;
+}
+
 export {
     checkRequiredPropriety,
     addPreferedArticle,
     getLocalValue,
     formatDateTime,
     formatPubs,
-    formatBestUser
+    formatBestUser,
+    formatPostReactedByUser
 }

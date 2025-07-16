@@ -10,18 +10,19 @@ import SectionCategories from "./views/components/layouts/accueil/Categorie";
 import SectionAnnonce from "./views/components/layouts/accueil/AnnonceInput";
 import SectionPublicationsAccueil from "./views/components/layouts/accueil/SectionPublication";
 import SectionVendeursRecommandes from "./views/components/layouts/accueil/VendeurRecommandation";
-import { IBestUser, IPublication, IUser, UserRole } from "@/helpers/data.type";
+import { Dictionnaire, IBestUser, IPublication, IUser, UserRole } from "@/helpers/data.type";
 import { getValueFor } from "@/helpers/store.access";
 import Toast from "react-native-toast-message";
-import { getInfoById, getPubs, getSomeUser } from "@/helpers/api";
-import { dataVendeurs } from "@/helpers/init";
-// import { publications } from "@/helpers/init";
+import { getInfoById, getPostReactedByUser, getPubs, getSomeUser } from "@/helpers/api";
 
 
 export default function Accueil() {
     const [currentUser, setCurrentUser] = useState<Omit<IUser, "password" | "confirmPassword"> | null>(null);
-    const [publications, setPublications] = useState<Omit<IPublication, "onCommentPress">[] | []>([])
+    const [tokenUser,setToken] = useState<string>("");
+    const [publications, setPublications] = useState<Omit<IPublication, "onCommentPress">[] | []>([]);
     const [bestSeller, setBestSeller] = useState<IBestUser[] | [] | null>([]);
+    const [idPostReacted, setIdPostReact] = useState<Dictionnaire<number, boolean>>(new Dictionnaire<number, boolean>);
+
     const bottomSheetRef = useRef<BottomSheet>(null);
     const snapPoints = useMemo(() => ['50%', '90%'], []);
 
@@ -38,6 +39,7 @@ export default function Accueil() {
                     });
                     return;
                 }
+                setToken(token);
                 if (!id) {
                     Toast.show({
                         type: "error",
@@ -48,9 +50,21 @@ export default function Accueil() {
                 const info: Omit<IUser, "password" | "confirmPassword"> | null = await getInfoById(token,id);
                 if (!info) return;
                 setCurrentUser(info);
+
+                // to get all post reacted by this current user
+                const tmp: Dictionnaire<number, boolean> | null = await getPostReactedByUser(parseInt(id));
+                if (tmp === null) return;
+                Toast.show({
+                    type: "success",
+                    text1: tmp.getValue(3)+""
+                })
+                setIdPostReact(tmp);
+
                 // to get some pubs
                 const pubs: Omit<IPublication,"onCommentPress">[] | null = await getPubs(10);
-                if (pubs) setPublications(pubs);
+                if (pubs === null) return;
+                setPublications(pubs);
+
                 // to get best seller
                 const bestSeller: IBestUser[] | [] | null = await  getSomeUser(UserRole.SELLER,0,10)
                 if (bestSeller) setBestSeller(bestSeller);
@@ -91,7 +105,7 @@ export default function Accueil() {
                             selectedCategoryId={null}
                         />
                         <View className="w-full h-[1] bg-black"></View>
-                        <SectionPublicationsAccueil pubs={publications} onCommentPress={openCommentSection} />
+                        <SectionPublicationsAccueil postReactedId={idPostReacted} token={tokenUser} pubs={publications} onCommentPress={openCommentSection} />
                         <View className="w-full h-[1] bg-black"></View>
                         
                         <SectionVendeursRecommandes seller={bestSeller? bestSeller : []} />
