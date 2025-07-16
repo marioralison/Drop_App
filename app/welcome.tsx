@@ -11,7 +11,8 @@ export default function Welcome() {
     return(
         <View className="bg-vert w-full h-full flex justify-between">
             <View className="w-full h-[80%] flex-1 justify-center items-center">
-                <Image source={require("./assets/images/welcomeImage.png")} style={{width: 300, height: 500}}/>
+                <Image source={require("./assets/images/ISPM.png")} style={{width: 100, height: 120}}/>
+                <Image source={require("./assets/images/welcomeImage.png")} style={{width: 200, height: 400}}/>
                 <Text className="text-6xl text-blackPrimary font-syne-bold">
                     DropShop
                 </Text>

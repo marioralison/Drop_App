@@ -7,7 +7,7 @@ interface CategorieItemProps {
 }
 
 export const CategorieItem = ({ item, isSelected, onPress }: CategorieItemProps) => {
-    const buttonStyle = isSelected ? 'bg-blackPrimary rounded-xl' : 'border border-black rounded-xl';
+    const buttonStyle = isSelected ? 'bg-black rounded-xl' : 'border border-black rounded-xl';
     const textStyle = isSelected ? 'text-white' : 'text-blackPrimary';
 
     return (

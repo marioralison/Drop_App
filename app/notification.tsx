@@ -1,4 +1,5 @@
-import { View,Image,Text,TouchableOpacity,StyleSheet } from "react-native";
+import { View,Image,Text,ScrollView,StyleSheet,Pressable } from "react-native";
+import { useRouter } from 'expo-router';
 
 
 const styles = StyleSheet.create({
@@ -16,30 +17,76 @@ const styles = StyleSheet.create({
 })
 
 const Notifications = () => {
+
+    const router = useRouter();
+    
+    const handleGoBack = () => {
+        router.back();
+    };
+
     return(
-        <View className=" flex-col justify-center gap-3">
-            <View className=" flex-row items-center justify-around mb-2">
-                <TouchableOpacity>
-                    <Image source={require("./assets/icons/Back.png")}/>
-                </TouchableOpacity>
-                <Text className=" font-syne-bold text-3xl">Notifications</Text>
+        <View className="w-full h-full p-[20] bg-white flex flex-col justify-start gap-[10]">
+            <View className="w-full h-[50] flex flex-row justify-between items-center">
+                <Pressable onPress={handleGoBack} className="w-[10%] flex justify-center">
+                    <Image source={require("./assets/icons/Back.png")} className="w-[30] h-[30]"/>
+                </Pressable>
+                <Text className="w-[90%] pr-8 text-4xl text-center text-blackPrimary font-syne-bold">Notifications</Text>
             </View>
-            <View className="flex-col justify-center items-center gap-3">
-                <View className="flex-row gap-3 items-center"  style={styles.backGroundotif}>
-                    <View>
-                        <Text className="font-bold">La commande N°124 a été expédié avec succès</Text>
-                        <Text style={styles.dateDisplay} className=" font-semibold text-sm  " >Aujourd'hui 08:24 AM</Text>
+
+            <ScrollView className="w-full h-[82%]" showsVerticalScrollIndicator={false}>
+                <View className="w-full min-h-[80] max-h-[120] flex-row items-center justify-between gap-3 py-[14] px-[16] rounded-xl mt-[10]" style={styles.backGroundotif}>
+                    <View className="h-full w-[85%] flex flex-col justify-center items-start gap-[4]">
+                        <Text className="font-lato-bold text-xl">La commande N°124 a été expédiée avec succées </Text>
+                        <View className="flex flex-row gap-[10]">
+                            <Text style={styles.dateDisplay} className="font-lato-regular text-sm" >Nom vendeur</Text>
+                            <Text style={styles.dateDisplay} className="font-lato-regular text-sm" >Aujourd'hui 08:24 AM</Text>
+                            <Text style={styles.dateDisplay} className="font-lato-regular text-sm" >08:24 AM</Text>
+                        </View>
                     </View>
-                    <Image source={require("./assets/icons/Delivery.png")} className="size-7"/>
-                </View>
-                <View className="flex-row gap-3 items-center"  style={styles.backGroundLastNotif}>
-                    <View>
-                        <Text className="font-bold  w-3/4">La commande N°124 que vous ave fait a été confirmé</Text>
-                        <Text style={styles.dateDisplay} className=" font-semibold text-sm  " >Aujourd'hui 07:14 AM</Text>
+                    <View className="w-[15%] h-full flex justify-center items-center">
+                        <Image source={require("./assets/icons/Shipped.png")} className="w-[30] h-[30]"/>
                     </View>
-                    <Image source={require("./assets/icons/Notification.png")} className=" size-7"/>
                 </View>
-            </View>
+                <View className="w-full min-h-[80] max-h-[120] flex-row items-center justify-between gap-3 py-[14] px-[16] rounded-xl mt-[10]" style={styles.backGroundotif}>
+                    <View className="h-full w-[85%] flex flex-col justify-center items-start gap-[4]">
+                        <Text className="font-lato-bold text-xl">La commande N°124 que vous avez fait a été confirmé</Text>
+                        <View className="flex flex-row gap-[10]">
+                            <Text style={styles.dateDisplay} className="font-lato-regular text-sm" >Nom vendeur</Text>
+                            <Text style={styles.dateDisplay} className="font-lato-regular text-sm" >Aujourd'hui 08:24 AM</Text>
+                            <Text style={styles.dateDisplay} className="font-lato-regular text-sm" >08:24 AM</Text>
+                        </View>
+                    </View>
+                    <View className="w-[15%] h-full flex justify-center items-center">
+                        <Image source={require("./assets/icons/Paid.png")} className="w-[30] h-[30]"/>
+                    </View>
+                </View>
+                <View className="w-full min-h-[80] max-h-[120] flex-row items-center justify-between gap-3 py-[14] px-[16] rounded-xl mt-[10]" style={styles.backGroundotif}>
+                    <View className="h-full w-[85%] flex flex-col justify-center items-start gap-[4]">
+                        <Text className="font-lato-bold text-xl">Des nouveaux catalogues que vous aimez sont disponibles</Text>
+                        <View className="flex flex-row gap-[10]">
+                            <Text style={styles.dateDisplay} className="font-lato-regular text-sm" >Nom vendeur</Text>
+                            <Text style={styles.dateDisplay} className="font-lato-regular text-sm" >Aujourd'hui 08:24 AM</Text>
+                            <Text style={styles.dateDisplay} className="font-lato-regular text-sm" >08:24 AM</Text>
+                        </View>
+                    </View>
+                    <View className="w-[15%] h-full flex justify-center items-center">
+                        <Image source={require("./assets/icons/NotificationYellow.png")} className="w-[30] h-[30]"/>
+                    </View>
+                </View>
+                <View className="w-full min-h-[80] max-h-[120] flex-row items-center justify-between gap-3 py-[14] px-[16] rounded-xl mt-[10]" style={styles.backGroundotif}>
+                    <View className="h-full w-[85%] flex flex-col justify-center items-start gap-[4]">
+                        <Text className="font-lato-bold text-xl">Paiement de la commande N°123 a été fait avec succès</Text>
+                        <View className="flex flex-row gap-[10]">
+                            <Text style={styles.dateDisplay} className="font-lato-regular text-sm" >Nom vendeur</Text>
+                            <Text style={styles.dateDisplay} className="font-lato-regular text-sm" >Aujourd'hui 08:24 AM</Text>
+                            <Text style={styles.dateDisplay} className="font-lato-regular text-sm" >08:24 AM</Text>
+                        </View>
+                    </View>
+                    <View className="w-[15%] h-full flex justify-center items-center">
+                        <Image source={require("./assets/icons/CashGreen.png")} className="w-[30] h-[30]"/>
+                    </View>
+                </View>
+            </ScrollView>
         </View>
     )
 }

@@ -5,7 +5,7 @@ import { useRouter, useLocalSearchParams } from 'expo-router';
 import { io } from "socket.io-client";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const socket = io("http://192.168.1.100:3000");
+const socket = io("http://192.168.88.21:3000");
 
 interface MessageProps {
     id: string;
