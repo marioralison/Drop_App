@@ -16,6 +16,7 @@ import Details from "./details";
 import OrderTracking from "./orderTracking";
 import WalletForm from "./walletForm";
 import Notifications from "./notification";
+import UserProfile from "./userProfile";
 
 //import Panier from "./panier";
 
@@ -41,7 +42,8 @@ export default function Index() {
         {/* <WalletForm></WalletForm> */}
         {/* <Panier></Panier> */}
         {/* <Notifications></Notifications> */}
-        <Details></Details>
+        {/* <Details></Details> */}
+        <UserProfile></UserProfile>
     </View>
   );
 }
