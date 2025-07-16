@@ -75,6 +75,18 @@ class Dictionnaire<K,V> {
     }
 }
 
+interface IProduct {
+    id: number;
+    description: string;
+    unit_price: number;
+    image_url: string;
+    id_user: number;
+    user: {
+        lastname: string;
+        profile_url: string | null;
+  };
+}
+
 enum UserRole {
     SELLER="SELLER",
     BUYER="BUYER"
@@ -87,5 +99,6 @@ export {
     IBestUser,
     Dictionnaire,
     IComment,
-    IUserLogin
+    IUserLogin,
+    IProduct
 }

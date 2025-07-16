@@ -1,6 +1,6 @@
 import Toast from "react-native-toast-message";
 import { save } from "./store.access";
-import { Dictionnaire, IBestUser, IComment, IPublication, IUser, IUserLogin, UserRole } from "./data.type";
+import { Dictionnaire, IBestUser, IComment, IProduct, IPublication, IUser, IUserLogin, UserRole } from "./data.type";
 import { formatBestUser, formatComment, formatPostReactedByUser, formatPubs } from "./library";
 
 const DROP_API_URL: string = "http://192.168.243.199:8080";
@@ -294,6 +294,29 @@ const getAllComment = async (id_post: number, is_desc: boolean | undefined ): Pr
     }
 }
 
+const getLocalProduct = async (country: string): Promise<IProduct[]> => {
+    try {
+        const res = await fetch(DROP_API_URL+`/posts/product/local/${country}`,{
+            method: "GET",
+        })
+        const data = await res.json();
+        if (!res.ok) {
+            Toast.show({
+                type: "error",
+                text1: data.message
+            })
+            return [];
+        }
+        return data as IProduct[];
+    } catch (error) {
+        Toast.show({
+            type: "error",
+            text1: "internal client error"
+        })
+        throw error
+    }
+}
+
 export {
     signupUser,
     loginUser,
@@ -305,5 +328,6 @@ export {
     likeOrInlikePost,
     getPostReactedByUser,
     getAllComment,
+    getLocalProduct
 }
 

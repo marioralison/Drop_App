@@ -1,8 +1,9 @@
-import { View, Text, Image, StyleSheet, TouchableOpacity  } from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity, Pressable  } from "react-native";
 import {  useState } from "react";
 import { IPublication } from "@/helpers/data.type";
 import { likeOrInlikePost } from "@/helpers/api";
 import Toast from "react-native-toast-message";
+import { router } from "expo-router";
 
 const HeartIcon = require("../../assets/icons/Heart.png")
 const HeartFilledIcon = require("../../assets/icons/HeartGreen.png");
@@ -54,7 +55,11 @@ const PublicationAccueil = ({ pub,token, reactionStatus }: Props) => {
             </View>
             <View className="w-full h-[270] flex justify-center items-start gap-[10]">
                 <Text className="text-2xl text-blackPrimary font-lato-regular">{pub.textePublication}</Text>
-                <View className="w-full h-[230] flex justify-center items-center bg-lime-50 rounded-xl">
+                <Pressable 
+                    onPress={() => {
+                        // router.push('/det')
+                    }}
+                    className="w-full h-[230] flex justify-center items-center bg-lime-50 rounded-xl">
                     <Image source={
                         pub.imagePublicationSource ? (
                             { uri: pub.imagePublicationSource }
@@ -62,7 +67,7 @@ const PublicationAccueil = ({ pub,token, reactionStatus }: Props) => {
                             require("../../assets/icons/user.png")
                         )
                     } className="w-[180] h-[180]" />
-                </View>
+                </Pressable>
             </View>
             <View className="w-full h-[80] flex flex-row justify-between items-center">
                 <View className="w-fit h-full flex justify-center items-start gap-[8]">

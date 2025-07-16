@@ -10,10 +10,10 @@ import SectionCategories from "./views/components/layouts/accueil/Categorie";
 import SectionAnnonce from "./views/components/layouts/accueil/AnnonceInput";
 import SectionPublicationsAccueil from "./views/components/layouts/accueil/SectionPublication";
 import SectionVendeursRecommandes from "./views/components/layouts/accueil/VendeurRecommandation";
-import { Dictionnaire, IBestUser, IComment, IPublication, IUser, UserRole } from "@/helpers/data.type";
+import { Dictionnaire, IBestUser, IComment, IProduct, IPublication, IUser, UserRole } from "@/helpers/data.type";
 import { getValueFor } from "@/helpers/store.access";
 import Toast from "react-native-toast-message";
-import { getAllComment, getInfoById, getPostReactedByUser, getPubs, getSomeUser } from "@/helpers/api";
+import { getAllComment, getInfoById, getLocalProduct, getPostReactedByUser, getPubs, getSomeUser } from "@/helpers/api";
 
 
 export default function Accueil() {
@@ -23,6 +23,7 @@ export default function Accueil() {
     const [publications, setPublications] = useState<Omit<IPublication, "onCommentPress" | "checkComment">[] | []>([]);
     const [bestSeller, setBestSeller] = useState<IBestUser[] | [] | null>([]);
     const [idPostReacted, setIdPostReact] = useState<Dictionnaire<number, boolean>>(new Dictionnaire<number, boolean>);
+    const [product, setProduct] = useState<IProduct[]>([]);
 
     const bottomSheetRef = useRef<BottomSheet>(null);
     const snapPoints = useMemo(() => ['50%', '90%'], []);
@@ -51,6 +52,10 @@ export default function Accueil() {
                 const info: Omit<IUser, "password" | "confirmPassword"> | null = await getInfoById(token,id);
                 if (!info) return;
                 setCurrentUser(info);
+                
+                // to get local product 
+                const products: IProduct[] = await getLocalProduct("Madagascar");
+                setProduct(products)
 
                 // to get all post reacted by this current user
                 const tmp: Dictionnaire<number, boolean> | null = await getPostReactedByUser(parseInt(id));
@@ -109,7 +114,7 @@ export default function Accueil() {
                 <ScrollView className="w-full h-[82%]" showsVerticalScrollIndicator={false}>
                     <View className="w-full h-full flex justify-start items-center gap-[22]">
                         <SectionAnnonce url={null}/>
-                        <ProduitLocal />
+                        <ProduitLocal productLocal={product} />
                         <SectionCategories
                             onCategoryPress={() => {}}
                             selectedCategoryId={null}
