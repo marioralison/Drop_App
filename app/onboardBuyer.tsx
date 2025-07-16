@@ -42,6 +42,7 @@ export default function OnboardBuyer(){
 
     return(
         <View className="w-full h-full bg-white p-[25] flex gap-10">
+            <ToastClientOnly/>
             <Pressable onPress={handleGoBack} className="w-full h-[10%] flex justify-center">
                 <Image style={{zIndex: -10}} source={require("./assets/icons/Back.png")} className="w-[30] h-[30]"/>
             </Pressable>
