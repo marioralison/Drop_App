@@ -17,7 +17,7 @@ const paiement = () => {
     return(
         <View className="w-full h-full p-[20] bg-white flex flex-col justify-start gap-[20]"> 
             <View className="flex-col gap-[20]">
-                <View className="w-full h-[7%] flex flex-row justify-between items-center">
+                <View className="w-full h-[50] flex flex-row justify-between items-center">
                     <Pressable onPress={handleGoBack} className="w-[10%]  flex justify-center">
                         <Image source={require("./assets/icons/Back.png")} className="w-[30] h-[30]"/>
                     </Pressable>

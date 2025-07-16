@@ -10,10 +10,16 @@ export default function NavigationBottom() {
             <Pressable className="w-fit h-full flex justify-center items-center">
                 <Image source={require("../../assets/icons/HomeGreen.png")} className="w-[30] h-[30]"/>
             </Pressable>
-            <Pressable className="w-fit h-full flex justify-center items-center">
+            <Pressable 
+                onPress={() => router.push("/chat")}
+                className="w-fit h-full flex justify-center items-center"
+            >
                 <Image source={require("../../assets/icons/ChatBubble.png")} className="w-[30] h-[30]"/>
             </Pressable>
-            <Pressable className="w-fit h-full flex justify-center items-center">
+            <Pressable 
+                onPress={() => router.push("/panier")}
+                className="w-fit h-full flex justify-center items-center"
+            >
                 <Image source={require("../../assets/icons/ShoppingBasket.png")} className="w-[30] h-[30]"/>
             </Pressable>
             <Pressable 
@@ -22,7 +28,10 @@ export default function NavigationBottom() {
             >
                 <Image source={require("../../assets/icons/Cash.png")} className="w-[30] h-[30]"/>
             </Pressable>
-            <Pressable className="w-fit h-full flex justify-center items-center">
+            <Pressable 
+                onPress={() => router.push("/delivery")}
+                className="w-fit h-full flex justify-center items-center"
+            >
                 <Image source={require("../../assets/icons/Delivery.png")} className="w-[30] h-[30]"/>
             </Pressable>
         </View>

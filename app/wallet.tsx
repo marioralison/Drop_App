@@ -12,8 +12,8 @@ export default function Wallet() {
     return(
         <View className="w-full h-full p-[20] bg-white flex flex-col justify-start gap-[10]">
 
-            <View className="w-full h-[7%] flex flex-row justify-between items-center">
-                <Pressable onPress={handleGoBack} className="w-[10%]  flex justify-center">
+            <View className="w-full h-[50] flex flex-row justify-between items-center">
+                <Pressable onPress={handleGoBack} className="w-[10%] flex justify-center">
                     <Image source={require("./assets/icons/Back.png")} className="w-[30] h-[30]"/>
                 </Pressable>
                 <Text className="w-[90%] pr-8 text-4xl text-center text-blackPrimary font-syne-bold">Portefeuille</Text>

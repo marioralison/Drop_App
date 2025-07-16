@@ -5,6 +5,22 @@ import { Stack, Tabs, Link } from 'expo-router';
 
 import Welcome from "./welcome";
 
+import Chat from "./chat";
+import SelectAccount from "./selectAccount";
+import BuyerForm from "./buyerForm";
+import OnboardBuyer from "./onboardBuyer";
+import Seller from "./views/Seller/Seller";
+import Accueil from "./accueil";
+import Delivery from "./delivery";
+import AddWallet from "./addWallet";
+import OrderTracking from "./orderTracking";
+import WalletForm from "./walletForm";
+import Notifications from "./notification";
+import Message from "./message";
+
+//import Panier from "./panier";
+
+
 export default function Index() {
 
   const [fontsLoaded] = useFonts({
@@ -21,7 +37,13 @@ export default function Index() {
 
   return (
     <View>
+        {/* <Message></Message> */}
         <Welcome></Welcome>
+        {/* <OrderTracking></OrderTracking> */}
+        {/* <AddWallet></AddWallet> */}
+        {/* <WalletForm></WalletForm> */}
+        {/* <Panier></Panier> */}
+        {/* <Notifications></Notifications> */}
     </View>
   );
 }
