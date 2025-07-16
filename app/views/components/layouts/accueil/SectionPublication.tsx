@@ -2,23 +2,23 @@
 import { View } from "react-native";
 import PublicationAccueil from "../../publicationCard";
 import { Dictionnaire, IPublication } from "@/helpers/data.type";
-import { useEffect } from "react";
 
 
 interface Props {
   onCommentPress: () => void;
-  pubs: Omit<IPublication,"iconStarSource" | "iconCommentSource" | "onCommentPress">[];
+  checkComment: (id_post: number, is_desc: boolean) => Promise<void>;
+  pubs: Omit<IPublication,"iconStarSource" | "iconCommentSource" | "onCommentPress" | "checkComment">[];
   token: string;
   postReactedId: Dictionnaire<number, boolean>;
 }
 
-const SectionPublicationsAccueil = ({ onCommentPress, pubs, token, postReactedId }: Props ) => {
+const SectionPublicationsAccueil = ({ onCommentPress, checkComment , pubs, token, postReactedId }: Props ) => {
 
     return (
         <View className="w-full flex flex-col gap-[22]">
             {
                 pubs.map((publication, index) => {
-                    const pub: IPublication = {...publication, onCommentPress: onCommentPress}; 
+                    const pub: IPublication = {...publication, onCommentPress: onCommentPress, checkComment: checkComment}; 
                     return (
                         <PublicationAccueil
                             pub={pub}

@@ -1,7 +1,7 @@
 import Toast from "react-native-toast-message";
 import { save } from "./store.access";
-import { Dictionnaire, IBestUser, IPublication, IUser, UserRole } from "./data.type";
-import { formatBestUser, formatDateTime, formatPostReactedByUser, formatPubs } from "./library";
+import { Dictionnaire, IBestUser, IComment, IPublication, IUser, UserRole } from "./data.type";
+import { formatBestUser, formatComment, formatPostReactedByUser, formatPubs } from "./library";
 
 const DROP_API_URL: string = "http://192.168.243.199:8080";
 
@@ -115,7 +115,7 @@ export interface IArticleTmp {
     };
 }
 
-const getPubs = async (count: number): Promise<Omit<IPublication,"onCommentPress">[] | [] | null> => {
+const getPubs = async (count: number): Promise<Omit<IPublication,"onCommentPress" | "checkComment">[] | [] | null> => {
     try {
         const res = await fetch(DROP_API_URL+`/posts/${count}`,{
             method: "GET",
@@ -231,6 +231,41 @@ const getPostReactedByUser = async (id_user: number): Promise<Dictionnaire<numbe
     }
 }
 
+export interface ICommentTmp {
+  id: number;
+  content: string;
+  date: Date; 
+  user: Pick<IUser,"firstname" | "lastname" | "profile_url">;
+}
+
+
+
+const getAllComment = async (id_post: number, is_desc: boolean | undefined ): Promise<IComment[]> => {
+    try {
+
+        const res = await fetch(DROP_API_URL+`/comment/all/?id_post=${id_post}&is_desc=${is_desc}`,{
+            method: "GET"
+        })
+        const data = await res.json();
+
+        if (!res.ok) {
+            Toast.show({
+                type: "error",
+                text1: data.message
+            })
+            return [];
+        }
+        const dataNotFormated: ICommentTmp[] = data as ICommentTmp[]; 
+        return formatComment(dataNotFormated);
+    } catch (error) {
+        Toast.show({
+            type: "error",
+            text1: "internal client error"
+        })
+        throw error
+    }
+}
+
 export {
     signupUser,
     fetchBestArticle,
@@ -239,5 +274,6 @@ export {
     getPubs,
     getSomeUser,
     likeOrInlikePost,
-    getPostReactedByUser
+    getPostReactedByUser,
+    getAllComment
 }

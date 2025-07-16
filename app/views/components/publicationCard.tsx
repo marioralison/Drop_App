@@ -81,7 +81,16 @@ const PublicationAccueil = ({ pub,token, reactionStatus }: Props) => {
                 </View>
                 <View className="w-fit h-full justify-center items-end gap-[8]">
                     <Text className="text-2xl text-blackPrimary font-lato-bold">{(pub.prix != 'null') ? (pub.prix) : ("contact us")}</Text>
-                    <TouchableOpacity className="w-fit h-fit flex flex-row justify-center items-center gap-[8]" onPress={pub.onCommentPress}>
+                    <TouchableOpacity className="w-fit h-fit flex flex-row justify-center items-center gap-[8]" 
+                    onPress={async () => {
+                        try {
+                            await pub.checkComment(pub.id,true);
+                            pub.onCommentPress();
+                        } catch (error) {
+                            throw error
+                        }
+                    }
+                    }>
                         <Image source={require("../../assets/icons/Comments.png")} className="w-[30] h-[30]" />
                         <Text className="text-xl text-blackPrimary font-lato-bold">{pub.nombreCommentaires} commantaires</Text>
                     </TouchableOpacity>

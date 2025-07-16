@@ -1,7 +1,7 @@
 
 import { getValueFor } from "./store.access";
-import { Dictionnaire, IBestUser, IPublication, IUser } from "./data.type";
-import { IArticleTmp, IPostReactedByUser, IUserProfileTmp } from "./api";
+import { Dictionnaire, IBestUser, IComment, IPublication, IUser } from "./data.type";
+import { IArticleTmp, ICommentTmp, IPostReactedByUser, IUserProfileTmp } from "./api";
 
 
 const checkRequiredPropriety = (user: Omit<IUser,"id">): boolean => {
@@ -46,10 +46,10 @@ function formatDateTime(isoString: string) {
   return { date: formattedDate, time: formattedTime };
 }
 
-function formatPubs(pubs: IArticleTmp[] | []): Omit<IPublication, "onCommentPress">[] | []  {
-  const somePubs: Omit<IPublication, "onCommentPress">[] = []
+function formatPubs(pubs: IArticleTmp[] | []): Omit<IPublication, "onCommentPress" | "checkComment">[] | []  {
+  const somePubs: Omit<IPublication, "onCommentPress" | "checkComment">[] = []
   pubs.forEach((e,i) => {
-    const tmp: Omit<IPublication, "onCommentPress"> = {
+    const tmp: Omit<IPublication, "onCommentPress" | "checkComment"> = {
         id: e.id,
         nomUtilisateur: e.user.firstname+" "+e.user.lastname,
         villeUtilisateur: e.user.region+", "+e.user.pays,
@@ -66,6 +66,21 @@ function formatPubs(pubs: IArticleTmp[] | []): Omit<IPublication, "onCommentPres
     somePubs.push(tmp);
   })
   return somePubs;
+}
+
+function formatComment(comments: ICommentTmp[] | []): IComment[] | [] {
+  const formatedComment: IComment[] = [];
+  comments.forEach((e,i) => {
+    const tmp: IComment = {
+      id: e.id,
+      content: e.content,
+      datePublication: formatDateTime(e.date+"").date+"",
+      heurePublication: formatDateTime(e.date+"").time,
+      user: e.user
+    }
+    formatedComment.push(tmp);
+  })
+  return formatedComment;
 }
 
 function formatBestUser(someUser: IUserProfileTmp[] | []): IBestUser[] | [] {
@@ -98,5 +113,6 @@ export {
     formatDateTime,
     formatPubs,
     formatBestUser,
-    formatPostReactedByUser
+    formatPostReactedByUser,
+    formatComment
 }

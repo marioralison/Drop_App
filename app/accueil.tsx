@@ -10,16 +10,17 @@ import SectionCategories from "./views/components/layouts/accueil/Categorie";
 import SectionAnnonce from "./views/components/layouts/accueil/AnnonceInput";
 import SectionPublicationsAccueil from "./views/components/layouts/accueil/SectionPublication";
 import SectionVendeursRecommandes from "./views/components/layouts/accueil/VendeurRecommandation";
-import { Dictionnaire, IBestUser, IPublication, IUser, UserRole } from "@/helpers/data.type";
+import { Dictionnaire, IBestUser, IComment, IPublication, IUser, UserRole } from "@/helpers/data.type";
 import { getValueFor } from "@/helpers/store.access";
 import Toast from "react-native-toast-message";
-import { getInfoById, getPostReactedByUser, getPubs, getSomeUser } from "@/helpers/api";
+import { getAllComment, getInfoById, getPostReactedByUser, getPubs, getSomeUser } from "@/helpers/api";
 
 
 export default function Accueil() {
     const [currentUser, setCurrentUser] = useState<Omit<IUser, "password" | "confirmPassword"> | null>(null);
+    const [comment, setComment] = useState<IComment[]>([]);
     const [tokenUser,setToken] = useState<string>("");
-    const [publications, setPublications] = useState<Omit<IPublication, "onCommentPress">[] | []>([]);
+    const [publications, setPublications] = useState<Omit<IPublication, "onCommentPress" | "checkComment">[] | []>([]);
     const [bestSeller, setBestSeller] = useState<IBestUser[] | [] | null>([]);
     const [idPostReacted, setIdPostReact] = useState<Dictionnaire<number, boolean>>(new Dictionnaire<number, boolean>);
 
@@ -53,15 +54,11 @@ export default function Accueil() {
 
                 // to get all post reacted by this current user
                 const tmp: Dictionnaire<number, boolean> | null = await getPostReactedByUser(parseInt(id));
-                if (tmp === null) return;
-                Toast.show({
-                    type: "success",
-                    text1: tmp.getValue(3)+""
-                })
+                if (!tmp) return;
                 setIdPostReact(tmp);
 
                 // to get some pubs
-                const pubs: Omit<IPublication,"onCommentPress">[] | null = await getPubs(10);
+                const pubs: Omit<IPublication,"onCommentPress" | "checkComment">[] | null = await getPubs(10);
                 if (pubs === null) return;
                 setPublications(pubs);
 
@@ -87,6 +84,19 @@ export default function Accueil() {
         }
     }, []);
 
+    const checkComment = async (id_post: number, is_desc: boolean) => {
+        try {
+            const comments: IComment[] = await getAllComment(id_post,is_desc);
+            setComment(comments);
+        } catch (error) {
+            Toast.show({
+                type: "error",
+                text1: error+""
+            });
+            throw error;
+        }
+    }
+
     const openCommentSection = () => {
         setIsCommentSheetOpen(true);
         bottomSheetRef.current?.snapToIndex(0);
@@ -105,7 +115,12 @@ export default function Accueil() {
                             selectedCategoryId={null}
                         />
                         <View className="w-full h-[1] bg-black"></View>
-                        <SectionPublicationsAccueil postReactedId={idPostReacted} token={tokenUser} pubs={publications} onCommentPress={openCommentSection} />
+                        <SectionPublicationsAccueil 
+                            postReactedId={idPostReacted} 
+                            token={tokenUser} pubs={publications} 
+                            onCommentPress={openCommentSection} 
+                            checkComment={checkComment}
+                        />
                         <View className="w-full h-[1] bg-black"></View>
                         
                         <SectionVendeursRecommandes seller={bestSeller? bestSeller : []} />
@@ -134,17 +149,25 @@ export default function Accueil() {
                 handleIndicatorStyle={styles.handleIndicator}
             >
                 <BottomSheetView style={styles.sheetContent}>
-                    <Text className="text-2xl text-blackPrimary font-lato-bold">Commentaire (25)</Text>
-                    <View style={styles.commentList}>
-                        <View className="w-full flex flex-row">
-                            <Image source={require("./assets/icons/avatar.png")} className="w-[50] h-[50]" />
-                            <View className="w-full flex flex-col">
-                                <Text className="text-2xl w-full text-blackPrimary font-lato-bold px-4">John Doe</Text>
-                                <Text className="text-xl w-full text-blackPrimary font-lato-regular px-4 mb-2">Tsy intelligence artificielle ilay projetTsy intelligence artificielle ilay projetTsy intelligence artificielle ilay projetTsy intelligence artificielle ilay projet</Text>
-                                <Text className="px-4 font-bold">-  Aujourd'hui</Text>
-                            </View>
-                        </View>
-                    </View>
+                    <Text className="text-2xl text-blackPrimary font-lato-bold">Commentaire{(comment.length > 1) && 's'} {comment.length}</Text>
+
+                    {
+                        comment.map((c,i) => {
+                            return (
+                                <View style={styles.commentList} key={c.id} >
+                                    <View className="w-full flex flex-row">
+                                        <Image source={require("./assets/icons/avatar.png")} className="w-[50] h-[50]" />
+                                        <View className="w-full flex flex-col">
+                                            <Text className="text-2xl w-full text-blackPrimary font-lato-bold px-4">{c.user.firstname} {c.user.lastname}</Text>
+                                            <Text className="text-xl w-full text-blackPrimary font-lato-regular px-4 mb-2">{c.content}</Text>
+                                            <Text className="px-4 font-bold">- {c.datePublication} - {c.heurePublication}</Text>
+                                        </View>
+                                    </View>
+                                </View>
+                            )
+                        })
+                    }
+
                     <View className="flex flex-row w-full justify-center items-center gap-2">
                         <TextInput
                             style={styles.input}

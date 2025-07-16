@@ -1,4 +1,4 @@
-import { ImageSourcePropType } from "react-native";
+
 
 interface IUser{
     id: number;
@@ -31,6 +31,7 @@ interface IPublication {
     nombreCommentaires: number;
     imageUtilisateurSource: string | null;
     onCommentPress: () => void;
+    checkComment: (id_post: number, is_desc: boolean) => Promise<void>;
 }
 
 interface IBestUser {
@@ -39,6 +40,14 @@ interface IBestUser {
     ville: string;
     imageSource: string | null;
     note: number;
+}
+
+interface IComment {
+    id: number;
+    content: string;
+    datePublication: string;
+    heurePublication: string; 
+    user: Pick<IUser,"firstname" | "lastname" | "profile_url">;
 }
 
 class Dictionnaire<K,V> {
@@ -73,5 +82,6 @@ export {
     UserRole,
     IPublication,
     IBestUser,
-    Dictionnaire
+    Dictionnaire,
+    IComment
 }
