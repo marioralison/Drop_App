@@ -9,8 +9,7 @@ async function save(key: string, value: string) {
             await SecureStore.setItemAsync(key, value);
         }
     } catch (error) {
-        console.error("Storage error");
-        throw error
+        console.error("Error on store.accesss.ts save:",error);
     }
 }
 
@@ -19,19 +18,16 @@ async function getValueFor(key: string): Promise<string | null> {
         if (Platform.OS === "web"){
             return localStorage.getItem(key)
         } else {
-            const result: string | null = await SecureStore.getItemAsync(key);
+            const result: string | null = await SecureStore.getItemAsync(key) as string | null;
             return result
         }
     } catch (error) {
-        console.error("Storage error");
-        throw error
+        console.error("Error on store.accesss.ts getValueFor:",error);
+        return null;
     }
 }
 
-const DROP_API_URL: string = "http://localhost:8080"
-
 export {
-    DROP_API_URL,
     save,
     getValueFor
 }     

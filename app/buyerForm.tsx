@@ -2,8 +2,8 @@ import { View, Image, Text, TextInput, ScrollView, Pressable } from "react-nativ
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useState } from "react";
 
-import { IUser, UserRole } from "@/helpers/users.type";
-import { checkRequiredPropriety } from "@/helpers/librairy";
+import { IUser, UserRole } from "@/helpers/data.type";
+import { checkRequiredPropriety } from "@/helpers/library";
 
 
 export default function BuyerForm() {
@@ -68,14 +68,14 @@ export default function BuyerForm() {
                     <TextInput
                         className="w-full h-[60] pl-5 border border-blackPrimary rounded-xl text-xl font-lato-regular"
                         placeholder="Pays"
-                        value={users.country}
-                        onChangeText={(value: string) => handleChange("country",value)}
+                        value={users.pays}
+                        onChangeText={(value: string) => handleChange("pays",value)}
                     />
                     <TextInput
                         className="w-full h-[60] pl-5 border border-blackPrimary rounded-xl text-xl font-lato-regular"
                         placeholder="Numéro téléphone"
-                        value={users.phone}
-                        onChangeText={(value: string) => handleChange("phone",value)}
+                        value={users.tel}
+                        onChangeText={(value: string) => handleChange("tel",value)}
                     />
                     <TextInput
                         className="w-full h-[60] pl-5 border border-blackPrimary rounded-xl text-xl font-lato-regular"
@@ -117,7 +117,7 @@ export default function BuyerForm() {
                     >
                         <Text className="font-lato-bold text-lg">Confirmer</Text>
                         
-                    </Pressable>
+                    </Pressable> 
 
                     <Pressable className="w-full h-[60] flex flex-row justify-center items-center bg-blackPrimary gap-[10] px-6 py-5 rounded-xl">
                         <Image source={require("./assets/icons/Google.png")} className="w-[30] h-[30]"/>

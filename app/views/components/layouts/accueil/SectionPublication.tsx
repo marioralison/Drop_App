@@ -1,63 +1,34 @@
 // components/SectionPublicationsAccueil.tsx
 import { View } from "react-native";
 import PublicationAccueil from "../../publicationCard";
-import { ImageSourcePropType } from "react-native"; // Import pour le type d'image
+import { Dictionnaire, IPublication } from "@/helpers/data.type";
 
-interface PublicationData {
-    nomUtilisateur: string;
-    villeUtilisateur: string;
-    datePublication: string;
-    heurePublication: string;
-    textePublication: string;
-    imagePublicationSource: ImageSourcePropType;
-    note: number;
-    nombreReactions: number;
-    prix: string;
-    nombreCommentaires: number;
-    imageUtilisateurSource: ImageSourcePropType;
+
+interface Props {
+  onCommentPress: () => void;
+  checkComment: (id_post: number, is_desc: boolean) => Promise<void>;
+  pubs: Omit<IPublication,"iconStarSource" | "iconCommentSource" | "onCommentPress" | "checkComment">[];
+  token: string;
+  postReactedId: Dictionnaire<number, boolean>;
 }
 
-const publication1Data: PublicationData = {
-    nomUtilisateur: "Lisa Moore",
-    villeUtilisateur: "Californie, USA",
-    datePublication: "02 Janv",
-    heurePublication: "14:30 pm",
-    textePublication: "Chaussure en cuir, fabriqué en tissu fin",
-    imagePublicationSource: require("../../../../assets/images/shoes.png"),
-    note: 4.6,
-    nombreReactions: 24,
-    prix: "$45.32",
-    nombreCommentaires: 15,
-    imageUtilisateurSource: require("../../../../assets/icons/userWoman.png"),
-};
+const SectionPublicationsAccueil = ({ onCommentPress, checkComment , pubs, token, postReactedId }: Props ) => {
 
-const publication2Data: PublicationData = {
-    nomUtilisateur: "John Doe",
-    villeUtilisateur: "New York, USA",
-    datePublication: "15 Mai",
-    heurePublication: "09:00 am",
-    textePublication: "Superbe tasse à café en céramique",
-    imagePublicationSource: require("../../../../assets/images/agraffeuse.png"), // Remplace par l'image de la tasse
-    note: 4.9,
-    nombreReactions: 35,
-    prix: "$12.99",
-    nombreCommentaires: 8,
-    imageUtilisateurSource: require("../../../../assets/icons/user.png"), // Remplace par l'image de John
-};
-
-const SectionPublicationsAccueil = () => {
     return (
         <View className="w-full flex flex-col gap-[22]">
-            <PublicationAccueil
-                {...publication1Data}
-                iconStarSource={require("../../../../assets/icons/Star.png")}
-                iconCommentSource={require("../../../../assets/icons/Comments.png")}
-            />
-            <PublicationAccueil
-                {...publication2Data}
-                iconStarSource={require("../../../../assets/icons/Star.png")}
-                iconCommentSource={require("../../../../assets/icons/Comments.png")}
-            />
+            {
+                pubs.map((publication, index) => {
+                    const pub: IPublication = {...publication, onCommentPress: onCommentPress, checkComment: checkComment}; 
+                    return (
+                        <PublicationAccueil
+                            pub={pub}
+                            reactionStatus={postReactedId.hasKey(pub.id)}
+                            token={token}
+                            key={publication.id}
+                        />
+                    )
+                })
+            }
         </View>
     );
 };
