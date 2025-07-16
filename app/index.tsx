@@ -17,6 +17,7 @@ import OrderTracking from "./orderTracking";
 import WalletForm from "./walletForm";
 import Notifications from "./notification";
 import UserProfile from "./userProfile";
+import LocalProducts from "./localProduct";
 
 //import Panier from "./panier";
 
@@ -43,7 +44,9 @@ export default function Index() {
         {/* <Panier></Panier> */}
         {/* <Notifications></Notifications> */}
         {/* <Details></Details> */}
-        <UserProfile></UserProfile>
+        {/* <UserProfile></UserProfile> */}
+
+        <LocalProducts></LocalProducts>
     </View>
   );
 }
