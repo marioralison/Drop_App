@@ -1,5 +1,5 @@
 import { fetchBestArticle } from './api'
-import { IPublication } from './data.type'
+import { IBestUser } from './data.type';
 
 const bestArticle: string[] =  fetchBestArticle()
 
@@ -9,38 +9,14 @@ const bestArticles = bestArticle.map((name, index) => ({
     selected: false
 }))
 
-const publications: Omit<IPublication, "onCommentPress">[] = [
-    {
-        id: 1,
-        nomUtilisateur: "Lisa Moore",
-        villeUtilisateur: "Californie, USA",
-        datePublication: "02 Janv",
-        heurePublication: "14:30 pm",
-        textePublication: "Chaussure en cuir, fabriqué en tissu fin",
-        imagePublicationSource: null,
-        note: 4.6,
-        nombreReactions: 24,
-        prix: "$45.32",
-        nombreCommentaires: 15,
-        imageUtilisateurSource: null,
-    },
-    {
-        id: 2,
-        nomUtilisateur: "John Doe",
-        villeUtilisateur: "New York, USA",
-        datePublication: "15 Mai",
-        heurePublication: "09:00 am",
-        textePublication: "Superbe tasse à café en céramique",
-        imagePublicationSource: null,
-        note: 4.9,
-        nombreReactions: 35,
-        prix: "$12.99",
-        nombreCommentaires: 8,
-        imageUtilisateurSource: null,
-    }
-]
+const dataVendeurs: IBestUser[] = [
+    { id: '1', nom: 'Mike Thomas', ville: 'Antananarivo, Madagascar', imageSource: null, note: 4.6 },
+    { id: '2', nom: 'Sarah Dubois', ville: 'Paris, France', imageSource: null, note: 4.8 },
+    { id: '3', nom: 'John Williams', ville: 'New York, USA', imageSource: null, note: 4.5 },
+    { id: '4', nom: 'Alice Dupont', ville: 'Bruxelles, Belgique', imageSource: null, note: 4.7 }
+];
 
 export {
     bestArticles,
-    publications
+    dataVendeurs
 }

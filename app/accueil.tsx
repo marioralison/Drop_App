@@ -10,21 +10,25 @@ import SectionCategories from "./views/components/layouts/accueil/Categorie";
 import SectionAnnonce from "./views/components/layouts/accueil/AnnonceInput";
 import SectionPublicationsAccueil from "./views/components/layouts/accueil/SectionPublication";
 import SectionVendeursRecommandes from "./views/components/layouts/accueil/VendeurRecommandation";
-import { IUser } from "@/helpers/data.type";
+import { IBestUser, IPublication, IUser, UserRole } from "@/helpers/data.type";
 import { getValueFor } from "@/helpers/store.access";
 import Toast from "react-native-toast-message";
-import { getInfoById } from "@/helpers/api";
-import { publications } from "@/helpers/init";
+import { getInfoById, getPubs, getSomeUser } from "@/helpers/api";
+import { dataVendeurs } from "@/helpers/init";
+// import { publications } from "@/helpers/init";
 
 
 export default function Accueil() {
     const [currentUser, setCurrentUser] = useState<Omit<IUser, "password" | "confirmPassword"> | null>(null);
+    const [publications, setPublications] = useState<Omit<IPublication, "onCommentPress">[] | []>([])
+    const [bestSeller, setBestSeller] = useState<IBestUser[] | [] | null>([]);
     const bottomSheetRef = useRef<BottomSheet>(null);
     const snapPoints = useMemo(() => ['50%', '90%'], []);
 
     useEffect(() => {
         const setUserPropriety = async () => {
             try {
+                // for checking current user
                 const token: string | null = await getValueFor("token");
                 const id: string | null = await getValueFor("id");
                 if (!token) {
@@ -44,6 +48,12 @@ export default function Accueil() {
                 const info: Omit<IUser, "password" | "confirmPassword"> | null = await getInfoById(token,id);
                 if (!info) return;
                 setCurrentUser(info);
+                // to get some pubs
+                const pubs: Omit<IPublication,"onCommentPress">[] | null = await getPubs(10);
+                if (pubs) setPublications(pubs);
+                // to get best seller
+                const bestSeller: IBestUser[] | [] | null = await  getSomeUser(UserRole.SELLER,0,10)
+                if (bestSeller) setBestSeller(bestSeller);
             } catch (error) {
                 Toast.show({
                     type: "error",
@@ -84,7 +94,7 @@ export default function Accueil() {
                         <SectionPublicationsAccueil pubs={publications} onCommentPress={openCommentSection} />
                         <View className="w-full h-[1] bg-black"></View>
                         
-                        <SectionVendeursRecommandes />
+                        <SectionVendeursRecommandes seller={bestSeller? bestSeller : []} />
                     </View>
                 </ScrollView>
 

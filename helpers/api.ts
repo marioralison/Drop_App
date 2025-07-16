@@ -1,7 +1,7 @@
 import Toast from "react-native-toast-message";
 import { save } from "./store.access";
-import { IPublication, IUser } from "./data.type";
-import { formatDateTime } from "./library";
+import { IBestUser, IPublication, IUser, UserRole } from "./data.type";
+import { formatBestUser, formatDateTime, formatPubs } from "./library";
 
 const DROP_API_URL: string = "http://192.168.243.199:8080";
 
@@ -91,30 +91,29 @@ const getInfoById = async (token: string,id: string): Promise<Omit<IUser, "passw
     }
 }
 
-interface IArticle {
-  id: number;
-  type: string; // tu peux aussi utiliser un type enum: 'ARTICLE' | ...
-  description: string;
-  unit_price: number;
-  stock: number;
-  create_at: string; // ou `Date` si tu le convertis
-  image_url: string;
-  id_user: number;
-  _count: {
-    comment: number;
-    reaction: number;
-  };
-  user: {
-    firstname: string;
-    lastname: string;
-    region: string;
-    pays: string;
-    profile_url: string | null;
-  };
+export interface IArticleTmp {
+    id: number;
+    type: string; // tu peux aussi utiliser un type enum: 'ARTICLE' | ...
+    description: string;
+    unit_price: number;
+    stock: number;
+    create_at: string; // ou `Date` si tu le convertis
+    image_url: string;
+    id_user: number;
+    _count: {
+      comment: number;
+      reaction: number;
+    };
+    user: {
+      firstname: string;
+      lastname: string;
+      region: string;
+      pays: string;
+      profile_url: string | null;
+    };
 }
 
-
-const getPubs = async (count: number): Promise<Omit<IPublication,"onCommentPress">[] | null> => {
+const getPubs = async (count: number): Promise<Omit<IPublication,"onCommentPress">[] | [] | null> => {
     try {
         const res = await fetch(DROP_API_URL+`/posts/${count}`,{
             method: "GET",
@@ -127,29 +126,49 @@ const getPubs = async (count: number): Promise<Omit<IPublication,"onCommentPress
                 text1: data.message+""
             });
             return null;
-        }
-        const pubs: IArticle[] = data as IArticle[];
-        const somePubs: Omit<IPublication, "onCommentPress">[] = []
-
-        pubs.forEach((e,i) => {
-            const tmp: Omit<IPublication, "onCommentPress"> = {
-                id: e.id,
-                nomUtilisateur: e.user.firstname+" "+e.user.lastname,
-                villeUtilisateur: e.user.region+", "+e.user.pays,
-                datePublication: formatDateTime(e.create_at).date+"",
-                heurePublication: formatDateTime(e.create_at).time+"",
-                textePublication: e.description,
-                imagePublicationSource: e.image_url,
-                note: 4.9,
-                nombreReactions: e._count.reaction,
-                prix: e.unit_price+"",
-                nombreCommentaires: e._count.comment,
-                imageUtilisateurSource: e.user.profile_url
-            }
-            somePubs.push(tmp);
-        })
-        return somePubs;
+        };
+        const pubs: IArticleTmp[] = data as IArticleTmp[];
+        return formatPubs(pubs);
     } catch (error) {
+        Toast.show({
+            type: "error",
+            text1: error+""
+        })
+        throw error
+    }
+}
+
+export interface IUserProfileTmp {
+  id: number;
+  firstname: string;
+  lastname: string;
+  region: string;
+  pays: string;
+  profile_url: string;
+}
+
+
+const getSomeUser = async (role: UserRole, start: number, end: number): Promise<IBestUser[] | [] | null> => {
+    try {
+        if (start > end) throw new Error(" the start must belower than end");
+        const res = await fetch(DROP_API_URL+`/users/${role}/${start}/${end}`,{
+            method: "GET",
+        })
+        const data = await res.json();
+        if (!res.ok) {
+            Toast.show({
+                type: "error",
+                text1: data.message+""
+            })
+            return null;
+        }
+        const users: IUserProfileTmp[] = data as IUserProfileTmp[];
+        return formatBestUser(users);
+    } catch (error) {
+        Toast.show({
+            type: "error",
+            text1: "error on get some user"
+        })
         throw error
     }
 }
@@ -161,5 +180,6 @@ export {
     fetchBestArticle,
     authentificationUser,
     getInfoById,
-    getPubs
+    getPubs,
+    getSomeUser
 }

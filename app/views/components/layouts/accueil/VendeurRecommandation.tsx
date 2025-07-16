@@ -1,26 +1,17 @@
 // components/SectionVendeursRecommandes.tsx
+import { IBestUser } from "@/helpers/data.type";
 import { View, Text, FlatList, Image } from "react-native";
 
-interface Vendeur {
-    id: string;
-    nom: string;
-    ville: string;
-    imageSource: any;
-    note: number;
-}
 
-const dataVendeurs: Vendeur[] = [
-    { id: '1', nom: 'Mike Thomas', ville: 'Antananarivo, Madagascar', imageSource: require('../../../../assets/images/vendeur1.png'), note: 4.6 },
-    { id: '2', nom: 'Sarah Dubois', ville: 'Paris, France', imageSource: require('../../../../assets/images/vendeur1.png'), note: 4.8 },
-    { id: '3', nom: 'John Williams', ville: 'New York, USA', imageSource: require('../../../../assets/images/vendeur1.png'), note: 4.5 },
-    { id: '4', nom: 'Alice Dupont', ville: 'Bruxelles, Belgique', imageSource: require('../../../../assets/images/vendeur1.png'), note: 4.7 }
-];
-
-const SectionVendeursRecommandes = () => {
-    const renderVendeurItem = ({ item }: { item: Vendeur }) => (
+const SectionVendeursRecommandes = ({ seller }: { seller: IBestUser[] | [] }) => {
+    const renderVendeurItem = ({ item }: { item: IBestUser }) => (
         <View className="w-[150] h-full flex justify-between items-center">
             <View className="w-full h-[70%] flex flex-col justify-center items-center bg-zinc-100 rounded-xl">
-                <Image source={item.imageSource} className="w-[100] h-full"/>
+                <Image source={item.imageSource ?
+                    { uri: item.imageSource }
+                    :
+                    require('../../../../assets/images/vendeur1.png')
+                 } className="w-[100] h-full"/>
             </View>
             <View className="w-full h-[30%] mt-[8] flex justify-start items-start">
                 <View className="w-full h-fit flex flex-row justify-between items-center">
@@ -42,7 +33,7 @@ const SectionVendeursRecommandes = () => {
                 <Text className="text-2xl text-blackPrimary font-lato-regular">Voir plus</Text>
             </View>
             <FlatList
-                data={dataVendeurs}
+                data={seller}
                 renderItem={renderVendeurItem}
                 keyExtractor={(item) => item.id} // Important pour le rendu des items
                 horizontal={true}

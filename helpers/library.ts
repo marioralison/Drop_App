@@ -1,6 +1,7 @@
 
 import { getValueFor } from "./store.access";
-import { IUser } from "./data.type";
+import { IBestUser, IPublication, IUser } from "./data.type";
+import { IArticleTmp, IUserProfileTmp } from "./api";
 
 
 const checkRequiredPropriety = (user: Omit<IUser,"id">): boolean => {
@@ -45,10 +46,48 @@ function formatDateTime(isoString: string) {
   return { date: formattedDate, time: formattedTime };
 }
 
+function formatPubs(pubs: IArticleTmp[] | []): Omit<IPublication, "onCommentPress">[] | []  {
+  const somePubs: Omit<IPublication, "onCommentPress">[] = []
+  pubs.forEach((e,i) => {
+    const tmp: Omit<IPublication, "onCommentPress"> = {
+        id: e.id,
+        nomUtilisateur: e.user.firstname+" "+e.user.lastname,
+        villeUtilisateur: e.user.region+", "+e.user.pays,
+        datePublication: formatDateTime(e.create_at).date+"",
+        heurePublication: formatDateTime(e.create_at).time+"",
+        textePublication: e.description,
+        imagePublicationSource: e.image_url,
+        note: 4.9,
+        nombreReactions: e._count.reaction,
+        prix: e.unit_price+"",
+        nombreCommentaires: e._count.comment,
+        imageUtilisateurSource: e.user.profile_url
+    }
+    somePubs.push(tmp);
+  })
+  return somePubs;
+}
+
+function formatBestUser(someUser: IUserProfileTmp[] | []): IBestUser[] | [] {
+  const usersFormated: IBestUser[] = [];
+  someUser.forEach((e,i) => {
+    const tmp: IBestUser = {
+      id: e.id+"",
+      nom: e.firstname+" "+e.lastname,
+      ville: e.region+", "+e.pays,
+      imageSource: e.profile_url+"",
+      note: 4.9
+    }
+    usersFormated.push(tmp);
+})
+  return usersFormated;
+}
 
 export {
     checkRequiredPropriety,
     addPreferedArticle,
     getLocalValue,
-    formatDateTime
+    formatDateTime,
+    formatPubs,
+    formatBestUser
 }

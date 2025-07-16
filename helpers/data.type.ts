@@ -33,6 +33,14 @@ interface IPublication {
     onCommentPress: () => void;
 }
 
+interface IBestUser {
+    id: string;
+    nom: string;
+    ville: string;
+    imageSource: string | null;
+    note: number;
+}
+
 
 enum UserRole {
     SELLER="SELLER",
@@ -42,5 +50,6 @@ enum UserRole {
 export {
     IUser,
     UserRole,
-    IPublication
+    IPublication,
+    IBestUser
 }
