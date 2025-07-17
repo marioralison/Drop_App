@@ -117,7 +117,7 @@ export default function Accueil() {
                 <HeaderAccueil />
                 <ScrollView className="w-full h-[82%]" showsVerticalScrollIndicator={false}>
                     <View className="w-full h-full flex justify-start items-center gap-[22]">
-                        <SectionAnnonce token={tokenUser} url={null}/>
+                        <SectionAnnonce token={tokenUser} url={(currentUser?.profile_url)? currentUser.profile_url : null}/>
                         <ProduitLocal productLocal={product} />
                         <SectionCategories
                             onCategoryPress={() => {}}
@@ -165,7 +165,14 @@ export default function Accueil() {
                             return (
                                 <View style={styles.commentList} key={c.id} >
                                     <View className="w-full flex flex-row">
-                                        <Image source={require("./assets/icons/avatar.png")} className="w-[50] h-[50]" />
+                                        <Image source={
+                                            (c.user.profile_url) ?
+                                            (
+                                                { uri: c.user.profile_url }
+                                            ) : (
+                                                require("./assets/icons/user.png")
+                                            )
+                                        } className="w-[50] h-[50]" />
                                         <View className="w-full flex flex-col">
                                             <Text className="text-2xl w-full text-blackPrimary font-lato-bold px-4">{c.user.firstname} {c.user.lastname}</Text>
                                             <Text className="text-xl w-full text-blackPrimary font-lato-regular px-4 mb-2">{c.content}</Text>

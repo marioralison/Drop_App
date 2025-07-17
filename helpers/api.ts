@@ -1,7 +1,7 @@
 import Toast from "react-native-toast-message";
 import { save } from "./store.access";
 import { Dictionnaire, IBestUser, IComment, IProduct, IPublication, IUser, IUserLogin, UserRole } from "./data.type";
-import { formatBestUser, formatComment, formatPostReactedByUser, formatPubs } from "./library";
+import { decodeHtmlEntities, formatBestUser, formatComment, formatPostReactedByUser, formatPubs } from "./library";
 
 const DROP_API_URL: string = "http://192.168.243.199:8080";
 
@@ -116,8 +116,8 @@ const getInfoById = async (token: string,id: string): Promise<Omit<IUser, "passw
             });
             return null;
         }
-
-        return data as Omit<IUser, "password" | "confirmPassword">;
+        const user: Omit<IUser, "password" | "confirmPassword"> = data as Omit<IUser, "password" | "confirmPassword">;
+        return {...user, profile_url: (user.profile_url)? decodeHtmlEntities(user.profile_url) : null};
     } catch (error) {
         throw error;
     }
@@ -282,7 +282,7 @@ const getAllComment = async (id_post: number, is_desc: boolean | undefined ): Pr
             })
             return [];
         }
-        const dataNotFormated: ICommentTmp[] = data as ICommentTmp[]; 
+        const dataNotFormated: ICommentTmp[] = data as ICommentTmp[];
         return formatComment(dataNotFormated);
     } catch (error) {
         Toast.show({
@@ -334,6 +334,10 @@ const getLocalProduct = async (country: string): Promise<IProduct[]> => {
             })
             return [];
         }
+        const product: IProduct[] = data as IProduct[]
+        product.map((p) => {
+            return {...p, image_url: (p.image_url)? decodeHtmlEntities(p.image_url) : null}
+        })
         return data as IProduct[];
     } catch (error) {
         Toast.show({
