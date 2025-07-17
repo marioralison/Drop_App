@@ -125,24 +125,30 @@ const UserProfile =  () =>{
                 </View>
             </View>
 
-            <View className="m-2  w-full p-3 ">
-                <Text className=" font-syne-bold text-base">Paramètres</Text>
-                <View>
-                    <TouchableOpacity  style={styles.grayBG}>
-                        <View className="  flex-row items-center justify-between p-3">
-                            <View>
-                                <Text className="font-bold text-lg">Changer de mot de passe</Text>
-                            </View>
-                            <TouchableOpacity>
-                                <Image source={require("./assets/icons/Right.png")} className="size-7"/>
-                            </TouchableOpacity>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-            </View>
             {
                 (currentUser?.id === idUserLocal) ? (
-                    <TouchableOpacity onPress={handleDeconnexion} className=" bg-blackPrimary w-11/12 p-3 rounded-xl">
+                    <View className="m-2  w-full p-3 ">
+                        <Text className=" font-syne-bold text-base">Paramètres</Text>
+                        <View>
+                            <TouchableOpacity  style={styles.grayBG}>
+                                <View className="  flex-row items-center justify-between p-3">
+                                    <View>
+                                        <Text className="font-bold text-lg">Changer de mot de passe</Text>
+                                    </View>
+                                    <TouchableOpacity>
+                                        <Image source={require("./assets/icons/Right.png")} className="size-7"/>
+                                    </TouchableOpacity>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                ) : (
+                    <Text></Text>
+                )
+            }
+            {
+                (currentUser?.id === idUserLocal) ? (
+                    <TouchableOpacity onPress={handleDeconnexion} className=" bg-blackPrimary w-11/12 p-3 mb-6 rounded-xl">
                         <Text className="text-white font-syne-semiBold text-center ">Déconexions</Text>
                     </TouchableOpacity>
                 ) : (
