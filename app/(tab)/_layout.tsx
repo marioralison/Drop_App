@@ -28,7 +28,7 @@ export default function TabsLayout() {
       >
         <Slot />
       </Animated.View>
-      <View className="h-[70] px-4 py-2">
+      <View className="h-[70] px-4">
         <NavigationBottom />
       </View>
     </View>

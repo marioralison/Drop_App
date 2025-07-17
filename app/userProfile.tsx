@@ -4,7 +4,7 @@ import { decodeHtmlEntities } from "@/helpers/library";
 import { deleteOne, getValueFor } from "@/helpers/store.access";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { View,Image,Text,StyleSheet } from "react-native"
+import { View,Image,Text,StyleSheet, Pressable } from "react-native"
 import { TouchableOpacity } from "react-native"
 import Toast from "react-native-toast-message";
 
@@ -14,6 +14,11 @@ const UserProfile =  () =>{
     const [idUserLocal, setIdUserLocal] = useState<number>();
     const token: string = useLocalSearchParams().token as string
     const [currentUser, setCurrentUser] = useState<Omit<IUser, "password" | "confirmPassword"> | null>(null);
+
+    const handleGoBack = () => {
+        router.back();
+    };
+
     
     const handleDeconnexion = async () => {
         try {
@@ -57,100 +62,105 @@ const UserProfile =  () =>{
     },[])
 
     return(
-        <View className=" flex-col justify-between items-center  h-full p-3">
-            <View className=" flex-col justify-center items-center p-3">
+        <View className="w-full h-full p-[20] bg-white flex flex-col justify-between gap-[20]">
+            <View className="w-full h-[50] flex flex-row justify-between items-center">
+                <Pressable onPress={handleGoBack} className="w-[10%]  flex justify-center">
+                    <Image source={require("./assets/icons/Back.png")} className="w-[30] h-[30]"/>
+                </Pressable>
+            </View>
+            <View className="w-full flex-col justify-center items-center gap-[20]">
                 {
                     (currentUser?.profile_url) ?
                         <Image 
                             source={{ uri: currentUser.profile_url }}
-                            className="w-9 h-9"
+                            style={{width: 100, height: 100}}
+                            className="rounded-full"
                         />
                     :
-                        <View className="w-9 h-9 bg-gray-300" ></View>
+                        <View style={{width: 100, height: 100}} className="bg-gray-300 rounded-full" ></View>
                 }
-                <Text className=" font-syne-bold text-xl ">{currentUser?.firstname} {currentUser?.lastname}</Text>
-                <Text className=" font-syne-bold text-md">{currentUser?.email}</Text>
-            </View>
-
-            <View className="m-2  w-full p-3">
-                <Text className=" font-syne-bold text-base">Profile</Text>
-                <View className=" flex-col gap-2  p-3">
-                    <TouchableOpacity  style={styles.grayBG}>
-                       <View className=" flex-row items-center justify-between">
-                            <View>
-                                <Text className="font-bold text-lg">Nom</Text>
-                                <Text style={styles.userdetails} className="text-sm font-syne-semiBold">{currentUser?.firstname}</Text>
-                            </View>
-                            <TouchableOpacity>
-                                <Image source={require("./assets/icons/Right.png")} className="size-7"/>
-                            </TouchableOpacity>
-                       </View>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.grayBG}>
-                        <View className=" flex-row items-center justify-between">
-                            <View>
-                                <Text className="font-bold text-lg">Email</Text>
-                                <Text style={styles.userdetails} className="text-sm font-syne-semiBold bg-[#e4e4e4]">{currentUser?.email}</Text>
-                            </View>
-                            <TouchableOpacity>
-                                <Image source={require("./assets/icons/Right.png")} className="size-7"/>
-                            </TouchableOpacity>
-                        </View>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.grayBG}>
-                       <View className=" flex-row items-center justify-between ">
-                            <View>
-                                <Text className="font-bold text-lg">Numéro</Text>
-                                <Text style={styles.userdetails} className="text-sm font-syne-semiBold">{currentUser?.tel}</Text>
-                            </View>
-                            <TouchableOpacity>
-                                <Image source={require("./assets/icons/Right.png")} className="size-7"/>
-                            </TouchableOpacity>
-                       </View>
-                    </TouchableOpacity>
-                    
-                    <TouchableOpacity style={styles.grayBG}>
-                        <View className=" flex-row items-center justify-between">
-                            <View>
-                                <Text className="font-bold text-lg">Adresse</Text>
-                                <Text style={styles.userdetails} className="text-sm font-syne-semiBold">{currentUser?.region} {currentUser?.pays}</Text>
-                            </View>
-                            <TouchableOpacity>
-                                <Image source={require("./assets/icons/Right.png")} className="size-7"/>
-                            </TouchableOpacity>
-                        </View>
-                    </TouchableOpacity>
+                <View className="w-full flex justify-center items-center">
+                    <Text className=" font-syne-bold text-4xl">{currentUser?.firstname} {currentUser?.lastname}</Text>
+                    <Text className=" font-lato-regular text-xl">{currentUser?.email}</Text>
                 </View>
             </View>
 
-            {
-                (currentUser?.id === idUserLocal) ? (
-                    <View className="m-2  w-full p-3 ">
-                        <Text className=" font-syne-bold text-base">Paramètres</Text>
-                        <View>
-                            <TouchableOpacity  style={styles.grayBG}>
-                                <View className="  flex-row items-center justify-between p-3">
-                                    <View>
-                                        <Text className="font-bold text-lg">Changer de mot de passe</Text>
-                                    </View>
-                                    <TouchableOpacity>
-                                        <Image source={require("./assets/icons/Right.png")} className="size-7"/>
-                                    </TouchableOpacity>
+            <View className="w-full flex justify-center items-center gap-[20]">
+                <View className="w-full flex justify-center items-start gap-[10]">
+                    <Text className="font-syne-bold text-2xl">Profile</Text>
+                    <View className="w-full flex-col gap-[10]">
+                        <TouchableOpacity style={styles.grayBG} className="rounded-xl">
+                            <View className="flex-row items-center justify-between p-3">
+                                <View>
+                                    <Text className="font-bold text-lg">Nom</Text>
+                                    <Text style={styles.userdetails} className="text-xl font-lato-semiBold">{currentUser?.firstname}</Text>
+                                </View>
+                                <TouchableOpacity>
+                                    <Image source={require("./assets/icons/Right.png")} className="size-7"/>
+                                </TouchableOpacity>
+                            </View>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.grayBG} className="rounded-xl">
+                            <View className=" flex-row items-center justify-between p-3">
+                                <View>
+                                    <Text className="font-bold text-lg">Email</Text>
+                                    <Text style={styles.userdetails} className="text-xl font-lato-semiBold bg-[#e4e4e4]">{currentUser?.email}</Text>
+                                </View>
+                                <TouchableOpacity>
+                                    <Image source={require("./assets/icons/Right.png")} className="size-7"/>
+                                </TouchableOpacity>
+                            </View>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.grayBG} className="rounded-xl">
+                            <View className=" flex-row items-center justify-between p-3">
+                                <View>
+                                    <Text className="font-bold text-lg">Numéro</Text>
+                                    <Text style={styles.userdetails} className="text-xl font-lato-semiBold">{currentUser?.tel}</Text>
+                                </View>
+                                <TouchableOpacity>
+                                    <Image source={require("./assets/icons/Right.png")} className="size-7"/>
+                                </TouchableOpacity>
+                            </View>
+                        </TouchableOpacity>
+                        
+                        <TouchableOpacity style={styles.grayBG} className="rounded-xl">
+                            <View className=" flex-row items-center justify-between p-3">
+                                <View>
+                                    <Text className="font-bold text-lg">Adresse</Text>
+                                    <Text style={styles.userdetails} className="text-xl font-lato-semiBold">{currentUser?.region} {currentUser?.pays}</Text>
+                                </View>
+                                <TouchableOpacity>
+                                    <Image source={require("./assets/icons/Right.png")} className="size-7"/>
+                                </TouchableOpacity>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+
+                {
+                    (currentUser?.id === idUserLocal) ? (
+                        <View className="w-full flex gap-[10]">
+                            <Text className=" font-syne-bold text-2xl">Paramètres</Text>
+                            <TouchableOpacity  style={styles.grayBG} className="px-6 py-5 rounded-xl">
+                                <View className="  flex-row items-center justify-between">
+                                    <Text className="font-bold text-lg">Changer de mot de passe</Text>
+                                    <Image source={require("./assets/icons/Right.png")} className="size-7"/>
                                 </View>
                             </TouchableOpacity>
                         </View>
-                    </View>
-                ) : (
-                    <Text></Text>
-                )
-            }
+                    ) : (
+                        <Text></Text>
+                    )
+                }
+            </View>
+            
             {
                 (currentUser?.id === idUserLocal) ? (
-                    <TouchableOpacity onPress={handleDeconnexion} className=" bg-blackPrimary w-11/12 p-3 mb-6 rounded-xl">
-                        <Text className="text-white font-syne-semiBold text-center ">Déconexions</Text>
-                    </TouchableOpacity>
+                    <Pressable onPress={() => handleDeconnexion()} className="w-full h-[60] flex justify-center items-center bg-blackPrimary px-6 py-5 rounded-xl">
+                        <Text className="font-lato-bold text-white text-lg">Déconnextion</Text>
+                    </Pressable>
                 ) : (
                     <Text></Text>
                 )
@@ -164,7 +174,6 @@ const UserProfile =  () =>{
 const styles = StyleSheet.create({
     grayBG: {
         backgroundColor: "#e4e4e4",
-        borderRadius: 10,
         padding: 4
     },
     userdetails: {

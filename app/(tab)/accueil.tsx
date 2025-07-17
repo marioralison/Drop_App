@@ -28,7 +28,7 @@ export default function Accueil() {
     const [product, setProduct] = useState<IProduct[]>([]);
     const [content, setContent] = useState<string>("");
     const [idPostSelected, setIdPostSelected] = useState<number>(0);
- 
+
     const bottomSheetRef = useRef<BottomSheet>(null);
     const snapPoints = useMemo(() => ['50%', '90%'], []);
 
@@ -210,7 +210,7 @@ export default function Accueil() {
                                             ) : (
                                                 require("../assets/icons/user.png")
                                             )
-                                        } className="w-[50] h-[50]" />
+                                        } className="w-[50] h-[50] rounded-full" />
                                         <View className="w-full flex flex-col">
                                             <Text className="text-2xl w-full text-blackPrimary font-lato-bold px-4">{c.user.firstname} {c.user.lastname}</Text>
                                             <Text className="text-xl w-full text-blackPrimary font-lato-regular px-4 mb-2">{c.content}</Text>

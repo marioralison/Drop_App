@@ -8,17 +8,14 @@ const SectionAnnonce = (props: {id: number, url: string | null, token: string, g
 
     return (
         <View className="w-full h-[70] flex flex-row justify-between items-center">
-            {props.url ? (
+            
                 <TouchableOpacity 
                     onPress={() => {
                         props.goToDetails(props.id);
                     }}
                 >
-                    <Image source={{ uri: props.url }} className="w-[55] h-[55] rounded-full" />                
+                    {props.url ? <Image source={{ uri: props.url }} className="w-[55] h-[55] rounded-full" /> : <View className="w-[55] h-[55] rounded-full bg-gray-300"></View>}                
                 </TouchableOpacity>
-            ) : (
-                <View className="w-[45] h-[45] rounded-full bg-gray-300"></View>
-            )}
             <View className="w-[82%] h-[56] flex flex-row justify-between items-center pr-[12] border rounded-xl">
                 <TextInput
                     className="w-[90%] h-full pl-5 font-lato-regular text-xl"

@@ -25,10 +25,13 @@ export default function Wallet() {
                     <Text className="font-lato-bold text-white text-lg">Balance du compte</Text>
                     <View className="w-full h-[100] flex flex-row justify-start items-center">
                         <Text className="w-[90%] font-lato-bold text-white text-6xl">
-                            {isVisible ? "$45,687.52" : "••••••••"}
+                            {isVisible ? "Ar 98 000" : "••••••••"}
                         </Text>
                         <Pressable onPress={() => setIsVisible(!isVisible)}>
-                            <Image source={require("../assets/icons/Eye.png")} className="w-[30] h-[30]" />
+                            {isVisible ? 
+                                <Image source={require("../assets/icons/EyeClosed.png")} className="w-[30] h-[30]" /> :
+                                <Image source={require("../assets/icons/Eye.png")} className="w-[30] h-[30]" />
+                            }
                         </Pressable>
                     </View>
 
@@ -38,8 +41,8 @@ export default function Wallet() {
                             <Text className="font-lato-bold text-black text-lg">**** **** **** 2546</Text>
                         </View>
                         <View className="w-[50%] flex flex-col items-end justify-center">
-                            <Text className="font-lato-bold text-white text-lg">N° Compte</Text>
-                            <Text className="font-lato-bold text-black text-lg">**** **** **** 2546</Text>
+                            <Text className="font-lato-bold text-white text-lg">Titulaire compte</Text>
+                            <Text className="font-lato-bold text-black text-lg">Mario Ralison</Text>
                         </View>
                     </View>
                 </View>
@@ -71,7 +74,7 @@ export default function Wallet() {
                                     <Text className="font-lato-bold text- text-lg">Nom vendeur</Text>
                                 </View>
                                 <View className="flex flex-col">
-                                    <Text className="font-lato-bold text-black text-2xl text-right">$450</Text>
+                                    <Text className="font-lato-bold text-black text-2xl text-right">Ar 18 000</Text>
                                     <Text className="font-lato-bold text-black text-lg text-right">Mar 21, 2025</Text>
                                 </View>
                             </View>
@@ -86,7 +89,7 @@ export default function Wallet() {
                                     <Text className="font-lato-bold text- text-lg">Nom vendeur</Text>
                                 </View>
                                 <View className="flex flex-col">
-                                    <Text className="font-lato-bold text-black text-2xl text-right">$450</Text>
+                                    <Text className="font-lato-bold text-black text-2xl text-right">Ar 18 000</Text>
                                     <Text className="font-lato-bold text-black text-lg text-right">Mar 21, 2025</Text>
                                 </View>
                             </View>
@@ -101,7 +104,7 @@ export default function Wallet() {
                                     <Text className="font-lato-bold text- text-lg">Nom vendeur</Text>
                                 </View>
                                 <View className="flex flex-col">
-                                    <Text className="font-lato-bold text-black text-2xl text-right">$450</Text>
+                                    <Text className="font-lato-bold text-black text-2xl text-right">Ar 18 000</Text>
                                     <Text className="font-lato-bold text-black text-lg text-right">Mar 21, 2025</Text>
                                 </View>
                             </View>
@@ -116,7 +119,7 @@ export default function Wallet() {
                                     <Text className="font-lato-bold text- text-lg">Nom vendeur</Text>
                                 </View>
                                 <View className="flex flex-col">
-                                    <Text className="font-lato-bold text-black text-2xl text-right">$450</Text>
+                                    <Text className="font-lato-bold text-black text-2xl text-right">Ar 18 000</Text>
                                     <Text className="font-lato-bold text-black text-lg text-right">Mar 21, 2025</Text>
                                 </View>
                             </View>

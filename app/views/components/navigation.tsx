@@ -6,7 +6,7 @@ export default function NavigationBottom() {
   const pathname = usePathname();            // route courante
 
   const icons = [
-    { icon: require("../../assets/icons/HomeGreen.png"),      route: "/accueil" },
+    { icon: require("../../assets/icons/Home.png"),      route: "/accueil" },
     { icon: require("../../assets/icons/ChatBubble.png"),     route: "/chat" },
     { icon: require("../../assets/icons/ShoppingBasket.png"), route: "/panier" },
     { icon: require("../../assets/icons/Cash.png"),           route: "/wallet" },
@@ -25,12 +25,11 @@ export default function NavigationBottom() {
             activeOpacity={0.6}
             style={{ justifyContent: "center", alignItems: "center", height: "100%" }}
           >
-            {/* Conteneur avec fond conditionnel */}
             <View
               style={{
-                padding: 6,                       // espace autour de l’icône
-                borderRadius: 12,                 // arrondi
-                backgroundColor: isActive ? "#C9D856" /* vert-500 */ : "transparent",
+                padding: 6,                   
+                borderRadius: 12,              
+                backgroundColor: isActive ? "#C9D856" : "transparent",
               }}
             >
               <Image source={item.icon} style={{ width: 30, height: 30 }} />

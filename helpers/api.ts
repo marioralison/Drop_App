@@ -3,9 +3,9 @@ import { getValueFor, save } from "./store.access";
 import { Dictionnaire, IBestUser, IComment, IProduct, IPublication, IUser, IUserLogin, UserRole } from "./data.type";
 import { decodeHtmlEntities, formatBestUser, formatComment, formatPostReactedByUser, formatPubs } from "./library";
 
-const DROP_API_URL: string = "http://192.168.243.199:8080";
+const DROP_API_URL: string = "http://192.168.88.21:8080";
 
-const fetchBestArticle = (): string[] => ['Italian',"a","b","c","d","e","f","g","k","y"]
+const fetchBestArticle = (): string[] => ['Pantalon',"Menteau","Jeans","Art","Chaussure","Pull","Capuche","Casquette","Chemise","Lunette"]
 
 const signupUser = async (user: IUser): Promise<boolean> => {
     try {
