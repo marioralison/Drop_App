@@ -117,6 +117,17 @@ export default function Accueil() {
         })
     }
 
+    const goToArticleDetails = (pub: Omit<IPublication, "onCommentPress" | "checkComment">) => {
+        if (pub.type == 'ARTICLE') {
+            router.push({
+                pathname: "/details",
+                params: {
+                    pub: JSON.stringify(pub)
+                }
+            })
+        }
+    }
+
     const openCommentSection = (id_post: number) => {
         setIdPostSelected(id_post);
         setIsCommentSheetOpen(true);
@@ -148,10 +159,12 @@ export default function Accueil() {
                                     <View className="w-full flex justify-center items-center gap-[14]" key={i}>
                                         <SectionPublicationsAccueil 
                                             goToDetails={goToDetails}
+                                            goToArticleDetails={goToArticleDetails}
                                             postReactedId={idPostReacted} 
                                             token={tokenUser} pubs={pgroup} 
                                             onCommentPress={openCommentSection} 
                                             checkComment={checkComment}
+
                                         />
                                         <View className="w-full h-[auto] bg-black"></View>
                                         {

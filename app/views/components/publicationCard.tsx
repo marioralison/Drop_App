@@ -14,10 +14,11 @@ interface Props {
     token: string,
     reactionStatus: boolean,
     id_user: number,
-    goToDetails: (id_user: number) => void
+    goToDetails: (id_user: number) => void,
+    goToArticleDetails: (pub: Omit<IPublication, "onCommentPress" | "checkComment">) => void
 }
 
-const PublicationAccueil = ({ pub,token, reactionStatus, id_user, goToDetails }: Props) => {
+const PublicationAccueil = ({ pub,token, reactionStatus, id_user, goToDetails, goToArticleDetails }: Props) => {
 
     const [isLiked, setIsLiked] = useState(reactionStatus);
     const [reactions, setReactions] = useState(pub.nombreReactions);
@@ -77,7 +78,7 @@ const PublicationAccueil = ({ pub,token, reactionStatus, id_user, goToDetails }:
                 }
                 <Pressable 
                     onPress={() => {
-                        // router.push('/det')
+                        goToArticleDetails(pub)
                     }}
                     className="w-full min-h-[250] max-h-[500] flex justify-center items-center bg-lime-50 rounded-xl-2-black">
                     {
