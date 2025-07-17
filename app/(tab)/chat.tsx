@@ -14,12 +14,12 @@ const dataUserList: UserList[] = [
     {
         id: 'ul1',
         nom: 'Fano',
-        imagePdp: require('../././assets/images/react-logo.png'),
+        imagePdp: require('../assets/images/vendeur1.png'),
     },
     {
         id: 'ul2',
         nom: 'Mario',
-        imagePdp: require('../././assets/images/react-logo.png'),
+        imagePdp: require('../assets/images/vendeur1.png'),
     },
     // {
     //     id: 'ul3',
@@ -54,7 +54,7 @@ export default function Chat() {
         <View className="w-full h-full p-[20] bg-white flex flex-col justify-start gap-[20]">
             <View className="w-full h-[50] flex flex-row justify-between items-center">
                 <Pressable onPress={handleGoBack} className="w-[10%]  flex justify-center">
-                    <Image source={require("./assets/icons/Back.png")} className="w-[30] h-[30]"/>
+                    <Image source={require("../assets/icons/Back.png")} className="w-[30] h-[30]"/>
                 </Pressable>
                 <Text className="w-[90%] pr-8 text-4xl text-center text-blackPrimary font-syne-bold">Messages</Text>
             </View>
@@ -70,7 +70,7 @@ export default function Chat() {
                             } 
                             className="w-full h-[70] flex flex-row items-center px-5"
                         >
-                            <Image source={require("./assets/images/vendeur1.png")} className="w-[50] h-[50] rounded-full mr-3" />
+                            <Image source={require("../assets/images/vendeur1.png")} className="w-[50] h-[50] rounded-full mr-3" />
                             <View className="flex flex-row items-center w-[70%]">
                                 <View className="w-full flex flex-col">
                                     <Text className="text-lg font-syne-regular">{item.nom}</Text>

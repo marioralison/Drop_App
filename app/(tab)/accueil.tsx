@@ -4,17 +4,17 @@ import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Keyboard } from 'react-native';
 
-import NavigationBottom from "./views/components/navigation";
-import HeaderAccueil from "./views/components/layouts/accueil/Header";
-import ProduitLocal from "./views/components/layouts/accueil/ProduitLocal";
-import SectionCategories from "./views/components/layouts/accueil/Categorie";
-import SectionAnnonce from "./views/components/layouts/accueil/AnnonceInput";
-import SectionPublicationsAccueil from "./views/components/layouts/accueil/SectionPublication";
-import SectionVendeursRecommandes from "./views/components/layouts/accueil/VendeurRecommandation";
+import HeaderAccueil from "../views/components/layouts/accueil/Header";
+import ProduitLocal from "../views/components/layouts/accueil/ProduitLocal";
+import SectionCategories from "../views/components/layouts/accueil/Categorie";
+import SectionAnnonce from "../views/components/layouts/accueil/AnnonceInput";
+import SectionPublicationsAccueil from "../views/components/layouts/accueil/SectionPublication";
+import SectionVendeursRecommandes from "../views/components/layouts/accueil/VendeurRecommandation";
 import { Dictionnaire, IBestUser, IComment, IProduct, IPublication, IUser, UserRole } from "@/helpers/data.type";
 import { getValueFor, save } from "@/helpers/store.access";
 import Toast from "react-native-toast-message";
 import { commentAPost, getAllComment, getInfoById, getLocalProduct, getPostReactedByUser, getPubs, getSomeUser } from "@/helpers/api";
+
 
 
 export default function Accueil() {
@@ -27,9 +27,10 @@ export default function Accueil() {
     const [product, setProduct] = useState<IProduct[]>([]);
     const [content, setContent] = useState<string>("");
     const [idPostSelected, setIdPostSelected] = useState<number>(0);
-
+ 
     const bottomSheetRef = useRef<BottomSheet>(null);
     const snapPoints = useMemo(() => ['50%', '90%'], []);
+
 
     useEffect(() => {
         const setUserPropriety = async () => {
@@ -146,10 +147,6 @@ export default function Accueil() {
                         }
                     </View>
                 </ScrollView>
-
-                <View className="w-full h-[9%] flex justify-center items-center">
-                    <NavigationBottom />
-                </View>
                 <Toast/>
             </View>
 
@@ -181,7 +178,7 @@ export default function Accueil() {
                                             (
                                                 { uri: c.user.profile_url }
                                             ) : (
-                                                require("./assets/icons/user.png")
+                                                require("../assets/icons/user.png")
                                             )
                                         } className="w-[50] h-[50]" />
                                         <View className="w-full flex flex-col">
@@ -224,7 +221,7 @@ export default function Accueil() {
                                 }
                             }} 
                         >
-                            <Image source={require("./assets/icons/Sent.png")} className="w-[30] h-[30]" />
+                            <Image source={require("../assets/icons/Sent.png")} className="w-[30] h-[30]" />
                         </Pressable>
                     </View>
                 </BottomSheetView>

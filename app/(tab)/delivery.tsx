@@ -14,7 +14,7 @@ const TabContent = ({ tabId }: { tabId: string }) => {
         <ScrollView className="w-full h-[82%]" showsVerticalScrollIndicator={false}>
           <View className="w-full h-[110] mt-[10] flex flex-row justify-between items-center py-[8] px-[12] rounded-2xl bg-gray-100">
             <View className="flex justify-center items-center">
-              <Image source={require("./assets/images/shoes.png")} className="h-[80] w-[80]"/>
+              <Image source={require("../assets/images/shoes.png")} className="h-[80] w-[80]"/>
             </View>
 
             <View>
@@ -40,7 +40,7 @@ const TabContent = ({ tabId }: { tabId: string }) => {
           </View>
           <View className="w-full h-[110] mt-[10] flex flex-row justify-between items-center py-[8] px-[12] rounded-2xl bg-gray-100">
             <View className="flex justify-center items-center">
-              <Image source={require("./assets/images/shoes.png")} className="h-[80] w-[80]"/>
+              <Image source={require("../assets/images/shoes.png")} className="h-[80] w-[80]"/>
             </View>
 
             <View>
@@ -66,7 +66,7 @@ const TabContent = ({ tabId }: { tabId: string }) => {
           </View>
           <View className="w-full h-[110] mt-[10] flex flex-row justify-between items-center py-[8] px-[12] rounded-2xl bg-gray-100">
             <View className="flex justify-center items-center">
-              <Image source={require("./assets/images/shoes.png")} className="h-[80] w-[80]"/>
+              <Image source={require("../assets/images/shoes.png")} className="h-[80] w-[80]"/>
             </View>
 
             <View>
@@ -92,7 +92,7 @@ const TabContent = ({ tabId }: { tabId: string }) => {
           </View>
           <View className="w-full h-[110] mt-[10] flex flex-row justify-between items-center py-[8] px-[12] rounded-2xl bg-gray-100">
             <View className="flex justify-center items-center">
-              <Image source={require("./assets/images/shoes.png")} className="h-[80] w-[80]"/>
+              <Image source={require("../assets/images/shoes.png")} className="h-[80] w-[80]"/>
             </View>
 
             <View>
@@ -118,7 +118,7 @@ const TabContent = ({ tabId }: { tabId: string }) => {
           </View>
           <View className="w-full h-[110] mt-[10] flex flex-row justify-between items-center py-[8] px-[12] rounded-2xl bg-gray-100">
             <View className="flex justify-center items-center">
-              <Image source={require("./assets/images/shoes.png")} className="h-[80] w-[80]"/>
+              <Image source={require("../assets/images/shoes.png")} className="h-[80] w-[80]"/>
             </View>
 
             <View>
@@ -144,7 +144,7 @@ const TabContent = ({ tabId }: { tabId: string }) => {
           </View>
           <View className="w-full h-[110] mt-[10] flex flex-row justify-between items-center py-[8] px-[12] rounded-2xl bg-gray-100">
             <View className="flex justify-center items-center">
-              <Image source={require("./assets/images/shoes.png")} className="h-[80] w-[80]"/>
+              <Image source={require("../assets/images/shoes.png")} className="h-[80] w-[80]"/>
             </View>
 
             <View>
@@ -170,7 +170,7 @@ const TabContent = ({ tabId }: { tabId: string }) => {
           </View>
           <View className="w-full h-[110] mt-[10] flex flex-row justify-between items-center py-[8] px-[12] rounded-2xl bg-gray-100">
             <View className="flex justify-center items-center">
-              <Image source={require("./assets/images/shoes.png")} className="h-[80] w-[80]"/>
+              <Image source={require("../assets/images/shoes.png")} className="h-[80] w-[80]"/>
             </View>
 
             <View>
@@ -201,7 +201,7 @@ const TabContent = ({ tabId }: { tabId: string }) => {
         <ScrollView className="w-full h-[82%]" showsVerticalScrollIndicator={false}>
           <View className="w-full h-[110] mt-[10] flex flex-row justify-between items-center py-[8] px-[12] rounded-2xl bg-gray-100">
             <View className="flex justify-center items-center">
-              <Image source={require("./assets/images/shoes.png")} className="h-[80] w-[80]"/>
+              <Image source={require("../assets/images/shoes.png")} className="h-[80] w-[80]"/>
             </View>
 
             <View>
@@ -227,7 +227,7 @@ const TabContent = ({ tabId }: { tabId: string }) => {
           </View>
           <View className="w-full h-[110] mt-[10] flex flex-row justify-between items-center py-[8] px-[12] rounded-2xl bg-gray-100">
             <View className="flex justify-center items-center">
-              <Image source={require("./assets/images/shoes.png")} className="h-[80] w-[80]"/>
+              <Image source={require("../assets/images/shoes.png")} className="h-[80] w-[80]"/>
             </View>
 
             <View>
@@ -253,7 +253,7 @@ const TabContent = ({ tabId }: { tabId: string }) => {
           </View>
           <View className="w-full h-[110] mt-[10] flex flex-row justify-between items-center py-[8] px-[12] rounded-2xl bg-gray-100">
             <View className="flex justify-center items-center">
-              <Image source={require("./assets/images/shoes.png")} className="h-[80] w-[80]"/>
+              <Image source={require("../assets/images/shoes.png")} className="h-[80] w-[80]"/>
             </View>
 
             <View>
@@ -279,7 +279,7 @@ const TabContent = ({ tabId }: { tabId: string }) => {
           </View>
           <View className="w-full h-[110] mt-[10] flex flex-row justify-between items-center py-[8] px-[12] rounded-2xl bg-gray-100">
             <View className="flex justify-center items-center">
-              <Image source={require("./assets/images/shoes.png")} className="h-[80] w-[80]"/>
+              <Image source={require("../assets/images/shoes.png")} className="h-[80] w-[80]"/>
             </View>
 
             <View>
@@ -305,7 +305,7 @@ const TabContent = ({ tabId }: { tabId: string }) => {
           </View>
           <View className="w-full h-[110] mt-[10] flex flex-row justify-between items-center py-[8] px-[12] rounded-2xl bg-gray-100">
             <View className="flex justify-center items-center">
-              <Image source={require("./assets/images/shoes.png")} className="h-[80] w-[80]"/>
+              <Image source={require("../assets/images/shoes.png")} className="h-[80] w-[80]"/>
             </View>
 
             <View>
@@ -331,7 +331,7 @@ const TabContent = ({ tabId }: { tabId: string }) => {
           </View>
           <View className="w-full h-[110] mt-[10] flex flex-row justify-between items-center py-[8] px-[12] rounded-2xl bg-gray-100">
             <View className="flex justify-center items-center">
-              <Image source={require("./assets/images/shoes.png")} className="h-[80] w-[80]"/>
+              <Image source={require("../assets/images/shoes.png")} className="h-[80] w-[80]"/>
             </View>
 
             <View>
@@ -357,7 +357,7 @@ const TabContent = ({ tabId }: { tabId: string }) => {
           </View>
           <View className="w-full h-[110] mt-[10] flex flex-row justify-between items-center py-[8] px-[12] rounded-2xl bg-gray-100">
             <View className="flex justify-center items-center">
-              <Image source={require("./assets/images/shoes.png")} className="h-[80] w-[80]"/>
+              <Image source={require("../assets/images/shoes.png")} className="h-[80] w-[80]"/>
             </View>
 
             <View>
@@ -397,7 +397,7 @@ const Delivery = () => {
 
       <View className="w-full h-[50] flex flex-row justify-between items-center">
         <Pressable onPress={handleGoBack} className="w-[10%]  flex justify-center">
-            <Image source={require("./assets/icons/Back.png")} className="w-[30] h-[30]"/>
+            <Image source={require("../assets/icons/Back.png")} className="w-[30] h-[30]"/>
         </Pressable>
         <Text className="w-[90%] pr-8 text-4xl text-center text-blackPrimary font-syne-bold">Livraisons</Text>
       </View>

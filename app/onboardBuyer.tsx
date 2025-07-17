@@ -72,7 +72,7 @@ export default function OnboardBuyer(){
                 <Pressable 
                     onPress={async () => {
                         const isSigned = await signupUser(addPreferedArticle(articles,user));
-                        if (isSigned) router.push('/accueil')
+                        if (isSigned) router.push('/(tab)/accueil')
                     }} 
                     className="w-full h-[60] flex justify-center items-center bg-vert px-6 py-5 rounded-xl"
                 >

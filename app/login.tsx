@@ -48,7 +48,7 @@ export default function Login() {
                     <Pressable 
                         onPress={async () => {
                             const isLoged = await loginUser(user);
-                            if (isLoged) router.push('/accueil');
+                            if (isLoged) router.push('/(tab)/accueil');
                         }} 
                         className="w-full h-[60] flex justify-center items-center bg-vert px-6 py-5 rounded-xl">
                         <Text className="font-lato-bold text-lg">Confirmer</Text>
