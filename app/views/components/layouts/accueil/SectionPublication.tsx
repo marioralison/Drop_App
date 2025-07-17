@@ -15,7 +15,7 @@ interface Props {
 const SectionPublicationsAccueil = ({ onCommentPress, checkComment , pubs, token, postReactedId }: Props ) => {
 
     return (
-        <View className="w-full flex flex-col gap-[22]">
+        <View className="w-full h-[auto] flex flex-col gap-[22]">
             {
                 pubs.map((publication, index) => {
                     const pub: IPublication = {...publication, onCommentPress: onCommentPress, checkComment: checkComment}; 

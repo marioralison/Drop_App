@@ -32,9 +32,9 @@ const PublicationAccueil = ({ pub,token, reactionStatus }: Props) => {
     const heartIconSource = isLiked ? HeartFilledIcon : HeartIcon;
 
     return (
-        <View className="w-full h-[420] flex-col justify-center items-center border-2 border-[green]">
-            <View className="w-full h-[70] flex flex-row justify-between items-center">
-                <View className="w-fit h-full flex flex-row justify-center items-center">
+        <View className="w-full h-[auto] flex-col justify-center items-center">
+            <View className="w-full h-[80] flex flex-row justify-between items-center">
+                <View className="w-fit h-full flex flex-row justify-start items-center gap-[10]">
                     <Image source={
                         pub.imageUtilisateurSource ? (
                             { uri: pub.imageUtilisateurSource }
@@ -42,29 +42,32 @@ const PublicationAccueil = ({ pub,token, reactionStatus }: Props) => {
                             require("../../assets/icons/user.png")
                         )
                     } 
-                    className="w-[50] h-[50]" />
-                    <View className="w-fit h-full justify-center items-start">
-                        <Text className="text-2xl px-[16] text-blackPrimary font-lato-bold">{pub.nomUtilisateur}</Text>
-                        <Text className="text-xl px-[16] text-blackPrimary font-lato-light">{pub.villeUtilisateur}</Text>
+                    className="w-[50] h-[50] rounded-full" />
+                    <View className="h-full justify-center items-start">
+                        <Text className="text-xl text-blackPrimary font-lato-bold">{pub.nomUtilisateur}</Text>
+                        <Text className="text-xl text-blackPrimary font-lato-light">{pub.villeUtilisateur}</Text>
                     </View>
                 </View>
                 <View className="w-fit h-full justify-center items-end">
-                    <Text className="text-2xl text-blackPrimary font-lato-bold">{pub.datePublication}</Text>
+                    <Text className="text-xl text-blackPrimary font-lato-bold">{pub.datePublication}</Text>
                     <Text className="text-xl text-blackPrimary font-lato-light">{pub.heurePublication}</Text>
                 </View>
             </View>
-            <View className="w-full h-[270] flex justify-center items-center gap-[10]">
+            <View className="w-full h-fit flex justify-center items-center gap-[10]">
                 {
-                    (pub.type != 'SIMPLE_POST') && <Text className="text-2xl text-blackPrimary font-lato-regular">{pub.textePublication}</Text>
+                    (pub.type != 'SIMPLE_POST') && <Text className="line-clamp-3 text-2xl text-left w-full text-blackPrimary font-lato-regular">
+                        {pub.textePublication}
+                        {/* Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. */}
+                    </Text>
                 }
                 <Pressable 
                     onPress={() => {
                         // router.push('/det')
                     }}
-                    className="w-full h-[230] flex justify-center items-center bg-lime-50 rounded-xl border-2 border-black">
+                    className="w-full min-h-[250] max-h-[500] flex justify-center items-center bg-lime-50 rounded-xl-2-black">
                     {
                         (pub.type == 'SIMPLE_POST') ? (
-                            <Text className="text-3xl font-lato-bold"> {pub.textePublication} </Text>
+                            <Text className="text-3xl w-full px-[10] text-center font-lato-bold"> {pub.textePublication} </Text>
                         ) : (
                             <Image source={
                                 pub.imagePublicationSource ? (
@@ -72,7 +75,7 @@ const PublicationAccueil = ({ pub,token, reactionStatus }: Props) => {
                                 ) : (
                                     require("../../assets/icons/user.png")
                                 )
-                            } className="w-[180] h-[180]" />
+                            } className="w-full h-full rounded-lg" />
                         )
                     }
                 </Pressable>

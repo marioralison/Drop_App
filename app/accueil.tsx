@@ -123,19 +123,19 @@ export default function Accueil() {
                             onCategoryPress={() => {}}
                             selectedCategoryId={null}
                         />
-                        <View className="w-full h-[1] bg-black"></View>
+                        <View className="w-full h-[auto] bg-black"></View>
                         {
                             Array.from({ length: Math.ceil(publications.length / 6) }).map((_,i) => {
                                 const pgroup = publications.slice(i * 6, (i * 6) + 6 );
                                 return (
-                                    <View className="wflex justify-center items-center" key={i}>
+                                    <View className="w-full flex justify-center items-center" key={i}>
                                         <SectionPublicationsAccueil 
                                             postReactedId={idPostReacted} 
                                             token={tokenUser} pubs={pgroup} 
                                             onCommentPress={openCommentSection} 
                                             checkComment={checkComment}
                                         />
-                                        <View className="w-full h-[1] bg-black"></View>
+                                        <View className="w-full h-[auto] bg-black"></View>
                                         {
                                             i != Math.ceil(publications.length / 6) && 
                                             <SectionVendeursRecommandes seller={bestSeller? bestSeller : []} />
