@@ -80,7 +80,7 @@ interface IProduct {
     id: number;
     description: string;
     unit_price: number;
-    image_url: string;
+    image_url: string | null;
     id_user: number;
     user: {
         lastname: string;

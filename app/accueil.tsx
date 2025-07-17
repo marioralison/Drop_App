@@ -12,7 +12,7 @@ import SectionAnnonce from "./views/components/layouts/accueil/AnnonceInput";
 import SectionPublicationsAccueil from "./views/components/layouts/accueil/SectionPublication";
 import SectionVendeursRecommandes from "./views/components/layouts/accueil/VendeurRecommandation";
 import { Dictionnaire, IBestUser, IComment, IProduct, IPublication, IUser, UserRole } from "@/helpers/data.type";
-import { getValueFor } from "@/helpers/store.access";
+import { getValueFor, save } from "@/helpers/store.access";
 import Toast from "react-native-toast-message";
 import { commentAPost, getAllComment, getInfoById, getLocalProduct, getPostReactedByUser, getPubs, getSomeUser } from "@/helpers/api";
 
@@ -66,7 +66,7 @@ export default function Accueil() {
                 setIdPostReact(tmp);
 
                 // to get some pubs
-                const pubs: Omit<IPublication,"onCommentPress" | "checkComment">[] | null = await getPubs(11);
+                const pubs: Omit<IPublication,"onCommentPress" | "checkComment">[] | null = await getPubs(12);
                 if (pubs === null) return;
                 setPublications(pubs);
 

@@ -119,12 +119,13 @@ function decodeHtmlEntities(text: string,ref: number = 0): string {
     '&gt;': '>',
     '&quot;': '"',
     '&#39;': "'",
+    '&#x27;': "'"
   };
 
   if (!text){
     throw new Error("ref "+ref);
   }
-  const url: string = text.replace(/&#x2F;|&amp;|&lt;|&gt;|&quot;|&#39;/g, match => entities[match] || match);
+  const url: string = text.replace(/&#x2F;|&amp;|&lt;|&gt;|&quot;|&#39;|&#x27;/g, match => entities[match] || match);
   return url;
 }
 

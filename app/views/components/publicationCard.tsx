@@ -4,6 +4,7 @@ import { IPublication } from "@/helpers/data.type";
 import { likeOrInlikePost } from "@/helpers/api";
 import Toast from "react-native-toast-message";
 import { router } from "expo-router";
+import { decodeHtmlEntities } from "@/helpers/library";
 
 const HeartIcon = require("../../assets/icons/Heart.png")
 const HeartFilledIcon = require("../../assets/icons/HeartGreen.png");
@@ -57,7 +58,6 @@ const PublicationAccueil = ({ pub,token, reactionStatus }: Props) => {
                 {
                     (pub.type != 'SIMPLE_POST') && <Text className="line-clamp-3 text-2xl text-left w-full text-blackPrimary font-lato-regular">
                         {pub.textePublication}
-                        {/* Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. */}
                     </Text>
                 }
                 <Pressable 
