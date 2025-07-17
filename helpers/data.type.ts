@@ -24,6 +24,7 @@ interface IPublication {
     id: number;
     type: string;
     nomUtilisateur: string;
+    id_user: number;
     villeUtilisateur: string;
     datePublication: string;
     heurePublication: string;

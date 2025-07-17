@@ -12,10 +12,12 @@ const HeartFilledIcon = require("../../assets/icons/HeartGreen.png");
 interface Props {
     pub: IPublication,
     token: string,
-    reactionStatus: boolean
+    reactionStatus: boolean,
+    id_user: number,
+    goToDetails: (id_user: number) => void
 }
 
-const PublicationAccueil = ({ pub,token, reactionStatus }: Props) => {
+const PublicationAccueil = ({ pub,token, reactionStatus, id_user, goToDetails }: Props) => {
 
     const [isLiked, setIsLiked] = useState(reactionStatus);
     const [reactions, setReactions] = useState(pub.nombreReactions);
@@ -36,16 +38,29 @@ const PublicationAccueil = ({ pub,token, reactionStatus }: Props) => {
         <View className="w-full h-[auto] flex-col justify-center items-center">
             <View className="w-full h-[80] flex flex-row justify-between items-center">
                 <View className="w-fit h-full flex flex-row justify-start items-center gap-[10]">
-                    <Image source={
-                        pub.imageUtilisateurSource ? (
-                            { uri: pub.imageUtilisateurSource }
-                        ) : (
-                            require("../../assets/icons/user.png")
-                        )
-                    } 
-                    className="w-[50] h-[50] rounded-full" />
+                    <TouchableOpacity
+                        onPress={() => {
+                            goToDetails(id_user)
+                        }}
+                    >
+                        <Image source={
+                            pub.imageUtilisateurSource ? (
+                                { uri: pub.imageUtilisateurSource }
+                            ) : (
+                                require("../../assets/icons/user.png")
+                            )
+                        } 
+                        className="w-[50] h-[50] rounded-full" />
+                    </TouchableOpacity>
                     <View className="h-full justify-center items-start">
-                        <Text className="text-xl text-blackPrimary font-lato-bold">{pub.nomUtilisateur}</Text>
+                        <TouchableOpacity 
+                            onPress={() => {
+                                goToDetails(id_user)
+                            }}
+                        >
+                            <Text className="text-xl text-blackPrimary font-lato-bold">{pub.nomUtilisateur}</Text>
+                        </TouchableOpacity>
+                        
                         <Text className="text-xl text-blackPrimary font-lato-light">{pub.villeUtilisateur}</Text>
                     </View>
                 </View>

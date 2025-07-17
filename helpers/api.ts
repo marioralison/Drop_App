@@ -1,5 +1,5 @@
 import Toast from "react-native-toast-message";
-import { save } from "./store.access";
+import { getValueFor, save } from "./store.access";
 import { Dictionnaire, IBestUser, IComment, IProduct, IPublication, IUser, IUserLogin, UserRole } from "./data.type";
 import { decodeHtmlEntities, formatBestUser, formatComment, formatPostReactedByUser, formatPubs } from "./library";
 
@@ -79,6 +79,8 @@ const loginUser = async (user: IUserLogin): Promise<boolean> => {
 
 const authentificationUser = async (): Promise<Pick<IUser, "id" | "role" | "email"> | null> => {
     try {
+        const id = await getValueFor("id");
+        if (!id) return null;
         const res = await fetch(DROP_API_URL+"/auth",{
             method: "POST",
             credentials: "include"
@@ -97,7 +99,7 @@ const authentificationUser = async (): Promise<Pick<IUser, "id" | "role" | "emai
     }
 }
 
-const getInfoById = async (token: string,id: string): Promise<Omit<IUser, "password" | "confirmPassword"> | null> => {
+const getInfoById = async (token: string,id: string, saveThis: boolean = true): Promise<Omit<IUser, "password" | "confirmPassword"> | null> => {
     try {
         const res = await fetch(DROP_API_URL+`/user?id_user=${id}`,{
             method: "GET",
@@ -117,6 +119,7 @@ const getInfoById = async (token: string,id: string): Promise<Omit<IUser, "passw
             return null;
         }
         const user: Omit<IUser, "password" | "confirmPassword"> = data as Omit<IUser, "password" | "confirmPassword">;
+        if (saveThis) await save("infoUser",JSON.stringify(user));
         return {...user, profile_url: (user.profile_url)? decodeHtmlEntities(user.profile_url) : null};
     } catch (error) {
         throw error;

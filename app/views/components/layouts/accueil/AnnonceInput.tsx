@@ -1,15 +1,21 @@
 import { postAnnoce } from "@/helpers/api";
 import { useState } from "react";
-import { View, Image, TextInput, Pressable, Keyboard } from "react-native";
+import { View, Image, TextInput, Pressable, Keyboard, TouchableOpacity } from "react-native";
 import Toast from "react-native-toast-message";
 
-const SectionAnnonce = (props: { url: string | null, token: string }) => {
+const SectionAnnonce = (props: {id: number, url: string | null, token: string, goToDetails: (id_user: number) => void }) => {
     const [annonce, setAnnonce] = useState<string>("");
 
     return (
         <View className="w-full h-[70] flex flex-row justify-between items-center">
             {props.url ? (
-                <Image source={{ uri: props.url }} className="w-[55] h-[55] rounded-full" />                
+                <TouchableOpacity 
+                    onPress={() => {
+                        props.goToDetails(props.id);
+                    }}
+                >
+                    <Image source={{ uri: props.url }} className="w-[55] h-[55] rounded-full" />                
+                </TouchableOpacity>
             ) : (
                 <View className="w-[45] h-[45] rounded-full bg-gray-300"></View>
             )}

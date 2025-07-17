@@ -14,6 +14,7 @@ import { Dictionnaire, IBestUser, IComment, IProduct, IPublication, IUser, UserR
 import { getValueFor, save } from "@/helpers/store.access";
 import Toast from "react-native-toast-message";
 import { commentAPost, getAllComment, getInfoById, getLocalProduct, getPostReactedByUser, getPubs, getSomeUser } from "@/helpers/api";
+import { router } from "expo-router";
 
 
 
@@ -106,6 +107,16 @@ export default function Accueil() {
         }
     }
 
+    const goToDetails = (id_user: number) => {
+        router.push({
+            pathname: "../../../userProfile",
+            params: {
+                id_user: id_user,
+                token: tokenUser
+            }
+        })
+    }
+
     const openCommentSection = (id_post: number) => {
         setIdPostSelected(id_post);
         setIsCommentSheetOpen(true);
@@ -118,7 +129,12 @@ export default function Accueil() {
                 <HeaderAccueil />
                 <ScrollView className="w-full h-[82%]" showsVerticalScrollIndicator={false}>
                     <View className="w-full h-full flex justify-start items-center gap-[14]">
-                        <SectionAnnonce token={tokenUser} url={(currentUser?.profile_url)? currentUser.profile_url : null}/>
+                        <SectionAnnonce 
+                            id={(currentUser?.id) ? currentUser.id : 0}
+                            token={tokenUser} 
+                            url={(currentUser?.profile_url)? currentUser.profile_url : null}
+                            goToDetails={goToDetails}
+                        />
                         <ProduitLocal productLocal={product} />
                         <SectionCategories
                             onCategoryPress={() => {}}
@@ -131,6 +147,7 @@ export default function Accueil() {
                                 return (
                                     <View className="w-full flex justify-center items-center gap-[14]" key={i}>
                                         <SectionPublicationsAccueil 
+                                            goToDetails={goToDetails}
                                             postReactedId={idPostReacted} 
                                             token={tokenUser} pubs={pgroup} 
                                             onCommentPress={openCommentSection} 

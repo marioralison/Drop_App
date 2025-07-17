@@ -54,6 +54,7 @@ function formatPubs(pubs: IArticleTmp[] | []): Omit<IPublication, "onCommentPres
         id: e.id,
         type: e.type,
         nomUtilisateur: e.user.firstname+" "+e.user.lastname,
+        id_user: e.id_user,
         villeUtilisateur: e.user.region+", "+e.user.pays,
         datePublication: formatDateTime(e.create_at).date+"",
         heurePublication: formatDateTime(e.create_at).time+"",
