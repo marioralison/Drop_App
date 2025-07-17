@@ -13,10 +13,14 @@ import Seller from "./views/Seller/Seller";
 import Accueil from "./accueil";
 import Delivery from "./delivery";
 import AddWallet from "./addWallet";
+
+import Details from "./details";
 import OrderTracking from "./orderTracking";
 import WalletForm from "./walletForm";
 import Notifications from "./notification";
-import Message from "./message";
+import UserProfile from "./userProfile";
+import LocalProducts from "./localProduct";
+
 
 //import Panier from "./panier";
 
@@ -38,12 +42,18 @@ export default function Index() {
   return (
     <View>
         {/* <Message></Message> */}
-        <Welcome></Welcome>
+        {/* <Welcome></Welcome> */}
         {/* <OrderTracking></OrderTracking> */}
         {/* <AddWallet></AddWallet> */}
         {/* <WalletForm></WalletForm> */}
         {/* <Panier></Panier> */}
         {/* <Notifications></Notifications> */}
+
+        {/* <Details></Details> */}
+        {/* <UserProfile></UserProfile> */}
+
+        <LocalProducts></LocalProducts>
+
     </View>
   );
 }
