@@ -50,7 +50,7 @@ const SectionProduitsLocaux = ({ productLocal }: Props ) => {
         <View className="w-full h-[220] flex justify-between items-center gap-[12]">
             <View className="w-full h-fit flex flex-row justify-between items-center">
                 <Text className="text-2xl text-blackPrimary font-syne-bold">Produits locaux</Text>
-                <Text className="text-2xl text-blackPrimary font-lato-regular">Voir plus</Text>
+                <Text className="text-lg text-blackPrimary font-lato-regular">Voir plus</Text>
             </View>
             <FlatList
                 data={productLocal}

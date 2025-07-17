@@ -116,7 +116,7 @@ export default function Accueil() {
             <View className="w-full h-full bg-white px-[20] py-[20] flex gap-[2%]">
                 <HeaderAccueil />
                 <ScrollView className="w-full h-[82%]" showsVerticalScrollIndicator={false}>
-                    <View className="w-full h-full flex justify-start items-center gap-[22]">
+                    <View className="w-full h-full flex justify-start items-center gap-[14]">
                         <SectionAnnonce token={tokenUser} url={(currentUser?.profile_url)? currentUser.profile_url : null}/>
                         <ProduitLocal productLocal={product} />
                         <SectionCategories
@@ -128,7 +128,7 @@ export default function Accueil() {
                             Array.from({ length: Math.ceil(publications.length / 6) }).map((_,i) => {
                                 const pgroup = publications.slice(i * 6, (i * 6) + 6 );
                                 return (
-                                    <View className="w-full flex justify-center items-center" key={i}>
+                                    <View className="w-full flex justify-center items-center gap-[14]" key={i}>
                                         <SectionPublicationsAccueil 
                                             postReactedId={idPostReacted} 
                                             token={tokenUser} pubs={pgroup} 
