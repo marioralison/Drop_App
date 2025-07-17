@@ -32,7 +32,7 @@ const PublicationAccueil = ({ pub,token, reactionStatus }: Props) => {
     const heartIconSource = isLiked ? HeartFilledIcon : HeartIcon;
 
     return (
-        <View className="w-full h-[420]">
+        <View className="w-full h-[420] flex-col justify-center items-center border-2 border-[green]">
             <View className="w-full h-[70] flex flex-row justify-between items-center">
                 <View className="w-fit h-full flex flex-row justify-center items-center">
                     <Image source={
@@ -53,7 +53,7 @@ const PublicationAccueil = ({ pub,token, reactionStatus }: Props) => {
                     <Text className="text-xl text-blackPrimary font-lato-light">{pub.heurePublication}</Text>
                 </View>
             </View>
-            <View className="w-full h-[270] flex justify-center items-start gap-[10]">
+            <View className="w-full h-[270] flex justify-center items-center gap-[10]">
                 {
                     (pub.type != 'SIMPLE_POST') && <Text className="text-2xl text-blackPrimary font-lato-regular">{pub.textePublication}</Text>
                 }
@@ -61,7 +61,7 @@ const PublicationAccueil = ({ pub,token, reactionStatus }: Props) => {
                     onPress={() => {
                         // router.push('/det')
                     }}
-                    className="w-full h-[230] flex justify-center items-center bg-lime-50 rounded-xl">
+                    className="w-full h-[230] flex justify-center items-center bg-lime-50 rounded-xl border-2 border-black">
                     {
                         (pub.type == 'SIMPLE_POST') ? (
                             <Text className="text-3xl font-lato-bold"> {pub.textePublication} </Text>
@@ -93,7 +93,7 @@ const PublicationAccueil = ({ pub,token, reactionStatus }: Props) => {
                     </View>
                 </View>
                 <View className="w-fit h-full justify-center items-end gap-[8]">
-                    <Text className="text-2xl text-blackPrimary font-lato-bold">{(pub.prix != 'null') ? (pub.prix) : ("contact us")}</Text>
+                    <Text className="text-2xl text-blackPrimary font-lato-bold">{(pub.prix != 'null') ? (pub.prix)+ " Ar" : ("contact us")}</Text>
                     <TouchableOpacity className="w-fit h-fit flex flex-row justify-center items-center gap-[8]" 
                     onPress={async () => {
                         try {

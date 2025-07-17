@@ -57,7 +57,7 @@ function formatPubs(pubs: IArticleTmp[] | []): Omit<IPublication, "onCommentPres
         villeUtilisateur: e.user.region+", "+e.user.pays,
         datePublication: formatDateTime(e.create_at).date+"",
         heurePublication: formatDateTime(e.create_at).time+"",
-        textePublication: e.description,
+        textePublication: decodeHtmlEntities(e.description),
         imagePublicationSource: (e.image_url)? decodeHtmlEntities(e.image_url) : null,
         note: 4.9,
         nombreReactions: e._count.reaction,

@@ -334,11 +334,17 @@ const getLocalProduct = async (country: string): Promise<IProduct[]> => {
             })
             return [];
         }
-        const product: IProduct[] = data as IProduct[]
-        product.map((p) => {
-            return {...p, image_url: (p.image_url)? decodeHtmlEntities(p.image_url) : null}
-        })
-        return data as IProduct[];
+        const product: IProduct[] = data as IProduct[];
+        const decodedProduct: IProduct[] = product.map((p) => ({
+            ...p, 
+            description: decodeHtmlEntities(p.description),
+            image_url: (p.image_url)? decodeHtmlEntities(p.image_url) : "",
+            user: {
+                ...p.user,
+                profile_url: (p.user.profile_url) ? decodeHtmlEntities(p.user.profile_url) : null,
+            } 
+        }))
+        return decodedProduct;
     } catch (error) {
         Toast.show({
             type: "error",

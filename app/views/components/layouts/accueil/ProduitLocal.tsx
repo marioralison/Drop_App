@@ -19,11 +19,18 @@ const SectionProduitsLocaux = ({ productLocal }: Props ) => {
                 <Text className="text-xl text-blackPrimary font-lato-regular">{item.user.lastname}</Text>
             </View>
             <View className="w-full h-[70%] flex justify-center items-center">
-                <Image source={{ uri: item.image_url }} className="w-[100] h-[100]" resizeMode="contain" />
+                <Image source={
+                    item.image_url?
+                    (
+                        { uri: item.image_url }
+                    ) : (
+                        require("../../../../assets/icons/user.png")
+                    )
+                } className="w-[100] h-[100]" resizeMode="contain" />
             </View>
             <View className="w-full h-fit flex flex-row justify-between items-center">
                 <Text className="text-xl text-blackPrimary font-lato-regular">{item.description}</Text>
-                <Text className="text-xl text-blackPrimary font-lato-bold">{item.unit_price}</Text>
+                <Text className="text-xl text-blackPrimary font-lato-bold">{(item.unit_price)? (item.unit_price)+ " Ar" : "contact us"}</Text>
             </View>
         </View>
     );

@@ -66,7 +66,7 @@ export default function Accueil() {
                 setIdPostReact(tmp);
 
                 // to get some pubs
-                const pubs: Omit<IPublication,"onCommentPress" | "checkComment">[] | null = await getPubs(10);
+                const pubs: Omit<IPublication,"onCommentPress" | "checkComment">[] | null = await getPubs(11);
                 if (pubs === null) return;
                 setPublications(pubs);
 
@@ -124,15 +124,26 @@ export default function Accueil() {
                             selectedCategoryId={null}
                         />
                         <View className="w-full h-[1] bg-black"></View>
-                        <SectionPublicationsAccueil 
-                            postReactedId={idPostReacted} 
-                            token={tokenUser} pubs={publications} 
-                            onCommentPress={openCommentSection} 
-                            checkComment={checkComment}
-                        />
-                        <View className="w-full h-[1] bg-black"></View>
-                        
-                        <SectionVendeursRecommandes seller={bestSeller? bestSeller : []} />
+                        {
+                            Array.from({ length: Math.ceil(publications.length / 6) }).map((_,i) => {
+                                const pgroup = publications.slice(i * 6, (i * 6) + 6 );
+                                return (
+                                    <View className="wflex justify-center items-center" key={i}>
+                                        <SectionPublicationsAccueil 
+                                            postReactedId={idPostReacted} 
+                                            token={tokenUser} pubs={pgroup} 
+                                            onCommentPress={openCommentSection} 
+                                            checkComment={checkComment}
+                                        />
+                                        <View className="w-full h-[1] bg-black"></View>
+                                        {
+                                            i != Math.ceil(publications.length / 6) && 
+                                            <SectionVendeursRecommandes seller={bestSeller? bestSeller : []} />
+                                        }
+                                    </View>
+                                )
+                            })
+                        }
                     </View>
                 </ScrollView>
 
