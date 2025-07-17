@@ -1,22 +1,26 @@
 import "./global.css";
-import { ActivityIndicator, View } from "react-native";
+import { ActivityIndicator, View, Text, TouchableOpacity } from "react-native";
 import { useFonts } from 'expo-font';
-import { Stack, Tabs, Link } from 'expo-router';
+import { Stack, Tabs, Link, router } from 'expo-router';
 
 import Welcome from "./welcome";
 
-import Chat from "./chat";
+import Chat from "./(tabs)/chat";
 import SelectAccount from "./selectAccount";
 import BuyerForm from "./buyerForm";
 import OnboardBuyer from "./onboardBuyer";
 import Seller from "./views/Seller/Seller";
-import Accueil from "./accueil";
-import Delivery from "./delivery";
+import Accueil from "./(tabs)/accueil";
+import Delivery from "./(tabs)/delivery";
 import AddWallet from "./addWallet";
+
+import Details from "./details";
 import OrderTracking from "./orderTracking";
 import WalletForm from "./walletForm";
 import Notifications from "./notification";
-import Message from "./message";
+import UserProfile from "./userProfile";
+import LocalProducts from "./localProduct";
+
 
 //import Panier from "./panier";
 
@@ -38,12 +42,23 @@ export default function Index() {
   return (
     <View>
         {/* <Message></Message> */}
-        <Welcome></Welcome>
+        {/* <Welcome></Welcome> */}
         {/* <OrderTracking></OrderTracking> */}
         {/* <AddWallet></AddWallet> */}
         {/* <WalletForm></WalletForm> */}
         {/* <Panier></Panier> */}
         {/* <Notifications></Notifications> */}
+
+        {/* <Details></Details> */}
+        {/* <UserProfile></UserProfile> */}
+        {/* <LocalProducts></LocalProducts> */}
+         {/* <Accueil></Accueil> */}
+        <TouchableOpacity onPress={() => router.push("/accueil")} className="flex items-center justify-center h-full">
+          <Text className="text-2xl text-center font-syne-bold">Démarrer</Text>
+        
+        </TouchableOpacity>
+         
+
     </View>
   );
 }
