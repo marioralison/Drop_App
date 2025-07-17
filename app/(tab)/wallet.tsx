@@ -1,7 +1,8 @@
 import { View, Pressable, Image, Text, TextInput } from "react-native"
 import { useRouter } from 'expo-router';
-
+import { useState } from "react";
 export default function Wallet() {
+    const [isVisible, setIsVisible] = useState(false);
 
     const router = useRouter();
 
@@ -14,7 +15,7 @@ export default function Wallet() {
 
             <View className="w-full h-[50] flex flex-row justify-between items-center">
                 <Pressable onPress={handleGoBack} className="w-[10%] flex justify-center">
-                    <Image source={require("./assets/icons/Back.png")} className="w-[30] h-[30]"/>
+                    <Image source={require("../assets/icons/Back.png")} className="w-[30] h-[30]"/>
                 </Pressable>
                 <Text className="w-[90%] pr-8 text-4xl text-center text-blackPrimary font-syne-bold">Portefeuille</Text>
             </View>
@@ -23,9 +24,14 @@ export default function Wallet() {
                 <View className="w-full flex justify-between p-[20] bg-vert rounded-3xl">
                     <Text className="font-lato-bold text-white text-lg">Balance du compte</Text>
                     <View className="w-full h-[100] flex flex-row justify-start items-center">
-                        <Text className="w-[90%] font-lato-bold text-white text-6xl">$45,687.52</Text>
-                        <Image source={require("./assets/icons/Eye.png")} className="w-[30] h-[30]"/>
+                        <Text className="w-[90%] font-lato-bold text-white text-6xl">
+                            {isVisible ? "$45,687.52" : "••••••••"}
+                        </Text>
+                        <Pressable onPress={() => setIsVisible(!isVisible)}>
+                            <Image source={require("../assets/icons/Eye.png")} className="w-[30] h-[30]" />
+                        </Pressable>
                     </View>
+
                     <View className="w-full flex flex-row justify-start items-center">
                         <View className="w-[50%] flex flex-col items-start justify-center">
                             <Text className="font-lato-bold text-white text-lg">N° Compte</Text>
@@ -43,7 +49,7 @@ export default function Wallet() {
                         <Text className="font-lato-bold text-white text-lg">Retirer argent</Text>
                     </Pressable>
                     <Pressable className="w-full h-[60] flex flex-row justify-center items-center gap-[10] px-6 py-5 rounded-xl">
-                        <Image source={require("./assets/icons/left-right.png")} className="w-[30] h-[30]"/>
+                        <Image source={require("../assets/icons/left-right.png")} className="w-[30] h-[30]"/>
                         <Text className="font-lato-bold text-lg text-black">Changer portefeuille</Text>
                     </Pressable>
                 </View>
@@ -57,7 +63,7 @@ export default function Wallet() {
                     <View className="w-full flex flex-col justify-center items-center gap-[10]">
                         <View className="w-full p-[10] flex flex-row items-center">
                             <View className="w-[20%]">
-                                <Image source={require("../app/assets/icons/user.png")} className="w-[55] h-[55]" />
+                                <Image source={require("../assets/icons/user.png")} className="w-[55] h-[55]" />
                             </View>
                             <View className="w-[80%] h-full flex flex-row justify-between items-center">
                                 <View className="flex flex-col">
@@ -72,7 +78,7 @@ export default function Wallet() {
                         </View>
                         <View className="w-full p-[10] flex flex-row items-center">
                             <View className="w-[20%]">
-                                <Image source={require("../app/assets/icons/user.png")} className="w-[55] h-[55]" />
+                                <Image source={require("../assets/icons/user.png")} className="w-[55] h-[55]" />
                             </View>
                             <View className="w-[80%] h-full flex flex-row justify-between items-center">
                                 <View className="flex flex-col">
@@ -87,7 +93,7 @@ export default function Wallet() {
                         </View>
                         <View className="w-full p-[10] flex flex-row items-center">
                             <View className="w-[20%]">
-                                <Image source={require("../app/assets/icons/user.png")} className="w-[55] h-[55]" />
+                                <Image source={require("../assets/icons/user.png")} className="w-[55] h-[55]" />
                             </View>
                             <View className="w-[80%] h-full flex flex-row justify-between items-center">
                                 <View className="flex flex-col">
@@ -102,7 +108,7 @@ export default function Wallet() {
                         </View>
                         <View className="w-full p-[10] flex flex-row items-center">
                             <View className="w-[20%]">
-                                <Image source={require("../app/assets/icons/user.png")} className="w-[55] h-[55]" />
+                                <Image source={require("../assets/icons/user.png")} className="w-[55] h-[55]" />
                             </View>
                             <View className="w-[80%] h-full flex flex-row justify-between items-center">
                                 <View className="flex flex-col">
@@ -118,7 +124,6 @@ export default function Wallet() {
                     </View>
                 </View>
             </View>
-
         </View>
     )
 }

@@ -27,7 +27,20 @@ async function getValueFor(key: string): Promise<string | null> {
     }
 }
 
+async function deleteOne(key: string) {
+    try {
+        if (Platform.OS === "web") {
+            localStorage.removeItem(key)
+        } else {
+            await SecureStore.deleteItemAsync(key);
+        }
+    } catch (error) {
+        throw error
+    }
+}
+
 export {
     save,
-    getValueFor
+    getValueFor,
+    deleteOne
 }     

@@ -4,17 +4,18 @@ import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Keyboard } from 'react-native';
 
-import NavigationBottom from "./views/components/navigation";
-import HeaderAccueil from "./views/components/layouts/accueil/Header";
-import ProduitLocal from "./views/components/layouts/accueil/ProduitLocal";
-import SectionCategories from "./views/components/layouts/accueil/Categorie";
-import SectionAnnonce from "./views/components/layouts/accueil/AnnonceInput";
-import SectionPublicationsAccueil from "./views/components/layouts/accueil/SectionPublication";
-import SectionVendeursRecommandes from "./views/components/layouts/accueil/VendeurRecommandation";
+import HeaderAccueil from "../views/components/layouts/accueil/Header";
+import ProduitLocal from "../views/components/layouts/accueil/ProduitLocal";
+import SectionCategories from "../views/components/layouts/accueil/Categorie";
+import SectionAnnonce from "../views/components/layouts/accueil/AnnonceInput";
+import SectionPublicationsAccueil from "../views/components/layouts/accueil/SectionPublication";
+import SectionVendeursRecommandes from "../views/components/layouts/accueil/VendeurRecommandation";
 import { Dictionnaire, IBestUser, IComment, IProduct, IPublication, IUser, UserRole } from "@/helpers/data.type";
 import { getValueFor, save } from "@/helpers/store.access";
 import Toast from "react-native-toast-message";
 import { commentAPost, getAllComment, getInfoById, getLocalProduct, getPostReactedByUser, getPubs, getSomeUser } from "@/helpers/api";
+import { router } from "expo-router";
+
 
 
 export default function Accueil() {
@@ -27,9 +28,10 @@ export default function Accueil() {
     const [product, setProduct] = useState<IProduct[]>([]);
     const [content, setContent] = useState<string>("");
     const [idPostSelected, setIdPostSelected] = useState<number>(0);
-
+ 
     const bottomSheetRef = useRef<BottomSheet>(null);
     const snapPoints = useMemo(() => ['50%', '90%'], []);
+
 
     useEffect(() => {
         const setUserPropriety = async () => {
@@ -105,6 +107,27 @@ export default function Accueil() {
         }
     }
 
+    const goToDetails = (id_user: number) => {
+        router.push({
+            pathname: "../../../userProfile",
+            params: {
+                id_user: id_user,
+                token: tokenUser
+            }
+        })
+    }
+
+    const goToArticleDetails = (pub: Omit<IPublication, "onCommentPress" | "checkComment">) => {
+        if (pub.type == 'ARTICLE') {
+            router.push({
+                pathname: "/details",
+                params: {
+                    pub: JSON.stringify(pub)
+                }
+            })
+        }
+    }
+
     const openCommentSection = (id_post: number) => {
         setIdPostSelected(id_post);
         setIsCommentSheetOpen(true);
@@ -117,7 +140,12 @@ export default function Accueil() {
                 <HeaderAccueil />
                 <ScrollView className="w-full h-[82%]" showsVerticalScrollIndicator={false}>
                     <View className="w-full h-full flex justify-start items-center gap-[14]">
-                        <SectionAnnonce token={tokenUser} url={(currentUser?.profile_url)? currentUser.profile_url : null}/>
+                        <SectionAnnonce 
+                            id={(currentUser?.id) ? currentUser.id : 0}
+                            token={tokenUser} 
+                            url={(currentUser?.profile_url)? currentUser.profile_url : null}
+                            goToDetails={goToDetails}
+                        />
                         <ProduitLocal productLocal={product} />
                         <SectionCategories
                             onCategoryPress={() => {}}
@@ -130,10 +158,13 @@ export default function Accueil() {
                                 return (
                                     <View className="w-full flex justify-center items-center gap-[14]" key={i}>
                                         <SectionPublicationsAccueil 
+                                            goToDetails={goToDetails}
+                                            goToArticleDetails={goToArticleDetails}
                                             postReactedId={idPostReacted} 
                                             token={tokenUser} pubs={pgroup} 
                                             onCommentPress={openCommentSection} 
                                             checkComment={checkComment}
+
                                         />
                                         <View className="w-full h-[auto] bg-black"></View>
                                         {
@@ -146,10 +177,6 @@ export default function Accueil() {
                         }
                     </View>
                 </ScrollView>
-
-                <View className="w-full h-[9%] flex justify-center items-center">
-                    <NavigationBottom />
-                </View>
                 <Toast/>
             </View>
 
@@ -181,7 +208,7 @@ export default function Accueil() {
                                             (
                                                 { uri: c.user.profile_url }
                                             ) : (
-                                                require("./assets/icons/user.png")
+                                                require("../assets/icons/user.png")
                                             )
                                         } className="w-[50] h-[50]" />
                                         <View className="w-full flex flex-col">
@@ -224,7 +251,7 @@ export default function Accueil() {
                                 }
                             }} 
                         >
-                            <Image source={require("./assets/icons/Sent.png")} className="w-[30] h-[30]" />
+                            <Image source={require("../assets/icons/Sent.png")} className="w-[30] h-[30]" />
                         </Pressable>
                     </View>
                 </BottomSheetView>
