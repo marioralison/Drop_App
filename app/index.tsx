@@ -1,17 +1,17 @@
 import "./global.css";
-import { ActivityIndicator, View } from "react-native";
+import { ActivityIndicator, View, Text, TouchableOpacity } from "react-native";
 import { useFonts } from 'expo-font';
-import { Stack, Tabs, Link } from 'expo-router';
+import { Stack, Tabs, Link, router } from 'expo-router';
 
 import Welcome from "./welcome";
 
-import Chat from "./chat";
+import Chat from "./(tabs)/chat";
 import SelectAccount from "./selectAccount";
 import BuyerForm from "./buyerForm";
 import OnboardBuyer from "./onboardBuyer";
 import Seller from "./views/Seller/Seller";
-import Accueil from "./accueil";
-import Delivery from "./delivery";
+import Accueil from "./(tabs)/accueil";
+import Delivery from "./(tabs)/delivery";
 import AddWallet from "./addWallet";
 
 import Details from "./details";
@@ -51,8 +51,13 @@ export default function Index() {
 
         {/* <Details></Details> */}
         {/* <UserProfile></UserProfile> */}
-
-        <LocalProducts></LocalProducts>
+        {/* <LocalProducts></LocalProducts> */}
+         {/* <Accueil></Accueil> */}
+        <TouchableOpacity onPress={() => router.push("/accueil")} className="flex items-center justify-center h-full">
+          <Text className="text-2xl text-center font-syne-bold">Démarrer</Text>
+        
+        </TouchableOpacity>
+         
 
     </View>
   );

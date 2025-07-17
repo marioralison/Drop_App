@@ -3,13 +3,13 @@ import { View, ScrollView, TextInput, Text, Image, StyleSheet, Pressable } from 
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
-import NavigationBottom from "./views/components/navigation";
-import HeaderAccueil from "./views/components/layouts/accueil/Header";
-import ProduitLocal from "./views/components/layouts/accueil/ProduitLocal";
-import SectionCategories from "./views/components/layouts/accueil/Categorie";
-import SectionAnnonce from "./views/components/layouts/accueil/AnnonceInput";
-import SectionPublicationsAccueil from "./views/components/layouts/accueil/SectionPublication";
-import SectionVendeursRecommandes from "./views/components/layouts/accueil/VendeurRecommandation";
+import NavigationBottom from "../views/components/navigation";
+import HeaderAccueil from "../views/components/layouts/accueil/Header";
+import ProduitLocal from "../views/components/layouts/accueil/ProduitLocal";
+import SectionCategories from "../views/components/layouts/accueil/Categorie";
+import SectionAnnonce from "../views/components/layouts/accueil/AnnonceInput";
+import SectionPublicationsAccueil from "../views/components/layouts/accueil/SectionPublication";
+import SectionVendeursRecommandes from "../views/components/layouts/accueil/VendeurRecommandation";
 
 export default function Accueil() {
     const bottomSheetRef = useRef<BottomSheet>(null);
@@ -29,9 +29,10 @@ export default function Accueil() {
     };
 
     return (
-        <GestureHandlerRootView style={{ flex: 1 }}>
+        <GestureHandlerRootView style={{backgroundColor:'red', flex: 1 }}>
             <View className="w-full h-full bg-white px-[20] py-[20] flex gap-[2%]">
                 <HeaderAccueil />
+                
                 <ScrollView className="w-full h-[82%]" showsVerticalScrollIndicator={false}>
                     <View className="w-full h-full flex justify-start items-center gap-[22]">
                         <SectionAnnonce />
@@ -47,9 +48,9 @@ export default function Accueil() {
                     </View>
                 </ScrollView>
 
-                <View className="w-full h-[9%] flex justify-center items-center">
+                {/* <View className="w-full h-[9%] flex justify-center items-center ">
                     <NavigationBottom />
-                </View>
+                </View> */}
             </View>
 
             {isCommentSheetOpen && (
@@ -71,7 +72,7 @@ export default function Accueil() {
                     <Text className="text-2xl text-blackPrimary font-lato-bold">Commentaire (25)</Text>
                     <View style={styles.commentList}>
                         <View className="w-full flex flex-row">
-                            <Image source={require("./assets/icons/avatar.png")} className="w-[50] h-[50]" />
+                            <Image source={require("../assets/icons/avatar.png")} className="w-[50] h-[50]" />
                             <View className="w-full flex flex-col">
                                 <Text className="text-2xl w-full text-blackPrimary font-lato-bold px-4">John Doe</Text>
                                 <Text className="text-xl w-full text-blackPrimary font-lato-regular px-4 mb-2">Tsy intelligence artificielle ilay projetTsy intelligence artificielle ilay projetTsy intelligence artificielle ilay projetTsy intelligence artificielle ilay projet</Text>
@@ -85,7 +86,7 @@ export default function Accueil() {
                             placeholder="Écrivez un commentaire..."
                             placeholderTextColor="#999"
                         />
-                        <Image source={require("./assets/icons/Sent.png")} className="w-[30] h-[30]" />
+                        <Image source={require("../assets/icons/Sent.png")} className="w-[30] h-[30]" />
                     </View>
                 </BottomSheetView>
             </BottomSheet>

@@ -15,7 +15,7 @@ const initialData: ListPanier[] = [
   {
     id: 'p1',
     nom: 'Produit 1',
-    imageProduit: require('./assets/images/agraffeuse.png'),
+    imageProduit: require('../assets/images/agraffeuse.png'),
     description: 'Agraffeuse bleu',
     prix: 10,
     nombre: 2,
@@ -23,7 +23,7 @@ const initialData: ListPanier[] = [
   {
     id: 'p2',
     nom: 'Produit 2',
-    imageProduit: require('./assets/images/agraffeuse.png'),
+    imageProduit: require('../assets/images/agraffeuse.png'),
     description: 'Agraffeuse modèle unique',
     prix: 20,
     nombre: 1,
@@ -64,7 +64,7 @@ export default function Panier() {
 
       <View className="w-full h-[50] flex flex-row justify-between items-center">
         <Pressable onPress={handleGoBack} className="w-[10%] flex justify-center">
-            <Image source={require("./assets/icons/Back.png")} className="w-[30] h-[30]"/>
+            <Image source={require("../assets/icons/Back.png")} className="w-[30] h-[30]"/>
         </Pressable>
         <Text className="w-[90%] pr-8 text-4xl text-center text-blackPrimary font-syne-bold">Panier</Text>
       </View>
@@ -84,7 +84,7 @@ export default function Panier() {
                   className="flex-row items-center bg-white border border-gray-300 rounded-lg px-3 py-1"
                 >
                   <Image
-                    source={require('./assets/icons/Subtract.png')}
+                    source={require('../assets/icons/Subtract.png')}
                     className="w-6 h-6"
                   />
                 </TouchableOpacity>
@@ -94,7 +94,7 @@ export default function Panier() {
                   className="flex-row items-center bg-white border border-gray-300 rounded-lg px-3 py-1"
                 >
                   <Image
-                    source={require('./assets/icons/Plus.png')}
+                    source={require('../assets/icons/Plus.png')}
                     className="w-6 h-6"
                   />
                 </TouchableOpacity>
