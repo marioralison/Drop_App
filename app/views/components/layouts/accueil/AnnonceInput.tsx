@@ -11,7 +11,7 @@ const SectionAnnonce = (props: { url: string | null, token: string }) => {
             {props.url ? (
                 <Image source={{ uri: props.url }} className="w-[55] h-[55] rounded-full" />                
             ) : (
-                <Image source={require("../../../../assets/icons/user.png")} className="w-[45] h-[45]" />   
+                <View className="w-[45] h-[45] rounded-full bg-gray-300"></View>
             )}
             <View className="w-[82%] h-[56] flex flex-row justify-between items-center pr-[12] border rounded-xl">
                 <TextInput
