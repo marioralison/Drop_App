@@ -5,7 +5,6 @@ import { useState } from "react";
 import { IUser, UserRole } from "@/helpers/data.type";
 import { checkRequiredPropriety } from "@/helpers/library";
 
-
 export default function BuyerForm() {
 
     const params = useLocalSearchParams();

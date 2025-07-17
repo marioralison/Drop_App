@@ -1,12 +1,11 @@
 import Toast from "react-native-toast-message";
 import { save } from "./store.access";
-import { Dictionnaire, IBestUser, IComment, IPublication, IUser, UserRole } from "./data.type";
-import { formatBestUser, formatComment, formatPostReactedByUser, formatPubs } from "./library";
+import { Dictionnaire, IBestUser, IComment, IProduct, IPublication, IUser, IUserLogin, UserRole } from "./data.type";
+import { decodeHtmlEntities, formatBestUser, formatComment, formatPostReactedByUser, formatPubs } from "./library";
 
 const DROP_API_URL: string = "http://192.168.243.199:8080";
 
 const fetchBestArticle = (): string[] => ['Italian',"a","b","c","d","e","f","g","k","y"]
-
 
 const signupUser = async (user: IUser): Promise<boolean> => {
     try {
@@ -45,6 +44,36 @@ const signupUser = async (user: IUser): Promise<boolean> => {
         return true;
     } catch (error: any) {
         throw new error;
+    }
+}
+
+const loginUser = async (user: IUserLogin): Promise<boolean> => {
+    try {
+        const res = await fetch(DROP_API_URL+"/login",{
+            method: "POST",
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        })
+        const data = await res.json();
+
+        if (!res.ok){
+            Toast.show({
+                type: "error",
+                text2: data.message
+            })
+            return false;
+        }
+        save("id",`${data.id}`);
+        save("token",`${data.token}`);
+        return true;
+    } catch (error) {
+        Toast.show({
+            type: "error",
+            text1: "internal client error"
+        })
+        throw error;
     }
 }
 
@@ -87,8 +116,8 @@ const getInfoById = async (token: string,id: string): Promise<Omit<IUser, "passw
             });
             return null;
         }
-
-        return data as Omit<IUser, "password" | "confirmPassword">;
+        const user: Omit<IUser, "password" | "confirmPassword"> = data as Omit<IUser, "password" | "confirmPassword">;
+        return {...user, profile_url: (user.profile_url)? decodeHtmlEntities(user.profile_url) : null};
     } catch (error) {
         throw error;
     }
@@ -149,7 +178,6 @@ export interface IUserProfileTmp {
   pays: string;
   profile_url: string;
 }
-
 
 const getSomeUser = async (role: UserRole, start: number, end: number): Promise<IBestUser[] | [] | null> => {
     try {
@@ -239,8 +267,6 @@ export interface ICommentTmp {
   user: Pick<IUser,"firstname" | "lastname" | "profile_url">;
 }
 
-
-
 const getAllComment = async (id_post: number, is_desc: boolean | undefined ): Promise<IComment[]> => {
     try {
 
@@ -256,8 +282,101 @@ const getAllComment = async (id_post: number, is_desc: boolean | undefined ): Pr
             })
             return [];
         }
-        const dataNotFormated: ICommentTmp[] = data as ICommentTmp[]; 
+        const dataNotFormated: ICommentTmp[] = data as ICommentTmp[];
         return formatComment(dataNotFormated);
+    } catch (error) {
+        Toast.show({
+            type: "error",
+            text1: "internal client error"
+        })
+        throw error
+    }
+}
+
+const commentAPost = async (token: string, id_post: number, comment: { content: string }): Promise<boolean> => {
+    try {
+        const res = await fetch(DROP_API_URL+`/post/comment/?id_post=${id_post}`,{
+            method: "POST",
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(comment)
+        });
+        const data = await res.json();
+        if (!res.ok) {
+            Toast.show({
+                type: "error",
+                text1: data.message
+            })
+            return false;
+        }
+        return true;
+    } catch (error) {
+        Toast.show({
+            type: "error",
+            text1: "internal client error"
+        })
+        throw error
+    }
+}
+
+const getLocalProduct = async (country: string): Promise<IProduct[]> => {
+    try {
+        const res = await fetch(DROP_API_URL+`/posts/product/local/${country}`,{
+            method: "GET",
+        })
+        const data = await res.json();
+        if (!res.ok) {
+            Toast.show({
+                type: "error",
+                text1: data.message
+            })
+            return [];
+        }
+        const product: IProduct[] = data as IProduct[];
+        const decodedProduct: IProduct[] = product.map((p) => ({
+            ...p, 
+            description: decodeHtmlEntities(p.description),
+            image_url: (p.image_url)? decodeHtmlEntities(p.image_url) : "",
+            user: {
+                ...p.user,
+                profile_url: (p.user.profile_url) ? decodeHtmlEntities(p.user.profile_url) : null,
+            } 
+        }))
+        return decodedProduct;
+    } catch (error) {
+        Toast.show({
+            type: "error",
+            text1: "internal client error"
+        })
+        throw error
+    }
+}
+
+const postAnnoce = async (annonce: string, token: string): Promise<boolean> => {
+    const newAnnonce = {
+        type: "SIMPLE_POST",
+        description: annonce
+    }
+    try {
+        const res = await fetch(DROP_API_URL+"/post/new",{
+            method: "POST",
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(newAnnonce)
+        })
+        const data = await res.json();
+        if (res.status != 202) {
+            Toast.show({
+                type: "error",
+                text1: data.message
+            })
+            return false;
+        }
+        return true;
     } catch (error) {
         Toast.show({
             type: "error",
@@ -269,6 +388,7 @@ const getAllComment = async (id_post: number, is_desc: boolean | undefined ): Pr
 
 export {
     signupUser,
+    loginUser,
     fetchBestArticle,
     authentificationUser,
     getInfoById,
@@ -276,5 +396,8 @@ export {
     getSomeUser,
     likeOrInlikePost,
     getPostReactedByUser,
-    getAllComment
+    getAllComment,
+    getLocalProduct,
+    commentAPost,
+    postAnnoce
 }

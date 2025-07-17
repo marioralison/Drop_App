@@ -2,6 +2,7 @@ import React, { useRef, useMemo, useCallback, useState, useEffect } from "react"
 import { View, ScrollView, TextInput, Text, Image, StyleSheet, Pressable } from "react-native";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { Keyboard } from 'react-native';
 
 import NavigationBottom from "./views/components/navigation";
 import HeaderAccueil from "./views/components/layouts/accueil/Header";
@@ -10,10 +11,10 @@ import SectionCategories from "./views/components/layouts/accueil/Categorie";
 import SectionAnnonce from "./views/components/layouts/accueil/AnnonceInput";
 import SectionPublicationsAccueil from "./views/components/layouts/accueil/SectionPublication";
 import SectionVendeursRecommandes from "./views/components/layouts/accueil/VendeurRecommandation";
-import { Dictionnaire, IBestUser, IComment, IPublication, IUser, UserRole } from "@/helpers/data.type";
-import { getValueFor } from "@/helpers/store.access";
+import { Dictionnaire, IBestUser, IComment, IProduct, IPublication, IUser, UserRole } from "@/helpers/data.type";
+import { getValueFor, save } from "@/helpers/store.access";
 import Toast from "react-native-toast-message";
-import { getAllComment, getInfoById, getPostReactedByUser, getPubs, getSomeUser } from "@/helpers/api";
+import { commentAPost, getAllComment, getInfoById, getLocalProduct, getPostReactedByUser, getPubs, getSomeUser } from "@/helpers/api";
 
 
 export default function Accueil() {
@@ -23,6 +24,9 @@ export default function Accueil() {
     const [publications, setPublications] = useState<Omit<IPublication, "onCommentPress" | "checkComment">[] | []>([]);
     const [bestSeller, setBestSeller] = useState<IBestUser[] | [] | null>([]);
     const [idPostReacted, setIdPostReact] = useState<Dictionnaire<number, boolean>>(new Dictionnaire<number, boolean>);
+    const [product, setProduct] = useState<IProduct[]>([]);
+    const [content, setContent] = useState<string>("");
+    const [idPostSelected, setIdPostSelected] = useState<number>(0);
 
     const bottomSheetRef = useRef<BottomSheet>(null);
     const snapPoints = useMemo(() => ['50%', '90%'], []);
@@ -51,6 +55,10 @@ export default function Accueil() {
                 const info: Omit<IUser, "password" | "confirmPassword"> | null = await getInfoById(token,id);
                 if (!info) return;
                 setCurrentUser(info);
+                
+                // to get local product 
+                const products: IProduct[] = await getLocalProduct("Madagascar");
+                setProduct(products)
 
                 // to get all post reacted by this current user
                 const tmp: Dictionnaire<number, boolean> | null = await getPostReactedByUser(parseInt(id));
@@ -58,7 +66,7 @@ export default function Accueil() {
                 setIdPostReact(tmp);
 
                 // to get some pubs
-                const pubs: Omit<IPublication,"onCommentPress" | "checkComment">[] | null = await getPubs(10);
+                const pubs: Omit<IPublication,"onCommentPress" | "checkComment">[] | null = await getPubs(12);
                 if (pubs === null) return;
                 setPublications(pubs);
 
@@ -97,7 +105,8 @@ export default function Accueil() {
         }
     }
 
-    const openCommentSection = () => {
+    const openCommentSection = (id_post: number) => {
+        setIdPostSelected(id_post);
         setIsCommentSheetOpen(true);
         bottomSheetRef.current?.snapToIndex(0);
     };
@@ -107,23 +116,34 @@ export default function Accueil() {
             <View className="w-full h-full bg-white px-[20] py-[20] flex gap-[2%]">
                 <HeaderAccueil />
                 <ScrollView className="w-full h-[82%]" showsVerticalScrollIndicator={false}>
-                    <View className="w-full h-full flex justify-start items-center gap-[22]">
-                        <SectionAnnonce url={null}/>
-                        <ProduitLocal />
+                    <View className="w-full h-full flex justify-start items-center gap-[14]">
+                        <SectionAnnonce token={tokenUser} url={(currentUser?.profile_url)? currentUser.profile_url : null}/>
+                        <ProduitLocal productLocal={product} />
                         <SectionCategories
                             onCategoryPress={() => {}}
                             selectedCategoryId={null}
                         />
-                        <View className="w-full h-[1] bg-black"></View>
-                        <SectionPublicationsAccueil 
-                            postReactedId={idPostReacted} 
-                            token={tokenUser} pubs={publications} 
-                            onCommentPress={openCommentSection} 
-                            checkComment={checkComment}
-                        />
-                        <View className="w-full h-[1] bg-black"></View>
-                        
-                        <SectionVendeursRecommandes seller={bestSeller? bestSeller : []} />
+                        <View className="w-full h-[auto] bg-black"></View>
+                        {
+                            Array.from({ length: Math.ceil(publications.length / 6) }).map((_,i) => {
+                                const pgroup = publications.slice(i * 6, (i * 6) + 6 );
+                                return (
+                                    <View className="w-full flex justify-center items-center gap-[14]" key={i}>
+                                        <SectionPublicationsAccueil 
+                                            postReactedId={idPostReacted} 
+                                            token={tokenUser} pubs={pgroup} 
+                                            onCommentPress={openCommentSection} 
+                                            checkComment={checkComment}
+                                        />
+                                        <View className="w-full h-[auto] bg-black"></View>
+                                        {
+                                            i != Math.ceil(publications.length / 6) && 
+                                            <SectionVendeursRecommandes seller={bestSeller? bestSeller : []} />
+                                        }
+                                    </View>
+                                )
+                            })
+                        }
                     </View>
                 </ScrollView>
 
@@ -156,7 +176,14 @@ export default function Accueil() {
                             return (
                                 <View style={styles.commentList} key={c.id} >
                                     <View className="w-full flex flex-row">
-                                        <Image source={require("./assets/icons/avatar.png")} className="w-[50] h-[50]" />
+                                        <Image source={
+                                            (c.user.profile_url) ?
+                                            (
+                                                { uri: c.user.profile_url }
+                                            ) : (
+                                                require("./assets/icons/user.png")
+                                            )
+                                        } className="w-[50] h-[50]" />
                                         <View className="w-full flex flex-col">
                                             <Text className="text-2xl w-full text-blackPrimary font-lato-bold px-4">{c.user.firstname} {c.user.lastname}</Text>
                                             <Text className="text-xl w-full text-blackPrimary font-lato-regular px-4 mb-2">{c.content}</Text>
@@ -173,8 +200,32 @@ export default function Accueil() {
                             style={styles.input}
                             placeholder="Écrivez un commentaire..."
                             placeholderTextColor="#999"
+                            value={content}
+                            onChangeText={(value: string) => setContent(value)}
                         />
-                        <Image source={require("./assets/icons/Sent.png")} className="w-[30] h-[30]" />
+                        <Pressable 
+                            onPress={async () => {
+                                try {
+                                    const status: boolean = await commentAPost(tokenUser,idPostSelected,{ content })
+                                    if (status) {
+                                        bottomSheetRef.current?.close();
+                                        Keyboard.dismiss();
+                                        Toast.show({
+                                            type: "success",
+                                            text1: "Votre commentaire",
+                                            text2: `${content}`
+                                        })
+                                        const comments: IComment[] = await getAllComment(idPostSelected,true);
+                                        setComment(comments);
+                                        setContent("");
+                                    }
+                                } catch (error) {
+                                    throw error
+                                }
+                            }} 
+                        >
+                            <Image source={require("./assets/icons/Sent.png")} className="w-[30] h-[30]" />
+                        </Pressable>
                     </View>
                 </BottomSheetView>
             </BottomSheet>

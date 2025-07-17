@@ -1,5 +1,4 @@
-import { fetchBestArticle } from './api'
-import { IBestUser } from './data.type';
+import { fetchBestArticle } from './api';
 
 const bestArticle: string[] =  fetchBestArticle()
 

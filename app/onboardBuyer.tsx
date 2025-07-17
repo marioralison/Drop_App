@@ -1,53 +1,85 @@
-import { View, Image, Text, TouchableOpacity } from "react-native";
-import { useRouter } from 'expo-router';
-import { save, getValueFor } from "@/helpers/store.access";
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
+import { View, Text, Image, Pressable } from "react-native";
+import { useRouter, useLocalSearchParams } from 'expo-router';
 import Toast from "react-native-toast-message";
 
-import { authentificationUser } from "@/helpers/api";
 import { IUser } from "@/helpers/data.type";
+import Checkbox from "@/app/components/checkbox/checkbox";
+import { addPreferedArticle } from "@/helpers/library";
+import { bestArticles } from "@/helpers/init";
+import { signupUser } from "@/helpers/api";
 
-export default function Welcome() {
+export default function OnboardBuyer(){
+
+    const [articles, setCuisines] = useState<{id: number,name: string,selected: boolean}[]>(bestArticles)
+
+    const toggleArticle = useCallback((id : number) => {
+        setCuisines((prevArticles) => {
+            return prevArticles.map((article) => {
+                if (article.id === id) {
+                    return {
+                        ...article,
+                        selected : !article.selected
+                    }
+                }
+                return article
+            })
+        })
+    }, [])
 
     const router = useRouter();
 
-    const [valueAuth, setValueAuth] = useState<Pick<IUser,"id" | "email" | "role"> | null>(null)
+    const handleGoBack = () => {
+        router.push({
+            pathname: "/buyerForm",
+            params: {
+                user: JSON.stringify(user)
+            }
+        })
+    };
 
-    useEffect(() => {
-        const testAuth = async () => {
-            setValueAuth(await authentificationUser())
-        }
-        testAuth();
-    }, [])
+    const user: IUser = JSON.parse(useLocalSearchParams().user as string);
 
     return(
-        <View className="bg-vert w-full h-full flex justify-between">
+        <View className="w-full h-full bg-white p-[25] flex gap-10">
 
-            <View className="w-full h-[80%] flex-1 justify-center items-center">
-                <Image source={require("./assets/images/welcomeImage.png")} style={{width: 300, height: 500}}/>
-                <Text className="text-6xl text-blackPrimary font-syne-bold">
-                    DropShop
-                </Text>
-                <Text className="h-auto w-[75%] font-medium text-blackPrimary text-center mt-4 text-2xl font-syne-regular">
-                </Text>
-            </View>
-
-            <View className="w-full h-[20%] flex justify-center items-center">
-                <View className="w-[200] h-[60] flex flex-row justify-between items-center gap-4 bg-blackPrimary rounded-full">
-                    <Text className="text-white text-2xl ml-[25%] font-syne-regular">Découvrir</Text>
-                    <TouchableOpacity 
-                        onPress={() => {
-                            if (valueAuth) router.push('/accueil');
-                            else router.push("/selectAccount")
-                        }} 
-                    className="w-[46] h-[46] mr-2 flex items-center justify-center bg-white rounded-full">
-                        <View className="w-[46] h-[46] mr-2 flex items-center justify-center bg-white rounded-full">
-                            <Image source={require("./assets/icons/Right.png")} className="w-[30] h-[30]"/>
-                        </View>
-                    </TouchableOpacity>
+            <Pressable onPress={handleGoBack} className="w-full h-[10%] flex justify-center">
+                <Image style={{zIndex: -10}} source={require("./assets/icons/Back.png")} className="w-[30] h-[30]"/>
+            </Pressable>
+            <View className="w-full h-[70%] flex items-start gap-20">
+                <View className="w-[70%]">
+                    <Text className="text-5xl text-blackPrimary font-syne-bold">Préférence de produits</Text>
+                    <Text className="mt-3 text-xl">Choisis les produits que vous aimez pour que DropShop vous les recommande</Text>
+                </View>
+                <View className="w-full flex">
+                    <View className="h-fit w-full flex flex-row flex-wrap gap-[14]">
+                        {articles.map((article) => {
+                            return (
+                                <Checkbox 
+                                    key={article.id} 
+                                    label={article.name} 
+                                    checked={article.selected}
+                                    onPress={() => {
+                                        toggleArticle(article.id)
+                                    }}
+                                />
+                            )
+                        })}
+                    </View>
                 </View>
             </View>
-            <Toast/>
+            <View className="w-full h-[10%] flex justify-center items-center">
+                <Pressable 
+                    onPress={async () => {
+                        const isSigned = await signupUser(addPreferedArticle(articles,user));
+                        if (isSigned) router.push('/accueil')
+                    }} 
+                    className="w-full h-[60] flex justify-center items-center bg-vert px-6 py-5 rounded-xl"
+                >
+                    <Text className="font-lato-bold text-lg">Confirmer</Text>
+                </Pressable>
+            </View>
+            <Toast />   
         </View>
-    );
+    )
 }

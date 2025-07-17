@@ -1,15 +1,18 @@
 
 
-interface IUser{
+interface IUserLogin {
+    email: string;
+    password: string;
+    role: UserRole
+}
+
+interface IUser extends IUserLogin {
     id: number;
     firstname: string;
     lastname: string;
-    email: string;
-    password: string;
     tel: string;
     region: string;
     pays: string;
-    role: UserRole
     preference_product: string | null;
     adress: string | null;
     profile_url: string | null;
@@ -19,6 +22,7 @@ interface IUser{
 
 interface IPublication {
     id: number;
+    type: string;
     nomUtilisateur: string;
     villeUtilisateur: string;
     datePublication: string;
@@ -30,7 +34,7 @@ interface IPublication {
     prix: string;
     nombreCommentaires: number;
     imageUtilisateurSource: string | null;
-    onCommentPress: () => void;
+    onCommentPress: (id_post: number) => void;
     checkComment: (id_post: number, is_desc: boolean) => Promise<void>;
 }
 
@@ -72,6 +76,18 @@ class Dictionnaire<K,V> {
     }
 }
 
+interface IProduct {
+    id: number;
+    description: string;
+    unit_price: number;
+    image_url: string | null;
+    id_user: number;
+    user: {
+        lastname: string;
+        profile_url: string | null;
+  };
+}
+
 enum UserRole {
     SELLER="SELLER",
     BUYER="BUYER"
@@ -83,5 +99,7 @@ export {
     IPublication,
     IBestUser,
     Dictionnaire,
-    IComment
+    IComment,
+    IUserLogin,
+    IProduct
 }

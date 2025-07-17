@@ -2,6 +2,7 @@
 import { getValueFor } from "./store.access";
 import { Dictionnaire, IBestUser, IComment, IPublication, IUser } from "./data.type";
 import { IArticleTmp, ICommentTmp, IPostReactedByUser, IUserProfileTmp } from "./api";
+import Toast from "react-native-toast-message";
 
 
 const checkRequiredPropriety = (user: Omit<IUser,"id">): boolean => {
@@ -51,17 +52,18 @@ function formatPubs(pubs: IArticleTmp[] | []): Omit<IPublication, "onCommentPres
   pubs.forEach((e,i) => {
     const tmp: Omit<IPublication, "onCommentPress" | "checkComment"> = {
         id: e.id,
+        type: e.type,
         nomUtilisateur: e.user.firstname+" "+e.user.lastname,
         villeUtilisateur: e.user.region+", "+e.user.pays,
         datePublication: formatDateTime(e.create_at).date+"",
         heurePublication: formatDateTime(e.create_at).time+"",
-        textePublication: e.description,
-        imagePublicationSource: e.image_url,
+        textePublication: decodeHtmlEntities(e.description),
+        imagePublicationSource: (e.image_url)? decodeHtmlEntities(e.image_url) : null,
         note: 4.9,
         nombreReactions: e._count.reaction,
         prix: e.unit_price+"",
         nombreCommentaires: e._count.comment,
-        imageUtilisateurSource: e.user.profile_url
+        imageUtilisateurSource: (e.user.profile_url)? decodeHtmlEntities(e.user.profile_url) : null
     }
     somePubs.push(tmp);
   })
@@ -76,7 +78,10 @@ function formatComment(comments: ICommentTmp[] | []): IComment[] | [] {
       content: e.content,
       datePublication: formatDateTime(e.date+"").date+"",
       heurePublication: formatDateTime(e.date+"").time,
-      user: e.user
+      user: {
+        ...e.user,
+        profile_url: (e.user.profile_url)? decodeHtmlEntities(e.user.profile_url) : null
+      }
     }
     formatedComment.push(tmp);
   })
@@ -90,7 +95,7 @@ function formatBestUser(someUser: IUserProfileTmp[] | []): IBestUser[] | [] {
       id: e.id+"",
       nom: e.firstname+" "+e.lastname,
       ville: e.region+", "+e.pays,
-      imageSource: e.profile_url+"",
+      imageSource: (e.profile_url)? decodeHtmlEntities(e.profile_url) : null,
       note: 4.9
     }
     usersFormated.push(tmp);
@@ -106,6 +111,24 @@ function formatPostReactedByUser(postReactedByUser: IPostReactedByUser[]): Dicti
   return formated;
 }
 
+function decodeHtmlEntities(text: string,ref: number = 0): string {
+  const entities: { [key: string]: string } = {
+    '&#x2F;': '/',
+    '&amp;': '&',
+    '&lt;': '<',
+    '&gt;': '>',
+    '&quot;': '"',
+    '&#39;': "'",
+    '&#x27;': "'"
+  };
+
+  if (!text){
+    throw new Error("ref "+ref);
+  }
+  const url: string = text.replace(/&#x2F;|&amp;|&lt;|&gt;|&quot;|&#39;|&#x27;/g, match => entities[match] || match);
+  return url;
+}
+
 export {
     checkRequiredPropriety,
     addPreferedArticle,
@@ -114,5 +137,6 @@ export {
     formatPubs,
     formatBestUser,
     formatPostReactedByUser,
-    formatComment
+    formatComment,
+    decodeHtmlEntities
 }
