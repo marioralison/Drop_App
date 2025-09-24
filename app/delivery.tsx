@@ -62,7 +62,24 @@ const Delivery = () => {
                     Livraisons
                 </Text>
            </View>
+           <View className="flex flex-row items-center gap-3  mt-4 px-4">
+               {TABS.map((tab) => (
+                     <TouchableOpacity
+                          key={tab.id}
+                          onPress={() => setActiveTab(tab.id)}
+                          className="px-4 py-2 rounded-lg bg-gray-700"
+                     >
+                          <Text
+                             style={{ 
+                                color: activeTab === tab.id ? 'red' : '#000',
+                                backgroundColor: activeTab === tab.id ? '#fff' : 'transparent',
+                             }}
+                             className="text-sm font-syne-bold">
+                                {tab.title} 
 
+                          </Text>
+                     </TouchableOpacity>
+               ))}
            <View className=" flex justify-center items-center w-full">
             <View className="flex flex-row items-center gap-3  mt-4 px-4 ">
                 {TABS.map((tab) => (
@@ -88,6 +105,7 @@ const Delivery = () => {
            <View className=" font-syne-bold">
             <TabContent tabId={activeTab}/>
            </View>
+        </View>
         </View>
     );
 }

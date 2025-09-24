@@ -8,6 +8,7 @@ module.exports = {
       colors: {
         vert : "#C9D856",
         blackPrimary : "#131001",
+        grayPrimary: "#1212ff"
       },
       fontFamily: {
         "syne-regular": ["Syne-Regular"],

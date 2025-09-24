@@ -1,15 +1,37 @@
 import { Text,View,Image } from "react-native";
-import MapView,{Marker} from "react-native-maps"
+import MapView,{Marker,UrlTile} from "react-native-maps"
+import { StyleSheet } from "react-native";
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    header: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        textAlign: 'center'
+    },
+    map: {
+        width: '100%',
+        height: '100%'
+    }
+})
 
 const OrderTracking = () => {
+    const initialRegion = {
+        latitude: -18.87,
+        longitude: 47.507,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+    }
     return(
         <View>
             <View className=" flex-row justify-around items-center ">
                 <Image source={require("./assets/icons/Back.png")}/>
                 <Text className="text-2xl font-bold">Suivi de commande</Text>
             </View>
-            <View className=" flex-row justify-between items-center m-5">
-                <View className=" p-5">
+            <View className=" flex-row justify-between items-center m-2">
+                <View className=" p-4">
                     <Text className=" font-semibold text-lg">Numéro</Text>
                     <Text className=" text-2xl font-bold">256548</Text>
                 </View>
@@ -19,15 +41,10 @@ const OrderTracking = () => {
                 </View>
             </View>
 
-            <View>
-                <MapView
-                    style={{ flex: 1}}
-                    initialRegion={{
-                        latitude: 52.52,
-                        longitude: 13.405,
-                        latitudeDelta: 0.1,
-                        longitudeDelta: 0.1
-                    }}
+            <View style={styles.container}>
+                <Text>Carte de suvie</Text>
+                <MapView style={styles.map}
+                        initialRegion={initialRegion}
                 >
                     
                 </MapView>
