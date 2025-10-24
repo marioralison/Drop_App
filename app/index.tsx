@@ -1,3 +1,4 @@
+
 import "./global.css";
 import { ActivityIndicator, View } from "react-native";
 import { useFonts } from 'expo-font';
@@ -50,3 +51,4 @@ export default function Index() {
     </View>
   );
 }
+
