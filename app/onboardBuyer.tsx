@@ -11,7 +11,7 @@ import { signupUser } from "@/helpers/api";
 
 export default function OnboardBuyer(){
 
-    const [articles, setCuisines] = useState<{id: number,name: string,selected: boolean}[]>(bestArticles)
+    const [articles, setCuisines] = useState<{id: number,name: string, selected: boolean}[]>(bestArticles)
 
     const toggleArticle = useCallback((id : number) => {
         setCuisines((prevArticles) => {
@@ -31,14 +31,14 @@ export default function OnboardBuyer(){
 
     const handleGoBack = () => {
         router.push({
-            pathname: "/buyerForm",
-            params: {
-                user: JSON.stringify(user)
-            }
+            pathname: "/photoImageInput",
+            // params: {
+            //     user: JSON.stringify(user)
+            // }
         })
     };
 
-    const user: IUser = JSON.parse(useLocalSearchParams().user as string);
+    // const user: IUser = JSON.parse(useLocalSearchParams().user as string);
 
     return(
         <View className="w-full h-full bg-white p-[25] flex gap-10">
@@ -70,10 +70,10 @@ export default function OnboardBuyer(){
             </View>
             <View className="w-full h-[10%] flex justify-center items-center">
                 <Pressable 
-                    onPress={async () => {
-                        const isSigned = await signupUser(addPreferedArticle(articles,user));
-                        if (isSigned) router.push('/(tab)/accueil')
-                    }} 
+                    // onPress={async () => {
+                    //     const isSigned = await signupUser(addPreferedArticle(articles,user));
+                    //     if (isSigned) router.push('/(tab)/accueil')
+                    // }} 
                     className="w-full h-[60] flex justify-center items-center bg-vert px-6 py-5 rounded-xl"
                 >
                     <Text className="font-lato-bold text-lg">Confirmer</Text>
