@@ -1,7 +1,7 @@
 import "./global.css";
 import { ActivityIndicator, View } from "react-native";
 import { useFonts } from 'expo-font';
-import { Stack, Tabs, Link } from 'expo-router';
+
 
 import Welcome from "./welcome";
 import Chat from "./chat";
