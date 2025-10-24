@@ -11,7 +11,7 @@ export default function PhotoImageInput() {
                 </Pressable>
                 <View>
                     <View className="border">
-                        <Text>Ajouter image</Text>
+                        <Text>Ajouter image </Text>
                     </View>
                 </View>
             </View>
