@@ -5,11 +5,13 @@ import {
   TouchableOpacity,
   Pressable,
   Alert,
+  StyleSheet,
 } from "react-native";
 import { FlatList } from "react-native";
 import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState, useEffect } from "react";
+import React from "react";
 
 interface UserList {
   id: string;
@@ -34,7 +36,6 @@ export default function Chat() {
   const router = useRouter();
   const [currentUser, setCurrentUser] = useState("Fano");
 
-  // Charger l'utilisateur actuel depuis AsyncStorage
   useEffect(() => {
     loadCurrentUser();
   }, []);
@@ -98,92 +99,78 @@ export default function Chat() {
     router.push({
       pathname: "/message",
       params: {
-        nom: selectedUser.nom, // le destinataire
-        sender: currentUser, // celui qui envoie
+        nom: selectedUser.nom,
+        sender: currentUser,
       },
     });
   };
 
   return (
-    <View className="bg-white w-full h-full flex justify-between">
-      <View className="w-full h-[10%] flex justify-center items-center">
+    <View style={styles.container}>
+      <View style={styles.header}>
         <TouchableOpacity
           onPress={() => router.back()}
-          className="absolute left-5"
+          style={styles.backButton}
         >
           <Image
             source={require("./assets/icons/Back.png")}
-            className="w-[30] h-[30]"
+            style={styles.backIcon}
           />
         </TouchableOpacity>
 
-        {/* Bouton pour changer d'utilisateur */}
-        <TouchableOpacity
-          onPress={switchUser}
-          className="absolute right-5 bg-blue-500 px-3 py-1 rounded-full"
-        >
-          <Text className="text-white text-xs font-bold">{currentUser}</Text>
+        <TouchableOpacity onPress={switchUser} style={styles.userButton}>
+          <Text style={styles.userButtonText}>{currentUser}</Text>
         </TouchableOpacity>
 
-        <Text className="text-2xl font-syne-bold">Messages</Text>
+        <Text style={styles.headerTitle}>Messages</Text>
       </View>
 
-      {/* Indicateur de l'utilisateur actuel */}
-      <View className="w-full bg-blue-50 p-3 border-b border-blue-200">
-        <Text className="text-center text-blue-700 font-bold">
+      <View style={styles.userIndicator}>
+        <Text style={styles.userIndicatorText}>
           🟢 Connecté en tant que: {currentUser}
         </Text>
-        <Text className="text-center text-blue-500 text-xs mt-1">
+        <Text style={styles.userIndicatorSubtext}>
           Appuyez sur votre nom en haut à droite pour changer
         </Text>
       </View>
 
-      <View className="w-full flex-1">
+      <View style={styles.listContainer}>
         <FlatList
           data={dataUserList}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <Pressable
               onPress={() => handleUserPress(item)}
-              className={`w-full h-[70] flex flex-row items-center px-5 ${
-                item.nom === currentUser ? "bg-gray-100 opacity-50" : "bg-white"
-              }`}
+              style={[
+                styles.userItem,
+                item.nom === currentUser && styles.userItemDisabled,
+              ]}
             >
-              <Image
-                source={item.imagePdp}
-                className="w-[50] h-[50] rounded-full mr-3"
-              />
-              <View className="flex flex-row items-center w-[70%]">
-                <View className="w-full flex flex-col">
-                  <View className="flex flex-row items-center">
-                    <Text className="text-lg font-syne-regular">
-                      {item.nom}
-                    </Text>
+              <Image source={item.imagePdp} style={styles.avatar} />
+              <View style={styles.userInfo}>
+                <View style={styles.userDetails}>
+                  <View style={styles.nameContainer}>
+                    <Text style={styles.userName}>{item.nom}</Text>
                     {item.nom === currentUser && (
-                      <Text className="ml-2 text-xs bg-green-200 text-green-800 px-2 py-1 rounded-full">
-                        C'est vous
-                      </Text>
+                      <Text style={styles.badge}>C'est vous</Text>
                     )}
                   </View>
-                  <Text className="text-gray-500 font-bold">
+                  <Text style={styles.messagePreview}>
                     {item.nom === currentUser
                       ? "Vous ne pouvez pas vous parler"
                       : "Bonjour, comment ça va ?"}
                   </Text>
                 </View>
-                <Text>12:00</Text>
+                <Text style={styles.time}>12:00</Text>
               </View>
             </Pressable>
           )}
         />
       </View>
 
-      {/* Instructions pour les tests */}
-      <View className="w-full bg-yellow-50 p-4 border-t border-yellow-200">
-        <Text className="text-yellow-800 font-bold text-center mb-2">
-          🧪 Mode Test
-        </Text>
-        <Text className="text-yellow-700 text-xs text-center">
+      <View style={styles.testMode}>
+        <Text style={styles.testModeTitle}>🧪 Mode Test</Text>
+        <Text style={styles.testModeText}>
           1. Choisissez un utilisateur en haut à droite{"\n"}
           2. Cliquez sur l'autre utilisateur pour commencer une conversation
           {"\n"}
@@ -194,3 +181,134 @@ export default function Chat() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "#ffffff",
+    width: "100%",
+    height: "100%",
+    flex: 1,
+  },
+  header: {
+    width: "100%",
+    height: "10%",
+    justifyContent: "center",
+    alignItems: "center",
+    position: "relative",
+  },
+  backButton: {
+    position: "absolute",
+    left: 20,
+  },
+  backIcon: {
+    width: 30,
+    height: 30,
+  },
+  userButton: {
+    position: "absolute",
+    right: 20,
+    backgroundColor: "#3b82f6",
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    borderRadius: 20,
+  },
+  userButtonText: {
+    color: "#ffffff",
+    fontSize: 12,
+    fontWeight: "bold",
+  },
+  headerTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+  userIndicator: {
+    width: "100%",
+    backgroundColor: "#eff6ff",
+    padding: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: "#bfdbfe",
+  },
+  userIndicatorText: {
+    textAlign: "center",
+    color: "#1d4ed8",
+    fontWeight: "bold",
+  },
+  userIndicatorSubtext: {
+    textAlign: "center",
+    color: "#3b82f6",
+    fontSize: 12,
+    marginTop: 4,
+  },
+  listContainer: {
+    width: "100%",
+    flex: 1,
+  },
+  userItem: {
+    width: "100%",
+    height: 70,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 20,
+    backgroundColor: "#ffffff",
+  },
+  userItemDisabled: {
+    backgroundColor: "#f3f4f6",
+    opacity: 0.5,
+  },
+  avatar: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    marginRight: 12,
+  },
+  userInfo: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: "70%",
+  },
+  userDetails: {
+    width: "100%",
+    flex: 1,
+  },
+  nameContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  userName: {
+    fontSize: 18,
+  },
+  badge: {
+    marginLeft: 8,
+    fontSize: 10,
+    backgroundColor: "#bbf7d0",
+    color: "#166534",
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 12,
+  },
+  messagePreview: {
+    color: "#6b7280",
+    fontWeight: "bold",
+  },
+  time: {
+    fontSize: 12,
+  },
+  testMode: {
+    width: "100%",
+    backgroundColor: "#fefce8",
+    padding: 16,
+    borderTopWidth: 1,
+    borderTopColor: "#fde047",
+  },
+  testModeTitle: {
+    color: "#854d0e",
+    fontWeight: "bold",
+    textAlign: "center",
+    marginBottom: 8,
+  },
+  testModeText: {
+    color: "#a16207",
+    fontSize: 12,
+    textAlign: "center",
+  },
+});

@@ -8,6 +8,7 @@ import {
   Alert,
   ActivityIndicator,
   BackHandler,
+  StyleSheet,
 } from "react-native";
 import { io } from "socket.io-client";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -24,7 +25,6 @@ try {
   console.log("✅ Expo Router disponible");
 } catch (error) {
   console.warn("⚠️ Expo Router non disponible:", error.message);
-  // Fallbacks pour éviter les erreurs
   useRouter = () => ({
     back: () => console.log("Navigation back non disponible"),
   });
@@ -56,7 +56,6 @@ export default function Message() {
   const scrollViewRef = useRef<ScrollView>(null);
   const socketRef = useRef<any>(null);
 
-  // Utilisation sécurisée des hooks de navigation
   const router = routerAvailable ? useRouter() : null;
   const params = routerAvailable
     ? useLocalSearchParams()
@@ -73,7 +72,6 @@ export default function Message() {
   console.log("Other User:", otherCurrentUser);
   console.log("Room ID:", roomId);
 
-  // Fonction de retour sécurisée
   const handleGoBack = () => {
     try {
       if (router && routerAvailable) {
@@ -88,7 +86,6 @@ export default function Message() {
     }
   };
 
-  // Gestion du bouton retour Android
   useEffect(() => {
     const backAction = () => {
       handleGoBack();
@@ -102,7 +99,6 @@ export default function Message() {
     return () => backHandler.remove();
   }, []);
 
-  // Initialiser Socket
   useEffect(() => {
     console.log("🔌 Initialisation Socket...");
     setConnectionStatus("Connexion...");
@@ -150,8 +146,6 @@ export default function Message() {
           translated: data.translated,
           sender: data.sender,
         });
-
-        // Utiliser une fonction de mise à jour qui ne dépend pas de la navigation
         updateMessages(data);
       });
 
@@ -167,7 +161,6 @@ export default function Message() {
     }
   }, [roomId]);
 
-  // Fonction séparée pour mettre à jour les messages (sans dépendances navigation)
   const updateMessages = (newMessage: MessageProps) => {
     setMessages((prevMessages) => {
       const existingIndex = prevMessages.findIndex(
@@ -192,12 +185,10 @@ export default function Message() {
     });
   };
 
-  // Charger les messages au démarrage
   useEffect(() => {
     loadMessagesFromStorage();
   }, []);
 
-  // Auto-scroll
   useEffect(() => {
     if (messages.length > 0) {
       setTimeout(() => {
@@ -206,7 +197,6 @@ export default function Message() {
     }
   }, [messages]);
 
-  // Sauvegarder les messages - fonction pure sans dépendances navigation
   const saveMessagesToStorage = async (newMessages: MessageProps[]) => {
     try {
       await AsyncStorage.setItem(conversationKey, JSON.stringify(newMessages));
@@ -229,7 +219,6 @@ export default function Message() {
     }
   };
 
-  // FIX PRINCIPAL : Fonction d'envoi de message isolée
   const sendMessage = async () => {
     console.log("📤 Début sendMessage");
 
@@ -243,7 +232,6 @@ export default function Message() {
       return;
     }
 
-    // Isoler la logique d'envoi pour éviter les conflits de navigation
     try {
       setIsLoading(true);
 
@@ -260,12 +248,10 @@ export default function Message() {
 
       console.log("📤 Création message:", newMessage.id);
 
-      // Ajouter immédiatement le message localement
       const updatedMessages = [...messages, newMessage];
       setMessages(updatedMessages);
       await saveMessagesToStorage(updatedMessages);
 
-      // Envoyer via socket dans un timeout pour éviter les conflits
       setTimeout(() => {
         if (socketRef.current) {
           console.log("📡 Émission vers socket");
@@ -273,7 +259,6 @@ export default function Message() {
         }
       }, 10);
 
-      // Reset de l'input
       setMessage("");
     } catch (error) {
       console.error("❌ Erreur sendMessage:", error);
@@ -283,7 +268,6 @@ export default function Message() {
     }
   };
 
-  // Test de traduction - fonction isolée
   const testTranslation = async () => {
     try {
       console.log("🧪 Test de traduction");
@@ -328,50 +312,46 @@ export default function Message() {
   };
 
   return (
-    <View className="flex-1 bg-gray-50">
+    <View style={styles.container}>
       {/* Header */}
-      <View className="pt-12 pb-4 px-5 bg-white rounded-b-3xl shadow-sm">
-        <View className="flex-row items-center justify-between">
-          <TouchableOpacity
-            onPress={handleGoBack}
-            className="w-10 h-10 rounded-full bg-gray-100 items-center justify-center"
-          >
-            <Text className="text-lg">←</Text>
+      <View style={styles.header}>
+        <View style={styles.headerContent}>
+          <TouchableOpacity onPress={handleGoBack} style={styles.backButton}>
+            <Text style={styles.backButtonText}>←</Text>
           </TouchableOpacity>
 
-          <View className="flex-1 flex-row items-center ml-4">
-            <View className="w-12 h-12 rounded-full bg-blue-500 items-center justify-center mr-3">
-              <Text className="text-white font-bold text-lg">
+          <View style={styles.headerUserInfo}>
+            <View style={styles.avatar}>
+              <Text style={styles.avatarText}>
                 {otherCurrentUser.charAt(0).toUpperCase()}
               </Text>
             </View>
             <View>
-              <Text className="text-xl font-bold text-gray-800">
-                {otherCurrentUser}
-              </Text>
+              <Text style={styles.userName}>{otherCurrentUser}</Text>
               <Text
-                className={`text-sm font-medium ${
-                  isConnected ? "text-green-600" : "text-red-600"
-                }`}
+                style={[
+                  styles.connectionStatus,
+                  isConnected ? styles.connected : styles.disconnected,
+                ]}
               >
                 {isConnected ? "🟢" : "🔴"} {connectionStatus}
               </Text>
             </View>
           </View>
 
-          <View className="flex-row space-x-2">
+          <View style={styles.headerActions}>
             <TouchableOpacity
               onPress={testTranslation}
-              className="w-10 h-10 rounded-full bg-blue-100 items-center justify-center"
+              style={styles.actionButton}
             >
-              <Text className="text-blue-600 text-lg">🔄</Text>
+              <Text style={styles.actionButtonText}>🔄</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               onPress={clearConversation}
-              className="w-10 h-10 rounded-full bg-red-100 items-center justify-center"
+              style={[styles.actionButton, styles.deleteButton]}
             >
-              <Text className="text-red-600 text-lg">🗑️</Text>
+              <Text style={styles.deleteButtonText}>🗑️</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -380,22 +360,20 @@ export default function Message() {
       {/* Messages */}
       <ScrollView
         ref={scrollViewRef}
-        className="flex-1 px-4 py-4"
+        style={styles.messagesContainer}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 20 }}
+        contentContainerStyle={styles.messagesContent}
       >
         {messages.length === 0 ? (
-          <View className="flex-1 justify-center items-center py-20">
-            <Text className="text-6xl mb-4">🌍</Text>
-            <Text className="text-gray-500 text-lg text-center font-medium">
+          <View style={styles.emptyState}>
+            <Text style={styles.emptyStateIcon}>🌍</Text>
+            <Text style={styles.emptyStateTitle}>
               Chat avec traduction automatique
             </Text>
-            <Text className="text-gray-400 text-sm text-center mt-2">
-              Français ↔ English
-            </Text>
+            <Text style={styles.emptyStateSubtitle}>Français ↔ English</Text>
           </View>
         ) : (
-          messages.map((msg, index) => {
+          messages.map((msg) => {
             const isCurrentUser = msg.sender === currentUser;
             const hasTranslation =
               msg.translated &&
@@ -407,36 +385,48 @@ export default function Message() {
             return (
               <View
                 key={msg.id}
-                className={`mb-4 flex ${
-                  isCurrentUser ? "items-end" : "items-start"
-                }`}
+                style={[
+                  styles.messageWrapper,
+                  isCurrentUser
+                    ? styles.messageWrapperRight
+                    : styles.messageWrapperLeft,
+                ]}
               >
                 <View
-                  className={`max-w-[85%] ${
-                    isCurrentUser ? "bg-blue-500" : "bg-white"
-                  } rounded-2xl shadow-sm overflow-hidden`}
+                  style={[
+                    styles.messageBubble,
+                    isCurrentUser
+                      ? styles.messageBubbleUser
+                      : styles.messageBubbleOther,
+                  ]}
                 >
                   {/* Message original */}
-                  <View className="p-4">
+                  <View style={styles.messageContent}>
                     <Text
-                      className={`text-base ${
-                        isCurrentUser ? "text-white" : "text-gray-800"
-                      } font-medium leading-relaxed`}
+                      style={[
+                        styles.messageText,
+                        isCurrentUser
+                          ? styles.messageTextUser
+                          : styles.messageTextOther,
+                      ]}
                     >
                       {msg.content}
                     </Text>
 
                     {/* Status de traduction */}
                     {msg.translationStatus === "pending" && (
-                      <View className="flex-row items-center mt-2">
+                      <View style={styles.translationPending}>
                         <ActivityIndicator
                           size="small"
                           color={isCurrentUser ? "white" : "#3B82F6"}
                         />
                         <Text
-                          className={`ml-2 text-xs ${
-                            isCurrentUser ? "text-blue-100" : "text-gray-500"
-                          }`}
+                          style={[
+                            styles.translationPendingText,
+                            isCurrentUser
+                              ? styles.translationPendingTextUser
+                              : styles.translationPendingTextOther,
+                          ]}
                         >
                           Traduction...
                         </Text>
@@ -447,20 +437,24 @@ export default function Message() {
                   {/* Traduction */}
                   {hasTranslation && (
                     <View
-                      className={`px-4 pb-4 pt-2 border-t ${
+                      style={[
+                        styles.translationContainer,
                         isCurrentUser
-                          ? "border-blue-300 bg-blue-400"
-                          : "border-gray-200 bg-gray-50"
-                      }`}
+                          ? styles.translationContainerUser
+                          : styles.translationContainerOther,
+                      ]}
                     >
-                      <Text className="text-xs font-bold text-gray-500 mb-2">
+                      <Text style={styles.translationLabel}>
                         🔄 {msg.originalLang?.toUpperCase()} →{" "}
                         {msg.targetLang?.toUpperCase()}
                       </Text>
                       <Text
-                        className={`text-sm font-medium ${
-                          isCurrentUser ? "text-white" : "text-gray-700"
-                        } leading-relaxed`}
+                        style={[
+                          styles.translationText,
+                          isCurrentUser
+                            ? styles.translationTextUser
+                            : styles.translationTextOther,
+                        ]}
                       >
                         {msg.translated}
                       </Text>
@@ -469,15 +463,13 @@ export default function Message() {
 
                   {/* Erreur */}
                   {msg.error && (
-                    <View className="px-4 pb-4 pt-2 border-t border-red-200 bg-red-50">
-                      <Text className="text-xs text-red-600 font-medium">
-                        ⚠️ {msg.error}
-                      </Text>
+                    <View style={styles.errorContainer}>
+                      <Text style={styles.errorText}>⚠️ {msg.error}</Text>
                     </View>
                   )}
                 </View>
 
-                <Text className="text-xs text-gray-400 mt-1 px-2">
+                <Text style={styles.messageTimestamp}>
                   {new Date(msg.timestamp).toLocaleTimeString()}
                 </Text>
               </View>
@@ -487,14 +479,14 @@ export default function Message() {
       </ScrollView>
 
       {/* Input zone */}
-      <View className="bg-white border-t border-gray-200 px-4 py-3">
-        <View className="flex-row items-center bg-gray-100 rounded-full px-4 py-2">
+      <View style={styles.inputContainer}>
+        <View style={styles.inputWrapper}>
           <TextInput
             placeholder="Écrivez en français ou anglais..."
             placeholderTextColor="#9CA3AF"
             value={message}
             onChangeText={setMessage}
-            className="flex-1 text-base text-gray-800 py-2 max-h-20"
+            style={styles.textInput}
             multiline
             maxLength={500}
             editable={!isLoading}
@@ -502,19 +494,19 @@ export default function Message() {
           <TouchableOpacity
             onPress={sendMessage}
             disabled={isLoading || !message.trim() || !isConnected}
-            className={`ml-2 w-10 h-10 rounded-full items-center justify-center ${
-              isLoading || !message.trim() || !isConnected
-                ? "bg-gray-300"
-                : "bg-blue-500 shadow-lg"
-            }`}
+            style={[
+              styles.sendButton,
+              (isLoading || !message.trim() || !isConnected) &&
+                styles.sendButtonDisabled,
+            ]}
           >
-            <Text className="text-white text-lg">{isLoading ? "⏳" : "➤"}</Text>
+            <Text style={styles.sendButtonText}>{isLoading ? "⏳" : "➤"}</Text>
           </TouchableOpacity>
         </View>
 
         {!isConnected && (
-          <View className="mt-2 px-4 py-2 bg-red-50 rounded-lg">
-            <Text className="text-red-600 text-sm text-center font-medium">
+          <View style={styles.disconnectedBanner}>
+            <Text style={styles.disconnectedText}>
               🔴 Connexion perdue - Reconnexion en cours...
             </Text>
           </View>
@@ -523,8 +515,8 @@ export default function Message() {
 
       {/* Debug info */}
       {__DEV__ && (
-        <View className="bg-yellow-100 p-3 border-t border-yellow-200">
-          <Text className="text-xs text-yellow-800">
+        <View style={styles.debugInfo}>
+          <Text style={styles.debugText}>
             🐛 Nav: {routerAvailable ? "OK" : "KO"} | Msgs: {messages.length} |
             Status: {connectionStatus}
           </Text>
@@ -533,3 +525,299 @@ export default function Message() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#F9FAFB",
+  },
+  header: {
+    paddingTop: 48,
+    paddingBottom: 16,
+    paddingHorizontal: 20,
+    backgroundColor: "#FFFFFF",
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 3,
+    elevation: 2,
+  },
+  headerContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  backButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "#F3F4F6",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  backButtonText: {
+    fontSize: 18,
+  },
+  headerUserInfo: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    marginLeft: 16,
+  },
+  avatar: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: "#3B82F6",
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 12,
+  },
+  avatarText: {
+    color: "#FFFFFF",
+    fontWeight: "bold",
+    fontSize: 18,
+  },
+  userName: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#1F2937",
+  },
+  connectionStatus: {
+    fontSize: 14,
+    fontWeight: "600",
+  },
+  connected: {
+    color: "#16A34A",
+  },
+  disconnected: {
+    color: "#DC2626",
+  },
+  headerActions: {
+    flexDirection: "row",
+    gap: 8,
+  },
+  actionButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "#DBEAFE",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  actionButtonText: {
+    fontSize: 18,
+    color: "#2563EB",
+  },
+  deleteButton: {
+    backgroundColor: "#FEE2E2",
+  },
+  deleteButtonText: {
+    fontSize: 18,
+    color: "#DC2626",
+  },
+  messagesContainer: {
+    flex: 1,
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+  },
+  messagesContent: {
+    paddingBottom: 20,
+  },
+  emptyState: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: 80,
+  },
+  emptyStateIcon: {
+    fontSize: 60,
+    marginBottom: 16,
+  },
+  emptyStateTitle: {
+    color: "#6B7280",
+    fontSize: 18,
+    textAlign: "center",
+    fontWeight: "600",
+  },
+  emptyStateSubtitle: {
+    color: "#9CA3AF",
+    fontSize: 14,
+    textAlign: "center",
+    marginTop: 8,
+  },
+  messageWrapper: {
+    marginBottom: 16,
+  },
+  messageWrapperRight: {
+    alignItems: "flex-end",
+  },
+  messageWrapperLeft: {
+    alignItems: "flex-start",
+  },
+  messageBubble: {
+    maxWidth: "85%",
+    borderRadius: 16,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 1,
+    overflow: "hidden",
+  },
+  messageBubbleUser: {
+    backgroundColor: "#3B82F6",
+  },
+  messageBubbleOther: {
+    backgroundColor: "#FFFFFF",
+  },
+  messageContent: {
+    padding: 16,
+  },
+  messageText: {
+    fontSize: 16,
+    fontWeight: "500",
+    lineHeight: 24,
+  },
+  messageTextUser: {
+    color: "#FFFFFF",
+  },
+  messageTextOther: {
+    color: "#1F2937",
+  },
+  translationPending: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 8,
+  },
+  translationPendingText: {
+    marginLeft: 8,
+    fontSize: 12,
+  },
+  translationPendingTextUser: {
+    color: "#BFDBFE",
+  },
+  translationPendingTextOther: {
+    color: "#6B7280",
+  },
+  translationContainer: {
+    paddingHorizontal: 16,
+    paddingBottom: 16,
+    paddingTop: 8,
+    borderTopWidth: 1,
+  },
+  translationContainerUser: {
+    borderTopColor: "#93C5FD",
+    backgroundColor: "#60A5FA",
+  },
+  translationContainerOther: {
+    borderTopColor: "#E5E7EB",
+    backgroundColor: "#F9FAFB",
+  },
+  translationLabel: {
+    fontSize: 10,
+    fontWeight: "bold",
+    color: "#6B7280",
+    marginBottom: 8,
+  },
+  translationText: {
+    fontSize: 14,
+    fontWeight: "500",
+    lineHeight: 22,
+  },
+  translationTextUser: {
+    color: "#FFFFFF",
+  },
+  translationTextOther: {
+    color: "#374151",
+  },
+  errorContainer: {
+    paddingHorizontal: 16,
+    paddingBottom: 16,
+    paddingTop: 8,
+    borderTopWidth: 1,
+    borderTopColor: "#FECACA",
+    backgroundColor: "#FEE2E2",
+  },
+  errorText: {
+    fontSize: 12,
+    color: "#DC2626",
+    fontWeight: "600",
+  },
+  messageTimestamp: {
+    fontSize: 12,
+    color: "#9CA3AF",
+    marginTop: 4,
+    paddingHorizontal: 8,
+  },
+  inputContainer: {
+    backgroundColor: "#FFFFFF",
+    borderTopWidth: 1,
+    borderTopColor: "#E5E7EB",
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+  },
+  inputWrapper: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#F3F4F6",
+    borderRadius: 24,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+  },
+  textInput: {
+    flex: 1,
+    fontSize: 16,
+    color: "#1F2937",
+    paddingVertical: 8,
+    maxHeight: 80,
+  },
+  sendButton: {
+    marginLeft: 8,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#3B82F6",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  sendButtonDisabled: {
+    backgroundColor: "#D1D5DB",
+    shadowOpacity: 0,
+    elevation: 0,
+  },
+  sendButtonText: {
+    color: "#FFFFFF",
+    fontSize: 18,
+  },
+  disconnectedBanner: {
+    marginTop: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    backgroundColor: "#FEE2E2",
+    borderRadius: 8,
+  },
+  disconnectedText: {
+    color: "#DC2626",
+    fontSize: 14,
+    textAlign: "center",
+    fontWeight: "600",
+  },
+  debugInfo: {
+    backgroundColor: "#FEF3C7",
+    padding: 12,
+    borderTopWidth: 1,
+    borderTopColor: "#FDE047",
+  },
+  debugText: {
+    fontSize: 12,
+    color: "#92400E",
+  },
+});

@@ -6,18 +6,18 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        vert : "#C9D856",
-        blackPrimary : "#131001",
-        grayPrimary: "#1212ff"
+        vert: "#C9D856",
+        blackPrimary: "#131001",
+        grayPrimary: "#1212ff",
       },
       fontFamily: {
         "syne-regular": ["Syne-Regular"],
         "syne-bold": ["Syne-Bold"],
         "syne-semiBold": ["Syne-SemiBold"],
         "lato-regular": ["Lato-Regular"],
-        "lato-bold": ["Lato-Bold"]
+        "lato-bold": ["Lato-Bold"],
       },
     },
   },
   plugins: [],
-}
+};
