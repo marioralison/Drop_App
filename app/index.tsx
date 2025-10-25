@@ -19,6 +19,7 @@ import Notifications from "./notification";
 import UserProfile from "./userProfile";
 import LocalProducts from "./localProduct";
 import SelllerDashBoard from "./views/Seller/SellerDashboard";
+import AddPublictionSeller from "./views/Seller/addPublicationSeller";
 
 //import Panier from "./panier";
 
@@ -38,7 +39,7 @@ export default function Index() {
   }
 
   return (
-    <View>
+    <View className=" h-full  p-2">
         {/* <OrderTracking></OrderTracking> */}
         {/* <AddWallet></AddWallet> */}
         {/* <WalletForm></WalletForm> */}
@@ -49,7 +50,8 @@ export default function Index() {
 
         {/* <LocalProducts></LocalProducts> */}
         {/* <Seller></Seller> */}
-        <SelllerDashBoard></SelllerDashBoard>
+        {/* <SelllerDashBoard></SelllerDashBoard> */}
+        <AddPublictionSeller></AddPublictionSeller>
     </View>
   );
 }
