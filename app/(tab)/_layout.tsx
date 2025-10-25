@@ -8,7 +8,6 @@ export default function TabsLayout() {
   const translateX = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    // Slide from right to left when path changes
     translateX.setValue(500); // Start off-screen to the right
     Animated.timing(translateX, {
       toValue: 0,
