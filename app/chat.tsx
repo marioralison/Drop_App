@@ -21,6 +21,16 @@ const dataUserList: UserList[] = [
         nom: 'Mario',
         imagePdp: require('../././assets/images/react-logo.png'),
     },
+    {
+        id: 'ul3',
+        nom: 'Mario',
+        imagePdp: require('../././assets/images/react-logo.png'),
+    },
+    {
+        id: 'ul4',
+        nom: 'Mario',
+        imagePdp: require('../././assets/images/react-logo.png'),
+    },
 ];
 
 export default function Chat() {
@@ -91,8 +101,8 @@ export default function Chat() {
         router.push({
             pathname: "/message",
             params: {
-                nom: selectedUser.nom,    // le destinataire
-                sender: currentUser,      // celui qui envoie
+                nom: selectedUser.nom,
+                sender: currentUser,   
             },
         });
     };

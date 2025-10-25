@@ -46,8 +46,8 @@ export default function Index() {
         {/* <Notifications></Notifications> */}
         {/* <Details></Details> */}
         {/* <UserProfile></UserProfile> */}
-
-        <LocalProducts></LocalProducts>
+        <Chat></Chat>
+        {/* <LocalProducts></LocalProducts> */}
     </View>
   );
 }
