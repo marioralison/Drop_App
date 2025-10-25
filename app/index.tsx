@@ -3,7 +3,6 @@ import "./global.css";
 import { ActivityIndicator, View } from "react-native";
 import { useFonts } from 'expo-font';
 
-
 import Welcome from "./welcome";
 import Chat from "./chat";
 import SelectAccount from "./selectAccount";
@@ -19,6 +18,7 @@ import WalletForm from "./walletForm";
 import Notifications from "./notification";
 import UserProfile from "./userProfile";
 import LocalProducts from "./localProduct";
+import SelllerDashBoard from "./views/Seller/SellerDashboard";
 
 //import Panier from "./panier";
 
@@ -47,7 +47,9 @@ export default function Index() {
         {/* <Details></Details> */}
         {/* <UserProfile></UserProfile> */}
 
-        <LocalProducts></LocalProducts>
+        {/* <LocalProducts></LocalProducts> */}
+        {/* <Seller></Seller> */}
+        <SelllerDashBoard></SelllerDashBoard>
     </View>
   );
 }

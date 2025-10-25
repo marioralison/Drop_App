@@ -6,7 +6,7 @@ interface CategorieItemProps {
     onPress: (id: string) => void;
 }
 
-export const CategorieItem = ({ item, isSelected, onPress }: CategorieItemProps) => {
+const CategorieItem = ({ item, isSelected, onPress }: CategorieItemProps) => {
     const buttonStyle = isSelected ? 'bg-blackPrimary rounded-xl' : 'border border-black rounded-xl';
     const textStyle = isSelected ? 'text-white' : 'text-blackPrimary';
 
@@ -15,9 +15,9 @@ export const CategorieItem = ({ item, isSelected, onPress }: CategorieItemProps)
             className={`w-fit h-full flex justify-center items-center ${buttonStyle}`}
             onPress={() => onPress(item.id)}
         >
-            <Text className={`text-xl px-[16] font-lato-bold ${textStyle}`}>
-                {item.nom}
-            </Text>
+            {/* <Text>Hello</Text> */}
         </Pressable>
     );
 };
+
+export default CategorieItem
