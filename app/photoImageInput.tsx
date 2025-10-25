@@ -1,9 +1,10 @@
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { Image, TouchableOpacity, Alert } from "react-native";
 import { View, Text } from "react-native";
 import { useState } from "react";
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
+import { IUser } from "@/helpers/data.type";
 
 export default function PhotoImageInput() {
 
@@ -47,9 +48,8 @@ export default function PhotoImageInput() {
                 from: selectedImage,
                 to: destinationPath,
             });
-            console.log(destinationPath)
+            alert(destinationPath)
             setSavedImagePath(destinationPath);
-            Alert.alert('Succès', 'Image enregistrée avec succès !');
 
             return destinationPath;
         }
@@ -59,6 +59,8 @@ export default function PhotoImageInput() {
             return null
         }
     }
+
+    const user: IUser = JSON.parse(useLocalSearchParams().user as string);
 
     return(
         <View className="w-full h-full bg-white flex flex-col items-center justify-between p-[25] gap-[20]">
@@ -98,20 +100,29 @@ export default function PhotoImageInput() {
             </View>
             <View className="w-full mt-10">
                 <TouchableOpacity
-                    onPress={async () => {
-                        const imagePath = await saveImage();
-                        if (imagePath) {
-                            router.push({
-                                pathname: '/recognition_screen',
-                            })
-                        }
-                        return
+                    onPress={() => {
+                        saveImage()
+                        .then((savedPath) => {
+                            if (savedPath) {
+                                router.push(
+                                    {
+                                        pathname: '/onboardBuyer',
+                                        params: {
+                                            user: JSON.stringify(user)
+                                        }
+                                    }
+                                )
+                            }
+                        })
+                        .catch((error) => {
+                                console.error('Erreur lors de la sauvegarde de l\'image :', error);
+                            }
+                        )
                     }}
                     className={`w-full h-[60] flex justify-center items-center ${selectedImage ? "bg-vert" : "bg-black/20"} px-6 py-5 rounded-xl`}
                     disabled={!selectedImage ? true : false}
                 >
                     <Text className="font-lato-bold text-lg">Confirmer</Text>
-                    
                 </TouchableOpacity> 
             </View>
         </View>

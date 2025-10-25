@@ -45,7 +45,7 @@ export default function SelectAccount(){
                         onPress={() => {
                             if (selectAccount == null) return;
                             if (selectAccount == "seller"){
-                                // return router.push('/sellerForm');
+                                return router.push('/views/Seller/Seller');
                             } else {
                                 return router.push('/buyerForm')
                             }

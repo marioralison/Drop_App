@@ -102,16 +102,15 @@ export default function BuyerForm() {
 
                     <Pressable 
                         onPress={() => {
-                            // if(checkRequiredPropriety(users)) {
-                            //     return router.push({
-                            //         pathname: '/onboardBuyer',
-                            //         params: {
-                            //             user: JSON.stringify(users)
-                            //         }
-                            //     })
-                            // }
-                            // return;
-                            router.push("/photoImageInput")
+                            if(checkRequiredPropriety(users)) {
+                                return router.push({
+                                    pathname: '/photoImageInput',
+                                    params: {
+                                        user: JSON.stringify(users)
+                                    }
+                                })
+                            }
+                            return;
                         }}
                         className="w-full h-[60] flex justify-center items-center bg-vert px-6 py-5 rounded-xl"
                     >
