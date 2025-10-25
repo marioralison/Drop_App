@@ -4,7 +4,7 @@ import { useState } from "react";
 const AddPublictionSeller = () => {
     const [price,setPrice] = useState("")
 
-    
+
     return(
         <View className=" flex flex-col justify-between   h-full p-2">
             <View className=" flex flex-col gap-3 h-1/3">

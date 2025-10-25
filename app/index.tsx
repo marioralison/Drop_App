@@ -20,6 +20,7 @@ import UserProfile from "./userProfile";
 import LocalProducts from "./localProduct";
 import SelllerDashBoard from "./views/Seller/SellerDashboard";
 import AddPublictionSeller from "./views/Seller/addPublicationSeller";
+import SellerProfile from "./views/Seller/SellerProfile";
 
 //import Panier from "./panier";
 
@@ -39,7 +40,7 @@ export default function Index() {
   }
 
   return (
-    <View className=" h-full  p-2">
+    <View className=" h-full  p-2 ">
         {/* <OrderTracking></OrderTracking> */}
         {/* <AddWallet></AddWallet> */}
         {/* <WalletForm></WalletForm> */}
@@ -51,7 +52,8 @@ export default function Index() {
         {/* <LocalProducts></LocalProducts> */}
         {/* <Seller></Seller> */}
         {/* <SelllerDashBoard></SelllerDashBoard> */}
-        <AddPublictionSeller></AddPublictionSeller>
+        {/* <AddPublictionSeller></AddPublictionSeller> */}
+        <SellerProfile></SellerProfile>
     </View>
   );
 }
