@@ -1,28 +1,21 @@
-
 import "./global.css";
 import { ActivityIndicator, View } from "react-native";
 import { useFonts } from 'expo-font';
 
-import Welcome from "./welcome";
-import Chat from "./chat";
-import SelectAccount from "./selectAccount";
-import BuyerForm from "./buyerForm";
-import OnboardBuyer from "./onboardBuyer";
-import Seller from "./views/Seller/Seller";
-import Accueil from "./accueil";
-import Delivery from "./delivery";
-import AddWallet from "./addWallet";
+// import Seller from "./views/Seller/Seller";
+// import Accueil from "./accueil";
+// import Delivery from "./delivery";
+// import AddWallet from "./addWallet";
 import Details from "./details";
-import OrderTracking from "./orderTracking";
-import WalletForm from "./walletForm";
-import Notifications from "./notification";
-import UserProfile from "./userProfile";
+// import OrderTracking from "./orderTracking";
+// import WalletForm from "./walletForm";
+// import Notifications from "./notification";
+// import UserProfile from "./userProfile";
 import LocalProducts from "./localProduct";
-import SelllerDashBoard from "./views/Seller/SellerDashboard";
+import SelllerDashBoard from "./SellerDashboard";
 import AddPublictionSeller from "./views/Seller/addPublicationSeller";
 import SellerProfile from "./views/Seller/SellerProfile";
-
-//import Panier from "./panier";
+import SellerNaviagtion from "./views/Seller/SellerNavigation";
 
 
 export default function Index() {
@@ -38,22 +31,18 @@ export default function Index() {
   if (!fontsLoaded) {
     return <ActivityIndicator size="large" color="#0000ff" />;
   }
+ 
 
   return (
-    <View className=" h-full  p-2 ">
-        {/* <OrderTracking></OrderTracking> */}
-        {/* <AddWallet></AddWallet> */}
-        {/* <WalletForm></WalletForm> */}
-        {/* <Panier></Panier> */}
-        {/* <Notifications></Notifications> */}
+    <View className="h-screen">
         {/* <Details></Details> */}
         {/* <UserProfile></UserProfile> */}
-
         {/* <LocalProducts></LocalProducts> */}
         {/* <Seller></Seller> */}
-        {/* <SelllerDashBoard></SelllerDashBoard> */}
         {/* <AddPublictionSeller></AddPublictionSeller> */}
-        <SellerProfile></SellerProfile>
+        {/* <SellerProfile></SellerProfile> */}
+        {/* <SellerNaviagtion></SellerNaviagtion> */}
+        <SelllerDashBoard></SelllerDashBoard>
     </View>
   );
 }

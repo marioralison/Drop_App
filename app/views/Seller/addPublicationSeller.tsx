@@ -1,8 +1,10 @@
 import { View,Text,Image,TouchableOpacity,TextInput } from "react-native";
 import { useState } from "react";
+import { usePathname } from "expo-router";
 
 const AddPublictionSeller = () => {
     const [price,setPrice] = useState("")
+    const pathname = usePathname()
 
 
     return(
@@ -37,6 +39,7 @@ const AddPublictionSeller = () => {
                     <TextInput
                         placeholder="Enter la description"className="text-lg font-lato-regular bg-gray-50 rounded-xl"
                     />
+                    <Text>path : {pathname}</Text>
                 </View>
             </View>
             <TouchableOpacity className=" bg-vert py-3 rounded-xl flex items-center justify-center">

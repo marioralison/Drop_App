@@ -5,6 +5,8 @@ interface Article_type{
 }
 
 export const dataArticles: Article_type[] = [
+   
+    
     {
         name : "clavier",
         price: 100,
@@ -34,5 +36,81 @@ export const dataArticles: Article_type[] = [
         name : "clavier",
         price: 100,
         acheteur: "Mario"
-    }
+    },
+    {
+        name : "clavier",
+        price: 100,
+        acheteur: "Mario"
+    },
+    {
+        name : "clavier",
+        price: 100,
+        acheteur: "Mario"
+    },
+    {
+        name : "clavier",
+        price: 100,
+        acheteur: "Mario"
+    },
+    {
+        name : "clavier",
+        price: 100,
+        acheteur: "Mario"
+    },
+    {
+        name : "clavier",
+        price: 100,
+        acheteur: "Mario"
+    },
+    {
+        name : "clavier",
+        price: 100,
+        acheteur: "Mario"
+    },
+    {
+        name : "clavier",
+        price: 100,
+        acheteur: "Mario"
+    },
+    {
+        name : "clavier",
+        price: 100,
+        acheteur: "Mario"
+    },
+    {
+        name : "clavier",
+        price: 100,
+        acheteur: "Mario"
+    },
+    {
+        name : "clavier",
+        price: 100,
+        acheteur: "Mario"
+    },
+    {
+        name : "clavier",
+        price: 100,
+        acheteur: "Mario"
+    },
+    {
+        name : "clavier",
+        price: 100,
+        acheteur: "Mario"
+    },
+    {
+        name : "clavier",
+        price: 100,
+        acheteur: "Mario"
+    },
+    {
+        name : "clavier",
+        price: 100,
+        acheteur: "Mario"
+    },
+    {
+        name : "clavier",
+        price: 100,
+        acheteur: "Mario"
+    },
+    
 ]

@@ -1,13 +1,16 @@
 import { View,Text,Image,ScrollView } from "react-native";
 import { dataArticles } from "@/app/data/articles";
+import SellerNaviagtion from "./views/Seller/SellerNavigation";
 
 const SelllerDashBoard = () => {
+
     return(
-        <View className=" flex flex-col gap-3 h-fit p-2 m-2">
-            <View className="   flex flex-row items-center">
-                <Image className="w-14 h-14 rounded-full" source={require("../../assets/images/vendeur1.png")}/>
+        <View className=" flex relative flex-col h-full gap-3  p-2 m-2">
+            <View className="flex flex-row items-center">
+                <Image className="w-14 h-14 rounded-full" source={require("./assets/images/vendeur1.png")}/>
                 <View>
                     <Text className="font-syne-bold  text-base">Iannis Guerra</Text>
+                    
                     <Text className="font-lato-regular text-gray-500  text-xs">Antananarivo,Madagascar</Text>
                 </View>
             </View>
@@ -35,11 +38,11 @@ const SelllerDashBoard = () => {
                 </View>
                 <View className="flex flex-col gap-5 h-full rounded-xl  py-3 px-4 ">
                     <Text className="font-lato-bold text-lg">Ventes recentes</Text>
-                    <View className="h-full flex  flex-col gap-4 overflow-y-auto">
+                    <ScrollView className="h-full flex  flex-col gap-4 overflow-y-auto">
                         {dataArticles.map((item,index) => (
                             <View key={index} className=" flex flex-row items-center rounded-lg justify-between p-1 bg-gray-50 ">
                                 <View className=" flex flex-row gap-1 items-center">
-                                    <Image className=" size-20" source={require("../../assets/images/agraffeuse.png")}/>
+                                    <Image className=" size-20" source={require("./assets/images/agraffeuse.png")}/>
                                     <View className=" flex flex-col  gap-0.5">
                                         <Text className=" font-lato-bold text-lg">{item.name}</Text>
                                         <Text className="font-syne-regular"> Nom acheteur : {item.acheteur}</Text>
@@ -51,10 +54,10 @@ const SelllerDashBoard = () => {
                                 </View>
                             </View>
                         ))}
-                    </View>
+                    </ScrollView>
                 </View>
             </View>
-            
+            <SellerNaviagtion></SellerNaviagtion>
         </View>
     )
 }
