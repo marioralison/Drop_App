@@ -125,14 +125,14 @@ export default function Chat() {
         <Text style={styles.headerTitle}>Messages</Text>
       </View>
 
-      <View style={styles.userIndicator}>
+      {/* <View style={styles.userIndicator}>
         <Text style={styles.userIndicatorText}>
           🟢 Connecté en tant que: {currentUser}
         </Text>
         <Text style={styles.userIndicatorSubtext}>
           Appuyez sur votre nom en haut à droite pour changer
         </Text>
-      </View>
+      </View> */}
 
       <View style={styles.listContainer}>
         <FlatList
@@ -168,7 +168,7 @@ export default function Chat() {
         />
       </View>
 
-      <View style={styles.testMode}>
+      {/* <View style={styles.testMode}>
         <Text style={styles.testModeTitle}>🧪 Mode Test</Text>
         <Text style={styles.testModeText}>
           1. Choisissez un utilisateur en haut à droite{"\n"}
@@ -177,7 +177,7 @@ export default function Chat() {
           3. Envoyez des messages{"\n"}
           4. Revenez ici et changez d'utilisateur pour répondre
         </Text>
-      </View>
+      </View> */}
     </View>
   );
 }

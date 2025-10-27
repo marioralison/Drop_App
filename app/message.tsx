@@ -339,7 +339,7 @@ export default function Message() {
             </View>
           </View>
 
-          <View style={styles.headerActions}>
+          {/* <View style={styles.headerActions}>
             <TouchableOpacity
               onPress={testTranslation}
               style={styles.actionButton}
@@ -353,7 +353,7 @@ export default function Message() {
             >
               <Text style={styles.deleteButtonText}>🗑️</Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
         </View>
       </View>
 
@@ -514,14 +514,14 @@ export default function Message() {
       </View>
 
       {/* Debug info */}
-      {__DEV__ && (
+      {/* {__DEV__ && (
         <View style={styles.debugInfo}>
           <Text style={styles.debugText}>
             🐛 Nav: {routerAvailable ? "OK" : "KO"} | Msgs: {messages.length} |
             Status: {connectionStatus}
           </Text>
         </View>
-      )}
+      )} */}
     </View>
   );
 }
@@ -668,7 +668,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   messageBubbleUser: {
-    backgroundColor: "#3B82F6",
+    backgroundColor: "#C9D856",
   },
   messageBubbleOther: {
     backgroundColor: "#FFFFFF",
