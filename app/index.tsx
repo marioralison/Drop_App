@@ -42,5 +42,6 @@ export default function Index() {
         {/* <Panier></Panier> */}
         {/* <Notifications></Notifications> */}
     </View>
+    
   );
 }

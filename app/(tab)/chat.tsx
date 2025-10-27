@@ -1,44 +1,16 @@
-import { View, Image, Text, TouchableOpacity, Pressable } from "react-native";
+import { View, Image, Text, TouchableOpacity, Pressable, Alert } from "react-native";
 import { FlatList } from "react-native";
+import { useEffect, useState } from "react";
 import { useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-
-interface UserList {
-    id: string;
-    nom: string;
-    imagePdp: any;
-}
-
-const dataUserList: UserList[] = [
-    {
-        id: 'ul1',
-        nom: 'Fano',
-        imagePdp: require('../assets/images/vendeur1.png'),
-    },
-    {
-        id: 'ul2',
-        nom: 'Mario',
-        imagePdp: require('../assets/images/vendeur1.png'),
-    },
-    // {
-    //     id: 'ul3',
-    //     nom: 'Mario Ralison',
-    //     imagePdp: require('../././assets/images/react-logo.png'),
-    // },
-    // {
-    //     id: 'ul4',
-    //     nom: 'Mario Ralison',
-    //     imagePdp: require('../././assets/images/react-logo.png'),
-    // },
-    // {
-    //     id: 'ul5',
-    //     nom: 'Mario Ralison',
-    //     imagePdp: require('../././assets/images/react-logo.png'),
-    // },
-];
+import { getValueFor } from "@/helpers/store.access";
+import { getSomeUser } from "@/helpers/api";
+import { UserRole } from "@/helpers/users.type"
+import { IBestUser } from "@/helpers/data.type";
 
 export default function Chat() {
+
+    const [userId, setUserId] = useState<string | null>(null);
 
     const router = useRouter();
     
@@ -46,8 +18,36 @@ export default function Chat() {
     router.back();
     };
 
-    const currentUser = 'Fano';
-    const otherCurrentUser = 'Mario';
+    const [ dataUserList, setDataUserList ] = useState<IBestUser[]>([]);
+
+    const handleGetUserId = async () => {
+        try {
+            const userId = await getValueFor('id');
+            setUserId(userId);
+        }
+        catch (error) {
+            console.error("Erreur lors de la récupération de l'ID utilisateur :", error);
+            return null;
+        }
+    };
+
+    const handleGetSomeUser = async () => {
+        try {
+            const users : IBestUser[] | null = await getSomeUser(UserRole.BUYER, 0, 10);
+            if (users) {
+                setDataUserList(users);
+            }
+            return;
+        } catch (error) {
+            console.error("Erreur lors de la récupération des utilisateurs :", error);
+            return [];
+        }
+    };
+
+    useEffect(() => {
+        handleGetSomeUser();
+        handleGetUserId();
+    }, []);
     
 
     return(
@@ -63,14 +63,23 @@ export default function Chat() {
                     data={dataUserList}
                     keyExtractor={(item) => item.id}
                     renderItem={({ item }) => (
-                        <Pressable onPress={() => router.push({
-                            pathname: '/message',
-                            params: { nom: item.nom, sender: currentUser, otherCurrentUser: otherCurrentUser}
+                        <Pressable 
+                            onPress={() => router.push({
+                                    pathname: '/message',
+                                    params: { 
+                                        id_sender: userId, 
+                                        id_recever : item.id, 
+                                        nom_sender: item.nom, 
+                                        imageSender: item.imageSource}
                                 })
                             } 
                             className="w-full h-[70] flex flex-row items-center px-5"
                         >
-                            <Image source={require("../assets/images/vendeur1.png")} className="w-[50] h-[50] rounded-full mr-3" />
+                            {item.imageSource ? (
+                                <Image source={{ uri: item.imageSource }} className="w-[50] h-[50] rounded-full mr-4"/>
+                            ) : (
+                                <Image source={require("../assets/icons/user.png")} className="w-[50] h-[50] rounded-full mr-4"/>
+                            )}
                             <View className="flex flex-row items-center w-[70%]">
                                 <View className="w-full flex flex-col">
                                     <Text className="text-lg font-syne-regular">{item.nom}</Text>

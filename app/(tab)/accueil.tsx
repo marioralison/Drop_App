@@ -1,8 +1,9 @@
 import React, { useRef, useMemo, useCallback, useState, useEffect } from "react";
-import { View, ScrollView, TextInput, Text, Image, StyleSheet, Pressable } from "react-native";
+import { View, ScrollView, TextInput, Text, Image, StyleSheet, Pressable, Alert } from "react-native";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Keyboard } from 'react-native';
+import { socket, initializeRooms } from "@/app/services/socket.service";
 
 import HeaderAccueil from "../views/components/layouts/accueil/Header";
 import ProduitLocal from "../views/components/layouts/accueil/ProduitLocal";
@@ -16,7 +17,9 @@ import Toast from "react-native-toast-message";
 import { commentAPost, getAllComment, getInfoById, getLocalProduct, getPostReactedByUser, getPubs, getSomeUser } from "@/helpers/api";
 import { router } from "expo-router";
 
+import { joinRoom } from "@/app/services/socket.service";
 
+import { IdUserInRoom } from "@/app/services/socket.service";
 
 export default function Accueil() {
     const [currentUser, setCurrentUser] = useState<Omit<IUser, "password" | "confirmPassword"> | null>(null);
@@ -32,11 +35,10 @@ export default function Accueil() {
     const bottomSheetRef = useRef<BottomSheet>(null);
     const snapPoints = useMemo(() => ['50%', '90%'], []);
 
-
     useEffect(() => {
         const setUserPropriety = async () => {
             try {
-                // for checking current user
+                
                 const token: string | null = await getValueFor("token");
                 const id: string | null = await getValueFor("id");
                 if (!token) {
@@ -58,21 +60,17 @@ export default function Accueil() {
                 if (!info) return;
                 setCurrentUser(info);
                 
-                // to get local product 
                 const products: IProduct[] = await getLocalProduct("Madagascar");
                 setProduct(products)
 
-                // to get all post reacted by this current user
                 const tmp: Dictionnaire<number, boolean> | null = await getPostReactedByUser(parseInt(id));
                 if (!tmp) return;
                 setIdPostReact(tmp);
 
-                // to get some pubs
                 const pubs: Omit<IPublication,"onCommentPress" | "checkComment">[] | null = await getPubs(12);
                 if (pubs === null) return;
                 setPublications(pubs);
 
-                // to get best seller
                 const bestSeller: IBestUser[] | [] | null = await  getSomeUser(UserRole.SELLER,0,10)
                 if (bestSeller) setBestSeller(bestSeller);
             } catch (error) {
@@ -83,14 +81,37 @@ export default function Accueil() {
                 throw error;
             }
         }
+
+        socket.on('connect', () => {
+            console.log('Connected to socket server with id:', socket.id);
+        });
+
         setUserPropriety()
     },[]);
+
+    useEffect(() => {
+        const setupRooms = async () => {
+            try {
+                const users = await getSomeUser(UserRole.BUYER, 0, 10);
+                const id = await getValueFor('id');
+                
+                if (!users || !id) return;
+                
+                const userIds = users.map(user => Number(user.id));
+                await initializeRooms(Number(id), userIds);
+            } catch (error) {
+                console.error("Erreur initialisation rooms:", error);
+            }
+        };
+
+        setupRooms();
+    }, []);
 
     const [isCommentSheetOpen, setIsCommentSheetOpen] = useState(false);
 
     const handleSheetChanges = useCallback((index: number) => {
         if (index === -1) {
-            setIsCommentSheetOpen(false); // Masque le fond quand fermé
+            setIsCommentSheetOpen(false);
         }
     }, []);
 
