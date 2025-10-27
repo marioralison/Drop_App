@@ -1,9 +1,10 @@
 import { View, Image, TouchableOpacity } from "react-native";
 import { useRouter, usePathname } from "expo-router";
+import RecognitionScreen from "@/app/recognition_screen";
 
 export default function NavigationBottom() {
   const router = useRouter();
-  const pathname = usePathname();            // route courante
+  const pathname = usePathname();
 
   const icons = [
     { icon: require("../../assets/icons/Home.png"),      route: "/accueil" },
@@ -21,7 +22,12 @@ export default function NavigationBottom() {
         return (
           <TouchableOpacity
             key={index}
-            onPress={() => router.push(item.route)}
+            onPress={() => {
+              if (item.route === "/wallet") {
+                return router.push("/recognition_screen")
+              }
+              router.push(item.route as any)
+            }}
             activeOpacity={0.6}
             style={{ justifyContent: "center", alignItems: "center", height: "100%" }}
           >

@@ -3,7 +3,7 @@ import { router } from 'expo-router';
 import { useRef, useState } from 'react';
 import { ActivityIndicator, Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-export default function App() {
+export default function RecognitionScreen() {
   const [facing, setFacing] = useState<CameraType>('front');
   const [permission, requestPermission] = useCameraPermissions();
   const cameraRef = useRef<CameraView>(null);
@@ -11,12 +11,10 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
 
   if (!permission) {
-    // Les permissions de la caméra sont en cours de chargement.
     return <View />;
   }
 
   if (!permission.granted) {
-    // Les permissions de la caméra n'ont pas encore été accordées.
     return (
       <View style={styles.container}>
         <Text style={styles.message}>Nous avons besoin de votre permission pour utiliser la caméra</Text>
@@ -36,7 +34,7 @@ export default function App() {
             throw new Error('Photo non capturée');
         }
         
-        const response = await fetch('http://192.168.168.195:5000/recognize', {
+        const response = await fetch('http://10.95.73.195:5000/recognize', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -56,7 +54,7 @@ export default function App() {
 
         if (data.recognized) {
             setTimeout(() => {
-                router.push('/(tab)/accueil');
+                router.push('/(tab)/wallet');
             }
             , 1000);
         }

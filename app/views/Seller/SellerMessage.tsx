@@ -5,7 +5,7 @@ import { useRouter } from "expo-router";
 const SellerMessage = () => {
     const router = useRouter()
     return(
-        <View className=" flex items-center justify-center h-screen">
+        <View className="flex flex-col items-center justify-center h-full w-full gap-3 p-4 pt-4 relative">
             <TouchableOpacity className=" absolute top-0 left-0 size-8"
                 onPress={() => {router.back() as any}}
             >

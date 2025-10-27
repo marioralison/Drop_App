@@ -1,10 +1,13 @@
 import { View,Text,Image, TouchableOpacity,ScrollView } from "react-native";
 import SellerNaviagtion from "./SellerNavigation";
-import { dataArticles } from "@/app/data/articles";
+import { dataArticles } from "../../data/articles";
 import { useRouter } from "expo-router";
+import { useState } from "react";
 
 const SellerTransaction = () => {
     const router = useRouter();
+    const [isVisible, setIsVisible] = useState(false);
+    
     return(
         <View className=" flex flex-col h-screen gap-3 p-2 pt-4 m-3">
             <View className="flex flex-row items-center gap-4 pb-4">
@@ -13,21 +16,32 @@ const SellerTransaction = () => {
                 >
                     <Image source={require("../../assets/icons/Back.png")} className="size-8"/>
                 </TouchableOpacity>
-                <Text className="font-syne-semiBold text-3xl">Transaction et portefeuille</Text>
+                <Text className="font-syne-semiBold text-3xl">Portefeuille</Text>
             </View>
-            <View className=" flex flex-col gap-4 justify-around h-1/5 bg-vert rounded-xl p-3 px-5 mx-3">
-                <View>
-                    <Text className=" font-lato-bold text-lg text-gray-50">Solde du compte</Text>
-                    <Text className="text-4xl font-lato-bold">000000 MGA</Text>
-                </View>
-                <View className=" flex flex-row items-center justify-between">
-                    <View className=" flex fle-col gap-1">
-                        <Text className=" text-gray-50 font-lato-bold">N° du compte</Text>
-                        <Text className=" font-lato-bold text-sm">**** **** **45</Text>
+            <View className=" flex flex-col gap-4 justify-around h-auto bg-vert rounded-xl p-5 px-5 mx-3">
+                <View className="w-full flex justify-between bg-vert rounded-3xl">
+                    <Text className="font-lato-bold text-white text-lg">Balance du compte</Text>
+                    <View className="w-full h-[100] flex flex-row justify-start items-center">
+                        <Text className="w-[90%] font-lato-bold text-white text-5xl">
+                            {isVisible ? "MGA 200 000" : "••••••••"}
+                        </Text>
+                        <TouchableOpacity onPress={() => setIsVisible(!isVisible)}>
+                            {isVisible ? 
+                                <Image source={require("../../assets/icons/EyeClosed.png")} className="w-[30] h-[30]" /> :
+                                <Image source={require("../../assets/icons/Eye.png")} className="w-[30] h-[30]" />
+                            }
+                        </TouchableOpacity>
                     </View>
-                    <View className=" flex fle-col gap-1">
-                        <Text className=" text-gray-50 font-lato-bold text-base">Titulaire</Text>
-                        <Text className=" font-lato-bold text-sm">Iannis Guerra</Text>
+
+                    <View className="w-full flex flex-row justify-start items-center">
+                        <View className="w-[50%] flex flex-col items-start justify-center">
+                            <Text className="font-lato-bold text-white text-lg">N° Compte</Text>
+                            <Text className="font-lato-bold text-black text-lg">**** **** **** 2546</Text>
+                        </View>
+                        <View className="w-[50%] flex flex-col items-end justify-center">
+                            <Text className="font-lato-bold text-white text-lg">Titulaire compte</Text>
+                            <Text className="font-lato-bold text-black text-lg">Mario Ralison</Text>
+                        </View>
                     </View>
                 </View>
             </View>

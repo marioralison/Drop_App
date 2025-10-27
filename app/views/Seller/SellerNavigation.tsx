@@ -15,7 +15,7 @@ export default function SellerNaviagtion() {
   ];
 
   return (
-    <View className="flex-row justify-around bottom-5 items-center absolute bg-gray-100 rounded-2xl w-full h-20">
+    <View className="flex-row justify-around bottom-5 left-4 items-center absolute bg-gray-100 rounded-2xl w-full h-20">
       {icons.map((item, index) => {
         const isActive = pathname === item.route;
 
