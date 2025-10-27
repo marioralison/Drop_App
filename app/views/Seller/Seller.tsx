@@ -1,4 +1,5 @@
-import { View, Image, Text, TextInput, ScrollView, Pressable } from "react-native";
+import { router } from "expo-router";
+import { View, Image, Text, TextInput, ScrollView, Pressable, Alert, Touchable, TouchableOpacity } from "react-native";
 
 export default function Seller() {
     return(
@@ -47,14 +48,19 @@ export default function Seller() {
                         placeholder="Confirmer le mot de passe"
                     />
 
-                    <Pressable className="flex justify-center items-center bg-vert px-6 py-5 rounded-xl">
+                    <TouchableOpacity
+                        onPress={() => router.push("/views/Seller/sellerDashboard")}
+                        className="flex justify-center items-center bg-vert px-6 py-5 rounded-xl"
+                    >
                         <Text className="font-lato-bold text-lg">Confirmer</Text>
-                    </Pressable>
+                    </TouchableOpacity>
 
-                    <Pressable className="flex flex-row justify-center items-center bg-blackPrimary gap-[10] px-6 py-5 rounded-xl">
+                    <TouchableOpacity
+                        className="flex flex-row justify-center items-center bg-blackPrimary gap-[10] px-6 py-5 rounded-xl"
+                    >
                         <Image source={require("../../assets/icons/Google.png")} className="w-[30] h-[30]"/>
                         <Text className="font-lato-bold text-lg text-white">Google</Text>
-                    </Pressable>
+                    </TouchableOpacity>
                 </View>
             </ScrollView>
         </View>

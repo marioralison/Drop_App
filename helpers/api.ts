@@ -3,7 +3,7 @@ import { getValueFor, save } from "./store.access";
 import { Dictionnaire, IBestUser, IComment, IProduct, IPublication, IUser, IUserLogin, UserRole } from "./data.type";
 import { decodeHtmlEntities, formatBestUser, formatComment, formatPostReactedByUser, formatPubs } from "./library";
 
-const DROP_API_URL: string = "http://192.168.88.39:8080";
+const DROP_API_URL: string = "http://10.95.73.195:8080";
 
 const fetchBestArticle = (): string[] => ['Pantalon',"Menteau","Jeans","Art","Chaussure","Pull","Capuche","Casquette","Chemise","Lunette"]
 

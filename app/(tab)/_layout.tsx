@@ -8,7 +8,7 @@ export default function TabsLayout() {
   const translateX = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    translateX.setValue(500); // Start off-screen to the right
+    translateX.setValue(500);
     Animated.timing(translateX, {
       toValue: 0,
       duration: 300,
