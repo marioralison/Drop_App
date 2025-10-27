@@ -15,25 +15,25 @@ const styles = StyleSheet.create({
 const SellerProfile = () => {
     const router = useRouter()
     return(
-        <View className=" flex-col justify-between items-center  h-full p-3 ">
+        <View className=" flex-col items-center h-full gap-8 p-2 pt-4 m-3 relative">
              <TouchableOpacity 
                 onPress={() => {router.back() as any}}
-                className="absolute top-0 left-0"
+                className="absolute top-4 left-4"
              >
                 <Image source={require("../../assets/icons/Back.png")} 
                     className="size-8"/>
              </TouchableOpacity>
-             <View className=" flex-col justify-center items-center p-3">
+             <View className=" flex-col justify-center items-center p-3 border">
                 <Image source={require("../../assets/icons/user.png")}/>
                  <Text className=" font-syne-bold text-xl ">GUERRA Iannis</Text>
                  <Text className=" font-syne-bold text-md">guerraiannis@gmail.com</Text>
              </View>
 
-             <View className="m-2  w-full p-1 ">
-                 <Text className=" font-syne-bold text-base">Profile Vendeur</Text>
+             <View className="w-full">
+                 <Text className=" font-syne-bold text-base pb-2">Profile Vendeur</Text>
                  <View className=" flex-col gap-2">
                      <TouchableOpacity  style={styles.grayBG}>
-                        <View className=" flex-row items-center justify-between">
+                        <View className=" flex-row items-center justify-between p-2">
                              <View>
                                  <Text className="font-bold text-lg">Nom</Text>
                                  <Text style={styles.userdetails} className="text-sm font-syne-semiBold">GUERRA</Text>
@@ -45,7 +45,7 @@ const SellerProfile = () => {
                      </TouchableOpacity>
 
                      <TouchableOpacity style={styles.grayBG}>
-                         <View className=" flex-row items-center justify-between">
+                         <View className=" flex-row items-center justify-between p-2">
                              <View>
                                  <Text className="font-bold text-lg">Email</Text>
                                  <Text style={styles.userdetails} className="text-sm font-syne-semiBold bg-[#e4e4e4]">guerraiannis@gmail.com</Text>
@@ -57,7 +57,7 @@ const SellerProfile = () => {
                      </TouchableOpacity>
 
                      <TouchableOpacity style={styles.grayBG}>
-                        <View className=" flex-row items-center justify-between ">
+                        <View className=" flex-row items-center justify-between p-2 ">
                              <View>
                                  <Text className="font-bold text-lg">Numéro</Text>
                                  <Text style={styles.userdetails} className="text-sm font-syne-semiBold">+261 34 27 112 20</Text>
@@ -69,7 +69,7 @@ const SellerProfile = () => {
                      </TouchableOpacity>
                     
                      <TouchableOpacity style={styles.grayBG}>
-                         <View className=" flex-row items-center justify-between">
+                         <View className=" flex-row items-center justify-between p-2">
                              <View>
                                  <Text className="font-bold text-lg">Adresse</Text>
                                  <Text style={styles.userdetails} className="text-sm font-syne-semiBold">Antsobolo Antananarivo</Text>
@@ -82,11 +82,11 @@ const SellerProfile = () => {
                  </View>
              </View>
 
-             <View className="m-2  w-full p-3 ">
-                 <Text className=" font-syne-bold text-base">Paramètres</Text>
+             <View className="w-full">
+                 <Text className=" font-syne-bold text-base pb-2">Paramètres</Text>
                  <View>
                      <TouchableOpacity  style={styles.grayBG}>
-                         <View className="  flex-row items-center justify-between p-3">
+                         <View className="flex-row items-center justify-between p-3">
                              <View>
                                  <Text className="font-bold text-lg">Changer de mot de passe</Text>
                              </View>
@@ -97,7 +97,7 @@ const SellerProfile = () => {
                      </TouchableOpacity>
                  </View>
              </View>
-             <TouchableOpacity className=" bg-blackPrimary w-11/12 p-3 rounded-xl"
+             <TouchableOpacity className=" bg-blackPrimary w-full p-5 rounded-xl"
                 onPress={() => {router.push("/") as any}}
              >
                  <Text className="text-white font-syne-semiBold text-center ">Déconexion</Text>

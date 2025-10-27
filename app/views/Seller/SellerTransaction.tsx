@@ -6,8 +6,8 @@ import { useRouter } from "expo-router";
 const SellerTransaction = () => {
     const router = useRouter();
     return(
-        <View className=" flex flex-col gap-5 h-screen p-2">
-            <View className=" flex flex-row items-center">
+        <View className=" flex flex-col h-screen gap-3 p-2 pt-4 m-3">
+            <View className="flex flex-row items-center gap-4 pb-4">
                 <TouchableOpacity
                     onPress={() => {router.back() as any}}
                 >
@@ -15,10 +15,10 @@ const SellerTransaction = () => {
                 </TouchableOpacity>
                 <Text className="font-syne-semiBold text-3xl">Transaction et portefeuille</Text>
             </View>
-            <View className=" flex flex-col gap-4 justify-around h-1/5 bg-vert rounded-xl p-3 mx-3">
+            <View className=" flex flex-col gap-4 justify-around h-1/5 bg-vert rounded-xl p-3 px-5 mx-3">
                 <View>
                     <Text className=" font-lato-bold text-lg text-gray-50">Solde du compte</Text>
-                    <Text className=" ml-2 text-4xl font-lato-bold">000000 MGA</Text>
+                    <Text className="text-4xl font-lato-bold">000000 MGA</Text>
                 </View>
                 <View className=" flex flex-row items-center justify-between">
                     <View className=" flex fle-col gap-1">
@@ -36,7 +36,7 @@ const SellerTransaction = () => {
                     <Text className="font-lato-bold text-white ">Retirer de l'argent</Text>
                 </TouchableOpacity>
             </View>
-            <View className="h-full px-2">
+            <View className="h-full px-2 pt-4">
                 <Text className=" text-gray-400 font-lato-bold text-lg">Transaction faites</Text>
                 <ScrollView >
                         {dataArticles.map((item,index) => (
