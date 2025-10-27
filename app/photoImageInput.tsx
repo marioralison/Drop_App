@@ -48,7 +48,7 @@ export default function PhotoImageInput() {
                 from: selectedImage,
                 to: destinationPath,
             });
-            alert(destinationPath)
+
             setSavedImagePath(destinationPath);
 
             return destinationPath;
