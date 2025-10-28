@@ -7,9 +7,24 @@ import base64
 
 app = Flask(__name__)
 
-# Charger l'image de référence d'une personne connue
-known_image = face_recognition.load_image_file("../assets/images/face.jpg")
-known_encoding = face_recognition.face_encodings(known_image)[0]
+images = [
+    "../assets/images/face.jpg",
+    "../assets/images/tsito.jpg",
+    "../assets/images/iannis.jpg",
+]
+
+# Charger toutes les images de référence et extraire leurs encodages
+known_encodings = []
+for image_path in images:
+    try:
+        known_image = face_recognition.load_image_file(image_path)
+        encodings = face_recognition.face_encodings(known_image)
+        if len(encodings) > 0 :
+            known_encodings.append(encodings[0])
+        else:
+            print(f"Aucun visage trouvé dans {image_path}")
+    except Exception as e:
+        print(f"Erreur lors du chargement de {image_path}: {e}")
 
 @app.route("/recognize", methods=["POST"])
 def recognize():
@@ -26,9 +41,13 @@ def recognize():
     if len(encodings) == 0:
         return jsonify({"recognized": False, "message": "Aucun visage trouvé"})
 
-    # Comparer avec l'image connue
-    match = face_recognition.compare_faces([known_encoding], encodings[0])[0]
-    return jsonify({"recognized": bool(match)})
+    # Comparer avec toutes les images connues
+    for known_encoding in known_encodings:
+        match = face_recognition.compare_faces([known_encoding], encodings[0])[0]
+        if match:
+            return jsonify({"recognized": True, "message": "Visage reconnu"})
+    
+    return jsonify({"recognized": False, "message": "Visage non reconnu"})
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
