@@ -24,7 +24,7 @@ try {
   routerAvailable = true;
   console.log("✅ Expo Router disponible");
 } catch (error) {
-  console.warn("⚠️ Expo Router non disponible:", error.message);
+  console.warn("⚠️ Expo Router non disponible:");
   useRouter = () => ({
     back: () => console.log("Navigation back non disponible"),
   });
@@ -32,7 +32,7 @@ try {
   routerAvailable = false;
 }
 
-const SOCKET_URL = "http://192.168.1.232:3000";
+const SOCKET_URL = "http://10.95.73.195:8080";
 
 interface MessageProps {
   id: string;
@@ -122,7 +122,7 @@ export default function Message() {
         console.log("🏠 Rejoint room:", roomId);
       });
 
-      socket.on("room_joined", (data) => {
+      socket.on("room_joined", (data : any) => {
         console.log("🏠 Room confirmée:", data);
         setConnectionStatus("En ligne");
       });
@@ -162,23 +162,35 @@ export default function Message() {
   }, [roomId]);
 
   const updateMessages = (newMessage: MessageProps) => {
-    setMessages((prevMessages) => {
+  console.log("🔄 updateMessages appelé:", {
+    id: newMessage.id,
+    hasTranslation: !!newMessage.translated,
+    status: newMessage.translationStatus
+  });
+
+  setMessages((prevMessages : any) => {
       const existingIndex = prevMessages.findIndex(
-        (msg) => msg.id === newMessage.id
+        (msg : any) => msg.id === newMessage.id
       );
 
       if (existingIndex !== -1) {
+        // ✅ Message existant - MISE À JOUR avec traduction
+        console.log("🔄 Mise à jour du message existant à l'index:", existingIndex);
         const updatedMessages = [...prevMessages];
         updatedMessages[existingIndex] = {
           ...updatedMessages[existingIndex],
           ...newMessage,
+          translationStatus: newMessage.translated ? "success" : "pending",
         };
-        console.log("🔄 Message mis à jour avec traduction");
         saveMessagesToStorage(updatedMessages);
         return updatedMessages;
       } else {
-        const newMessages = [...prevMessages, newMessage];
-        console.log("✅ Nouveau message ajouté, total:", newMessages.length);
+        // ✅ Nouveau message (reçu d'un autre utilisateur)
+        console.log("➕ Ajout d'un nouveau message");
+        const newMessages = [...prevMessages, {
+          ...newMessage,
+          translationStatus: newMessage.translated ? "success" : "pending",
+        }];
         saveMessagesToStorage(newMessages);
         return newMessages;
       }
@@ -243,22 +255,19 @@ export default function Message() {
         sender: currentUser,
         nom: otherCurrentUser,
         timestamp: new Date().toISOString(),
-        translationStatus: "pending",
+        translationStatus: "pending", // ✅ Message en attente de traduction
       };
 
       console.log("📤 Création message:", newMessage.id);
 
+      // ✅ Ajouter le message immédiatement (affichage optimiste)
       const updatedMessages = [...messages, newMessage];
       setMessages(updatedMessages);
       await saveMessagesToStorage(updatedMessages);
 
-      setTimeout(() => {
-        if (socketRef.current) {
-          console.log("📡 Émission vers socket");
-          socketRef.current.emit("send_message", newMessage);
-        }
-      }, 10);
-
+      // ✅ Émettre vers le serveur (le serveur renverra avec traduction)
+      socketRef.current.emit("send_message", newMessage);
+      
       setMessage("");
     } catch (error) {
       console.error("❌ Erreur sendMessage:", error);

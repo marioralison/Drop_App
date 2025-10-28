@@ -216,14 +216,14 @@ io.on("connection", (socket) => {
   console.log("✅ Nouvelle connexion:", socket.id);
 
   socket.on("join_room", (roomId) => {
-    socket.join(roomId);
-    console.log(`🏠 ${socket.id} → room ${roomId}`);
+      socket.join(roomId);
+      console.log(`🏠 ${socket.id} → room ${roomId}`);
 
-    // Confirmer la connexion à la room
-    socket.emit("room_joined", { roomId, status: "success" });
-  });
+      // Confirmer la connexion à la room
+      socket.emit("room_joined", { roomId, status: "success" });
+    });
 
-  socket.on("send_message", async (data) => {
+    socket.on("send_message", async (data) => {
     console.log("\n📨 NOUVEAU MESSAGE:", data);
 
     try {
@@ -249,19 +249,22 @@ io.on("connection", (socket) => {
         translated: translatedText,
         originalLang: sourceLang,
         targetLang: targetLang,
-        timestamp: new Date().toISOString(),
-        translationStatus: "success",
+        timestamp: data.timestamp || new Date().toISOString(),
+        translationStatus: "success", // ✅ Important: marquer comme réussi
       };
 
       console.log("📤 Message final avec traduction:", {
+        id: finalMessage.id,
         original: finalMessage.content,
         translated: finalMessage.translated,
         langs: `${sourceLang} → ${targetLang}`,
       });
 
-      // Envoyer à tous les clients de la room
+      // ✅ CRITIQUE: Envoyer à TOUTE la room (y compris l'expéditeur)
+      // Cela permet de mettre à jour le message "pending" avec la traduction
       io.to(roomId).emit("receive_message", finalMessage);
-      console.log(`✅ Message envoyé à room ${roomId}\n`);
+      
+      console.log(`✅ Message envoyé à toute la room ${roomId}\n`);
     } catch (error) {
       console.error("❌ ERREUR GLOBALE:", error);
 
@@ -270,8 +273,8 @@ io.on("connection", (socket) => {
         ...data,
         translated: `${data.content} [erreur traduction]`,
         error: error.message,
-        timestamp: new Date().toISOString(),
-        translationStatus: "error",
+        timestamp: data.timestamp || new Date().toISOString(),
+        translationStatus: "error", // ✅ Marquer comme erreur
       };
 
       const roomId = [data.sender, data.nom].sort().join("_");

@@ -23,12 +23,12 @@ const dataUserList: UserList[] = [
   {
     id: "ul1",
     nom: "Fano",
-    imagePdp: require("../././assets/images/react-logo.png"),
+    imagePdp: require("./assets/images/vendeur1.png"),
   },
   {
     id: "ul2",
-    nom: "Mario",
-    imagePdp: require("../././assets/images/react-logo.png"),
+    nom: "Julie",
+    imagePdp: require("./assets/images/vendeur2.png"),
   },
 ];
 
@@ -127,7 +127,7 @@ export default function Chat() {
 
       <View style={styles.userIndicator}>
         <Text style={styles.userIndicatorText}>
-          🟢 Connecté en tant que: {currentUser}
+          Connecté en tant que: {currentUser}
         </Text>
         <Text style={styles.userIndicatorSubtext}>
           Appuyez sur votre nom en haut à droite pour changer
@@ -167,17 +167,6 @@ export default function Chat() {
           )}
         />
       </View>
-
-      <View style={styles.testMode}>
-        <Text style={styles.testModeTitle}>🧪 Mode Test</Text>
-        <Text style={styles.testModeText}>
-          1. Choisissez un utilisateur en haut à droite{"\n"}
-          2. Cliquez sur l'autre utilisateur pour commencer une conversation
-          {"\n"}
-          3. Envoyez des messages{"\n"}
-          4. Revenez ici et changez d'utilisateur pour répondre
-        </Text>
-      </View>
     </View>
   );
 }
@@ -187,7 +176,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     width: "100%",
     height: "100%",
-    flex: 1,
   },
   header: {
     width: "100%",
